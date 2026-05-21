@@ -1,0 +1,257 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--bg-main);
+}
+
+/* Header Styles */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  height: 60px;
+  border-bottom: var(--glass-border);
+  background: rgba(10, 11, 22, 0.4);
+  backdrop-filter: var(--glass-backdrop);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  color: var(--primary);
+  filter: drop-shadow(0 0 8px var(--primary));
+}
+
+.brand-title {
+  font-size: 20px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg-card);
+  border: var(--glass-border);
+  border-radius: 8px;
+  color: var(--text-main);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.header-btn:hover:not(:disabled) {
+  background: var(--bg-card-hover);
+  border-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.header-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Main Workspace Layout */
+.workspace {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 60px - 170px); /* Subtract header and timeline */
+  overflow: hidden;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  overflow-y: auto;
+  border-right: var(--glass-border);
+}
+
+.panel-left {
+  width: 320px;
+  min-width: 320px;
+  background: rgba(8, 9, 18, 0.35);
+}
+
+.panel-middle {
+  flex: 1;
+  background: rgba(4, 5, 10, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: var(--glass-border);
+}
+
+.panel-right {
+  width: 340px;
+  min-width: 340px;
+  background: rgba(8, 9, 18, 0.35);
+  border-right: none;
+}
+
+/* Panel Card Blocks */
+.panel-card {
+  background: var(--bg-card);
+  border: var(--glass-border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Input Fields & Textareas */
+.textarea-styled {
+  background: rgba(6, 7, 13, 0.6);
+  border: var(--glass-border);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--text-main);
+  font-size: 14px;
+  line-height: 1.6;
+  resize: none;
+  min-height: 160px;
+  width: 100%;
+}
+
+.textarea-styled:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.input-styled {
+  background: rgba(6, 7, 13, 0.6);
+  border: var(--glass-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text-main);
+  font-size: 14px;
+  width: 100%;
+}
+
+.input-styled:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* Select boxes */
+.select-styled {
+  background: rgba(6, 7, 13, 0.8);
+  border: var(--glass-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text-main);
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.select-styled:focus {
+  border-color: var(--primary);
+}
+
+/* Custom file dropzone */
+.dropzone {
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.dropzone:hover {
+  border-color: var(--primary);
+  background: rgba(139, 92, 246, 0.04);
+}
+
+.dropzone-icon {
+  color: var(--text-muted);
+}
+
+.dropzone:hover .dropzone-icon {
+  color: var(--primary);
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+/* Timeline Layout */
+.timeline-container {
+  height: 170px;
+  min-height: 170px;
+  border-top: var(--glass-border);
+  background: rgba(10, 11, 22, 0.8);
+  backdrop-filter: var(--glass-backdrop);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px;
+  gap: 8px;
+}
+
+/* Syllable bubble list in right panel */
+.syllable-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.syllable-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.syllable-item.active {
+  border-color: var(--primary);
+  background: rgba(139, 92, 246, 0.06);
+}
+
+/* Animations & Transitions */
+.glow-pulse {
+  animation: pulse-glow 2s infinite ease-in-out;
+}

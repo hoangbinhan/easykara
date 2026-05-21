@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Color Palette */
+  --bg-main: #06070d;
+  --bg-surface: rgba(13, 15, 28, 0.7);
+  --bg-surface-solid: #0d0f1c;
+  --bg-card: rgba(22, 25, 49, 0.45);
+  --bg-card-hover: rgba(30, 34, 64, 0.6);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(139, 92, 246, 0.3);
+  --border-active: rgba(139, 92, 246, 0.6);
+  
+  /* Neon Accents */
+  --primary: #8b5cf6;       /* Violet */
+  --primary-glow: rgba(139, 92, 246, 0.4);
+  --secondary: #ec4899;     /* Pink */
+  --secondary-glow: rgba(236, 72, 153, 0.4);
+  --accent: #06b6d4;        /* Cyan */
+  --accent-glow: rgba(6, 182, 212, 0.4);
+  --success: #10b981;       /* Emerald */
+  --warning: #f59e0b;       /* Amber */
+  --danger: #ef4444;        /* Rose */
+  
+  /* Text Colors */
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --text-dark: #6b7280;
+  
+  /* Layout & Shadows */
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --shadow-primary: 0 0 20px var(--primary-glow);
+  --shadow-secondary: 0 0 20px var(--secondary-glow);
+  
+  /* Glassmorphism */
+  --glass-backdrop: blur(16px);
+  --glass-border: 1px solid var(--border-color);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.05) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.04) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(13, 15, 28, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+/* Typography Utility Classes */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Button & Interactive styles */
+button {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input, textarea, select {
+  font-family: var(--font-sans);
+  outline: none;
+  transition: all 0.2s ease;
+  user-select: text;
+}
+
+/* Glass panel */
+.glass-panel {
+  background: var(--bg-surface);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+/* Neon Glow Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3), inset 0 0 5px rgba(139, 92, 246, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.6), inset 0 0 15px rgba(139, 92, 246, 0.3);
+  }
+}
+
+@keyframes text-glow-glow {
+  0%, 100% {
+    text-shadow: 0 0 4px rgba(6, 182, 212, 0.4);
+  }
+  50% {
+    text-shadow: 0 0 12px rgba(6, 182, 212, 0.8), 0 0 20px rgba(6, 182, 212, 0.4);
+  }
+}
+
+@keyframes pulse-spacebar {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 12px var(--primary-glow);
+  }
+  50% {
+    transform: scale(0.98);
+    box-shadow: 0 0 24px var(--primary);
+  }
+}
+
+.primary-glow-effect {
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.primary-glow-effect:hover {
+  box-shadow: 0 0 25px var(--primary);
+}
