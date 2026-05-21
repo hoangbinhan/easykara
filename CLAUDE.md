@@ -1,15 +1,18 @@
-# EasyKara | lang:vi | for-AI-parsing | optimize=results-over-format
+# EasyKara | lang:en | for-AI-parsing | optimize=results-over-format
 
-## Lệnh chạy dự án
-- Chạy môi trường phát triển: `npm run dev`
-- Build dự án: `npm run build`
-- Kiểm tra lỗi code (Lint): `npm run lint`
-- Xem trước bản build: `npm run preview`
+## Language Rule
+- **Agent Output**: The agent must ALWAYS output responses, summaries, plans, code comments, and documentation in English. Even if the user communicates in Vietnamese, the agent's response must remain strictly in English.
 
-## Hướng dẫn phát triển chính
-- **UI/UX**: Sử dụng Vanilla CSS, thiết kế hiện đại, sang trọng, có độ bóng (glassmorphism) và hiệu ứng hover/transition mượt mà. KHÔNG dùng Tailwind CSS trừ khi được yêu cầu.
-- **Quản lý State**: Trạng thái chính của nhạc, lời bài hát, căn chỉnh thời gian nằm trong `src/context/KaraokeContext.tsx`.
-- **Audio Analyzer**: Phân tích sóng âm thanh thông qua Web Audio API tại `src/hooks/useAudioAnalyzer.ts`.
-- **Icon**: Sử dụng thư viện `lucide-react`.
+## Run Commands
+- Run development server: `npm run dev`
+- Build the project: `npm run build`
+- Lint the codebase: `npm run lint`
+- Preview the build: `npm run preview`
 
-Xem chi tiết hướng dẫn phát triển toàn diện dành riêng cho AI Agent tại [AGENT.md](file:///E:/personal/easykara/AGENT.md).
+## Core Development Guidelines
+- **UI/UX**: Strictly Vanilla CSS, no Tailwind CSS. Focus on premium dark mode aesthetics, smooth hover interactions, glassmorphism, and micro-animations.
+- **State Management**: Use `src/context/KaraokeContext.tsx` to read and write karaoke sync state, audio elements, and history.
+- **Audio Processing**: Soundwaves and timeline analytics are extracted using Web Audio API in `src/hooks/useAudioAnalyzer.ts`.
+- **Icons**: Utilize `lucide-react`.
+
+For complete and detailed instruction specifications, refer to [AGENT.md](file:///E:/personal/easykara/AGENT.md).
