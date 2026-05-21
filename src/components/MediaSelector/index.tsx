@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useKaraoke } from '../context/KaraokeContext';
+import { useKaraoke } from '../../context/KaraokeContext';
 import { Upload, Music, Video, X } from 'lucide-react';
 
 interface MediaSelectorProps {

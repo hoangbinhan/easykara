@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useKaraoke } from '../context/KaraokeContext';
+import { useKaraoke } from '../../context/KaraokeContext';
 import { FileText, Play, RotateCcw, Lock, LockOpen } from 'lucide-react';
 
 export const LyricsInput: React.FC = () => {
