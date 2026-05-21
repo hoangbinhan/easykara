@@ -10,7 +10,7 @@
 - Preview the build: `npm run preview`
 
 ## Core Development Guidelines
-- **UI/UX**: Strictly Vanilla CSS, no Tailwind CSS. Focus on premium dark mode aesthetics, smooth hover interactions, glassmorphism, and micro-animations.
+- **UI/UX & Design System**: Strictly Vanilla CSS, no Tailwind CSS. All styling, layout, colors (Midnight Eclipse `#090909`, Frosted Pane `rgba(0,0,0,0)`, Deep Violet `#af50ff`, Steel Accent `#475467`), typography (Montserrat, Playfair Display, Space Mono), line-heights, letter-spacing, and border-radii (`19.2px` cards, `10.8px` small widgets, `8px` buttons) MUST be sourced directly from the rules in [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
 - **State Management**: Use `src/context/KaraokeContext.tsx` to read and write karaoke sync state, audio elements, and history.
 - **Audio Processing**: Soundwaves and timeline analytics are extracted using Web Audio API in `src/hooks/useAudioAnalyzer.ts`.
 - **Icons**: Utilize `lucide-react`.

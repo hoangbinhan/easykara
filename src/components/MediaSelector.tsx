@@ -49,7 +49,7 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
     <div className="panel-card">
       <div className="card-title">
         {mediaType === 'video' ? <Video size={16} /> : <Music size={16} />}
-        <span>Tệp Đa Phương Tiện</span>
+        <span>Media Asset</span>
       </div>
 
       {!mediaName ? (
@@ -60,8 +60,8 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
           onDragLeave={onDragLeave}
           onDrop={onDrop}
           style={{
-            borderColor: isDragOver ? 'var(--primary)' : undefined,
-            backgroundColor: isDragOver ? 'rgba(139, 92, 246, 0.08)' : undefined,
+            borderColor: isDragOver ? 'var(--color-deep-violet)' : undefined,
+            backgroundColor: isDragOver ? 'rgba(175, 80, 255, 0.08)' : undefined,
           }}
         >
           <input
@@ -72,9 +72,9 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
             style={{ display: 'none' }}
           />
           <Upload className="dropzone-icon" size={32} />
-          <p style={{ fontSize: '13px', fontWeight: 600 }}>Tải lên Nhạc hoặc Video nền</p>
-          <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-            Kéo thả hoặc click để duyệt file (MP3, WAV, MP4, WebM...)
+          <p style={{ fontSize: '13px', fontWeight: 600 }}>Upload Music or Background Video</p>
+          <p style={{ fontSize: '11px', color: 'var(--color-slate-hint)' }}>
+            Drag & drop or click to browse files (MP3, WAV, MP4, WebM...)
           </p>
         </div>
       ) : (
@@ -83,9 +83,9 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '10px',
+            background: 'rgba(247, 249, 250, 0.02)',
+            border: '1px solid var(--color-steel-accent)',
+            borderRadius: 'var(--radius-smallwidgets)',
             padding: '10px 14px',
           }}
         >
@@ -107,8 +107,8 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
               >
                 {mediaName}
               </p>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                {mediaType === 'video' ? 'Tệp Video' : 'Tệp Âm thanh'}
+              <p style={{ fontSize: '11px', color: 'var(--color-slate-hint)' }}>
+                {mediaType === 'video' ? 'Video File' : 'Audio File'}
               </p>
             </div>
           </div>
@@ -116,15 +116,17 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
             onClick={clearMedia}
             style={{
               background: 'none',
-              color: 'var(--text-muted)',
+              border: 'none',
+              color: 'var(--color-slate-hint)',
               padding: '4px',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              cursor: 'pointer',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--danger)')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#ff453a')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-slate-hint)')}
           >
             <X size={16} />
           </button>

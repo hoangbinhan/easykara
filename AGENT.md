@@ -13,8 +13,8 @@ GATE-1 Technology & Style Check:
   trigger: Adding new features or modifying UI/UX
   action:
     - ONLY use Vanilla CSS. Absolute DO NOT use Tailwind CSS unless explicitly requested by the user.
-    - Ensure premium aesthetics (sleek glassmorphism, smooth gradients, subtle micro-animations, engaging hover states).
-    - Maintain a unified color system defined in `src/index.css` (primary purple, dark mode background, neon accents).
+    - Ensure premium aesthetics, layout, and visual balance. All styling guidelines must be sourced directly from the rules in [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
+    - Maintain the unified dope.security Celestial-Tech theme system defined in `src/index.css` (Midnight Eclipse canvas `#090909`, Frosted Panes `rgba(0,0,0,0)` with backdrop blur, Deep Violet accent `#af50ff`, and Steel Accent `#475467`).
 
 GATE-2 State & Context Check:
   trigger: Making changes to lyric data, audio playing status, or synchronization progress
@@ -33,9 +33,10 @@ GATE-3 Quality & Verification:
 <rules>
 
 UI/UX DEVELOPMENT:
-  aesthetic: Maximize premium visual excellence (vibrant, dark mode, rich aesthetics).
-  colors: Use standard CSS variables defined in `index.css`.
-  typography: Modern font system, highly readable, perfect alignment.
+  aesthetic: Maximize premium visual excellence. All styling, layout, typography, radii, and color choices MUST be sourced directly from [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
+  colors: Use standard CSS variables defined in `index.css` (Midnight Eclipse, Frosted Pane, Steel Accent, and Deep Violet). Accentuate key interactive elements with Deep Violet `#af50ff`.
+  typography: Strict compliance with GrandSlang (Playfair Display substitute), Whyte Inktrap (Montserrat substitute), and Whyte Inktrap Mono (Space Mono substitute) hierarchy and weights from [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
+  radii: Strict 19.2px card radius (`--radius-cards`), 8px button radius (`--radius-buttons`), and 10.8px small widget radius (`--radius-smallwidgets`).
   interactivity: Add smooth hover states and transitions to buttons, controls, and timelines.
 
 AUDIO & LYRICS SYNCING:

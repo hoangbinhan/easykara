@@ -1,44 +1,136 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
-  /* Color Palette */
-  --bg-main: #06070d;
-  --bg-surface: rgba(13, 15, 28, 0.7);
-  --bg-surface-solid: #0d0f1c;
-  --bg-card: rgba(22, 25, 49, 0.45);
-  --bg-card-hover: rgba(30, 34, 64, 0.6);
+  /* Colors from DESIGN.md */
+  --color-midnight-eclipse: #090909;
+  --color-cloud-whisper: #f7f9fa;
+  --color-code-ghost: #f0f0f0;
+  --color-slate-hint: #6b6b6b;
+  --color-steel-accent: #475467;
+  --color-deep-violet: #af50ff;
+  
+  /* Gradients */
+  --color-cosmic-gradient-a: #6c4bd6;
+  --gradient-cosmic-gradient-a: radial-gradient(circle closest-corner at 10% 50%, rgb(108, 75, 214), rgba(0, 0, 0, 0) 55%);
+  --color-cosmic-gradient-b: #401860;
+  --gradient-cosmic-gradient-b: linear-gradient(90deg, rgb(64, 24, 96), rgb(72, 35, 180) 50%, rgb(99, 78, 120));
+
+  /* Typography — Font Families */
+  --font-whyte-inktrap: 'Montserrat', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-whyte-inktrap-mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-grandslang: 'Playfair Display', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-system-ui: 'system-ui', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-karla: 'Montserrat', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Typography — Scale */
+  --text-caption: 10px;
+  --leading-caption: 1.5;
+  --text-body-sm: 14px;
+  --leading-body-sm: 1.5;
+  --text-body: 16px;
+  --leading-body: 1.5;
+  --text-subheading: 24px;
+  --leading-subheading: 1.5;
+  --tracking-subheading: -0.24px;
+  --text-heading-sm: 32px;
+  --leading-heading-sm: 1.25;
+  --tracking-heading-sm: -0.96px;
+  --text-heading: 50px;
+  --leading-heading: 0.9;
+  --tracking-heading: -1.5px;
+  --text-heading-lg: 74px;
+  --leading-heading-lg: 0.9;
+  --tracking-heading-lg: 1.48px;
+  --text-display: 88px;
+  --leading-display: 0.8;
+  --tracking-display: -6.16px;
+
+  /* Typography — Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Spacing */
+  --spacing-unit: 4px;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-72: 72px;
+  --spacing-80: 80px;
+  --spacing-96: 96px;
+  --spacing-128: 128px;
+  --spacing-136: 136px;
+  --spacing-160: 160px;
+
+  /* Layout */
+  --page-max-width: 1200px;
+  --section-gap: 64px;
+  --card-padding: 16px;
+  --element-gap: 16px;
+
+  /* Named Radii */
+  --radius-tags: 99px;
+  --radius-cards: 19.2px;
+  --radius-buttons: 8px;
+  --radius-circular: 10000px;
+  --radius-pillbuttons: 1584px;
+  --radius-smallwidgets: 10.8px;
+
+  /* Shadows */
+  --shadow-subtle: rgba(16, 24, 40, 0.05) 0px 1px 2px 0px;
+
+  /* Surfaces */
+  --surface-deep-space-canvas: #090909;
+  --surface-frosted-pane: rgba(0, 0, 0, 0);
+  --surface-gradient-field: #401860;
+
+  /* -----------------------------
+     Backward Compatibility Mapping
+     ----------------------------- */
+  --bg-main: var(--surface-deep-space-canvas);
+  --bg-surface: rgba(9, 9, 9, 0.6);
+  --bg-surface-solid: #111111;
+  --bg-card: var(--surface-frosted-pane);
+  --bg-card-hover: rgba(255, 255, 255, 0.04);
   --border-color: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(139, 92, 246, 0.3);
-  --border-active: rgba(139, 92, 246, 0.6);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --border-active: var(--color-deep-violet);
   
-  /* Neon Accents */
-  --primary: #8b5cf6;       /* Violet */
-  --primary-glow: rgba(139, 92, 246, 0.4);
-  --secondary: #ec4899;     /* Pink */
-  --secondary-glow: rgba(236, 72, 153, 0.4);
-  --accent: #06b6d4;        /* Cyan */
-  --accent-glow: rgba(6, 182, 212, 0.4);
-  --success: #10b981;       /* Emerald */
-  --warning: #f59e0b;       /* Amber */
-  --danger: #ef4444;        /* Rose */
+  --primary: var(--color-deep-violet);
+  --primary-glow: rgba(175, 80, 255, 0.25);
+  --secondary: var(--color-deep-violet);
+  --secondary-glow: rgba(175, 80, 255, 0.15);
+  --accent: var(--color-deep-violet);
+  --accent-glow: rgba(175, 80, 255, 0.15);
+  --success: #30d158;
+  --warning: #ff9f0a;
+  --danger: #ff453a;
   
-  /* Text Colors */
-  --text-main: #f3f4f6;
-  --text-muted: #9ca3af;
-  --text-dark: #6b7280;
+  /* Text Mapping */
+  --text-main: var(--color-cloud-whisper);
+  --text-muted: var(--color-slate-hint);
+  --text-dark: var(--color-steel-accent);
   
-  /* Layout & Shadows */
-  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
-  --shadow-primary: 0 0 20px var(--primary-glow);
-  --shadow-secondary: 0 0 20px var(--secondary-glow);
+  --font-display: var(--font-whyte-inktrap);
+  --font-sans: var(--font-whyte-inktrap);
   
-  /* Glassmorphism */
-  --glass-backdrop: blur(16px);
-  --glass-border: 1px solid var(--border-color);
+  --shadow-sm: var(--shadow-subtle);
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-primary: none;
+  --shadow-secondary: none;
+  
+  --glass-backdrop: blur(10px);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -46,57 +138,58 @@
   margin: 0;
   padding: 0;
   user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
+  background-image: var(--gradient-cosmic-gradient-a);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--text-main);
   overflow-x: hidden;
   overflow-y: auto;
   min-height: 100vh;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.05) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.04) 0px, transparent 50%);
-  background-attachment: fixed;
 }
 
-/* Custom Scrollbars */
+/* Custom Premium Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(13, 15, 28, 0.3);
+  background: var(--color-midnight-eclipse);
 }
 
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
-  box-shadow: 0 0 8px var(--primary-glow);
+  background: rgba(255, 255, 255, 0.25);
 }
 
-/* Typography Utility Classes */
+/* Typography Scale Implementation */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--font-weight-medium);
   letter-spacing: -0.02em;
+  color: var(--color-cloud-whisper);
 }
 
-/* Button & Interactive styles */
+/* General Button styles */
 button {
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   border: none;
   outline: none;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 input, textarea, select {
@@ -106,50 +199,23 @@ input, textarea, select {
   user-select: text;
 }
 
-/* Glass panel */
+/* Premium Card / Panel container */
 .glass-panel {
-  background: var(--bg-surface);
+  background: var(--surface-frosted-pane);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-cards);
   backdrop-filter: var(--glass-backdrop);
-  -webkit-backdrop-filter: var(--glass-backdrop);
-  border: var(--glass-border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-md);
 }
 
-/* Neon Glow Animations */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3), inset 0 0 5px rgba(139, 92, 246, 0.1);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(139, 92, 246, 0.6), inset 0 0 15px rgba(139, 92, 246, 0.3);
-  }
-}
 
-@keyframes text-glow-glow {
-  0%, 100% {
-    text-shadow: 0 0 4px rgba(6, 182, 212, 0.4);
-  }
-  50% {
-    text-shadow: 0 0 12px rgba(6, 182, 212, 0.8), 0 0 20px rgba(6, 182, 212, 0.4);
-  }
-}
-
+/* Animation Override to match Apple Restraint */
 @keyframes pulse-spacebar {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 0 12px var(--primary-glow);
+    background: var(--color-interactive-blue);
   }
   50% {
     transform: scale(0.98);
-    box-shadow: 0 0 24px var(--primary);
+    background: var(--color-vivid-blue);
   }
-}
-
-.primary-glow-effect {
-  box-shadow: 0 0 15px var(--primary-glow);
-}
-
-.primary-glow-effect:hover {
-  box-shadow: 0 0 25px var(--primary);
 }

@@ -224,12 +224,12 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             if (project.styleConfig) {
               updateStyleConfig(project.styleConfig);
             }
-            alert('Đã tải dự án thành công!');
+            alert('Project loaded successfully!');
           } else {
-            alert('File JSON không đúng cấu trúc EasyKara.');
+            alert('The JSON file structure is invalid for EasyKara.');
           }
-        } catch (error) {
-          alert('Không thể đọc file dự án JSON.');
+        } catch {
+          alert('Could not read the JSON project file.');
         }
       };
       reader.readAsText(file);
@@ -242,7 +242,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     const video = videoRef.current;
 
     if (!canvas || !video || !mediaUrl) {
-      alert('Vui lòng tải tệp đa phương tiện trước khi ghi hình.');
+      alert('Please load a media file before recording.');
       return;
     }
 
@@ -263,7 +263,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
       // Capture Audio stream from video element using Web Audio API
       if (!audioContextRef.current) {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const AudioContextClass = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
         audioContextRef.current = new AudioContextClass();
       }
       
@@ -352,7 +352,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
     } catch (e) {
       console.error(e);
-      alert('Không thể ghi hình video. Vui lòng thử lại.');
+      alert('Could not record video. Please try again.');
       setIsRecordingVideo(false);
     }
   };
@@ -370,7 +370,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     <div className="panel-card">
       <div className="card-title">
         <Download size={16} />
-        <span>Xuất Bản & Ghi Hình</span>
+        <span>Publish & Export</span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -381,10 +381,10 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             onClick={handleSaveProject}
             style={{
               padding: '8px 10px',
-              borderRadius: '8px',
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid var(--border-color)',
-              color: 'var(--text-main)',
+              borderRadius: 'var(--radius-buttons)',
+              background: 'rgba(247, 249, 250, 0.05)',
+              border: '1px solid var(--color-steel-accent)',
+              color: 'var(--color-cloud-whisper)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -392,8 +392,8 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
               fontSize: '11px',
             }}
           >
-            <FileJson size={13} style={{ color: 'var(--accent)' }} />
-            <span>Lưu Dự Án (.json)</span>
+            <FileJson size={13} style={{ color: 'var(--color-deep-violet)' }} />
+            <span>Save Project (.json)</span>
           </button>
 
           <input
@@ -408,10 +408,10 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             onClick={handleLoadProjectClick}
             style={{
               padding: '8px 10px',
-              borderRadius: '8px',
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid var(--border-color)',
-              color: 'var(--text-main)',
+              borderRadius: 'var(--radius-buttons)',
+              background: 'rgba(247, 249, 250, 0.05)',
+              border: '1px solid var(--color-steel-accent)',
+              color: 'var(--color-cloud-whisper)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -419,17 +419,17 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
               fontSize: '11px',
             }}
           >
-            <Upload size={13} style={{ color: 'var(--accent)' }} />
-            <span>Tải Dự Án (.json)</span>
+            <Upload size={13} style={{ color: 'var(--color-deep-violet)' }} />
+            <span>Load Project (.json)</span>
           </button>
         </div>
 
         {/* Video Recorder Block */}
         <div
           style={{
-            border: '1px solid rgba(139, 92, 246, 0.15)',
-            background: 'rgba(139, 92, 246, 0.03)',
-            borderRadius: '10px',
+            border: '1px solid var(--color-steel-accent)',
+            background: 'rgba(9, 9, 9, 0.4)',
+            borderRadius: 'var(--radius-smallwidgets)',
             padding: '12px',
             marginTop: '4px',
             display: 'flex',
@@ -437,27 +437,26 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             gap: '8px',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--primary)', fontWeight: 700 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--color-deep-violet)', fontWeight: 700 }}>
             <Film size={14} className="brand-icon" />
-            <span>Xuất Thành File Video (.webm)</span>
+            <span>Export to Video File (.webm)</span>
           </div>
           
           <p style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.4' }}>
-            Quay lại trực tiếp màn hình Canvas karaoke và ghép âm thanh gốc thành video tải về trực tiếp từ trình duyệt!
+            Record the live karaoke canvas and merge it with the source audio to download a video directly from your browser!
           </p>
 
           {!isRecordingVideo ? (
             <button
               onClick={handleStartRecording}
               disabled={!isSyncReady || !mediaUrl}
-              className="primary-glow-effect"
               style={{
                 width: '100%',
                 padding: '10px',
-                borderRadius: '8px',
-                background: isSyncReady && mediaUrl ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
-                color: 'white',
-                fontWeight: 600,
+                borderRadius: 'var(--radius-buttons)',
+                background: isSyncReady && mediaUrl ? 'var(--color-deep-violet)' : 'rgba(255,255,255,0.05)',
+                color: isSyncReady && mediaUrl ? 'var(--color-cloud-whisper)' : 'rgba(255,255,255,0.3)',
+                fontWeight: 700,
                 fontSize: '12px',
                 display: 'flex',
                 alignItems: 'center',
@@ -465,23 +464,24 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
                 gap: '6px',
                 cursor: isSyncReady && mediaUrl ? 'pointer' : 'not-allowed',
                 opacity: isSyncReady && mediaUrl ? 1 : 0.5,
+                boxShadow: isSyncReady && mediaUrl ? '0 0 12px rgba(175, 80, 255, 0.3)' : 'none',
               }}
             >
               <Video size={14} />
-              <span>Ghi Hình Video Karaoke</span>
+              <span>Record Karaoke Video</span>
             </button>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {/* Progress bar */}
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--secondary)' }}>
-                  <Disc size={12} className="glow-pulse" style={{ color: 'var(--secondary)', animationDuration: '1s' }} />
-                  Đang quay video...
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-deep-violet)' }}>
+                  <Disc size={12} className="glow-pulse" style={{ color: 'var(--color-deep-violet)', animationDuration: '1s' }} />
+                  Recording video...
                 </span>
                 <span>{recordProgress}%</span>
               </div>
-              <div style={{ height: '6px', width: '100%', background: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
-                <div style={{ height: '100%', width: `${recordProgress}%`, background: 'var(--secondary)', transition: 'width 0.2s ease' }} />
+              <div style={{ height: '6px', width: '100%', background: 'rgba(255,255,255,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${recordProgress}%`, background: 'var(--color-deep-violet)', transition: 'width 0.2s ease' }} />
               </div>
               
               <button
@@ -489,22 +489,22 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
                 style={{
                   width: '100%',
                   padding: '8px',
-                  borderRadius: '6px',
+                  borderRadius: 'var(--radius-buttons)',
                   background: 'var(--danger)',
                   color: 'white',
                   fontWeight: 600,
                   fontSize: '11px',
                 }}
               >
-                Dừng & Lưu Video Ngay
+                Stop & Save Video Now
               </button>
             </div>
           )}
         </div>
 
         {/* Subtitle Formats Export List */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', borderTop: '1px solid rgba(255,255,255,0.03)', paddingTop: '10px' }}>
-          <label style={{ color: 'var(--text-muted)', fontSize: '11px', fontWeight: 600 }}>Tải Phụ đề Karaoke</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '10px' }}>
+          <label style={{ color: 'var(--text-muted)', fontSize: '11px', fontWeight: 600 }}>Download Karaoke Subtitles</label>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             
@@ -514,10 +514,10 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
               disabled={!isSyncReady}
               style={{
                 padding: '8px 12px',
-                borderRadius: '6px',
+                borderRadius: 'var(--radius-buttons)',
                 background: 'rgba(255,255,255,0.02)',
-                border: '1px solid var(--border-color)',
-                color: isSyncReady ? 'var(--text-main)' : 'var(--text-dark)',
+                border: '1px solid var(--color-steel-accent)',
+                color: isSyncReady ? 'var(--color-cloud-whisper)' : 'rgba(255, 255, 255, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -526,10 +526,10 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ padding: '2px 4px', borderRadius: '3px', background: 'rgba(139,92,246,0.1)', color: 'var(--primary)', fontSize: '9px', fontWeight: 800 }}>ASS</span>
-                <span>Phụ đề Aegisub (.ass)</span>
+                <span style={{ padding: '2px 4px', borderRadius: '3px', background: 'rgba(175, 80, 255, 0.15)', color: 'var(--color-deep-violet)', fontSize: '9px', fontWeight: 800 }}>ASS</span>
+                <span>Aegisub Subtitles (.ass)</span>
               </div>
-              <Download size={12} />
+              <Download size={12} style={{ color: isSyncReady ? 'var(--color-deep-violet)' : 'rgba(255,255,255,0.2)' }} />
             </button>
 
             {/* LRC Lyrics */}
@@ -538,10 +538,10 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
               disabled={!isSyncReady}
               style={{
                 padding: '8px 12px',
-                borderRadius: '6px',
+                borderRadius: 'var(--radius-buttons)',
                 background: 'rgba(255,255,255,0.02)',
-                border: '1px solid var(--border-color)',
-                color: isSyncReady ? 'var(--text-main)' : 'var(--text-dark)',
+                border: '1px solid var(--color-steel-accent)',
+                color: isSyncReady ? 'var(--color-cloud-whisper)' : 'rgba(255, 255, 255, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -550,10 +550,10 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ padding: '2px 4px', borderRadius: '3px', background: 'rgba(6,182,212,0.1)', color: 'var(--accent)', fontSize: '9px', fontWeight: 800 }}>LRC</span>
-                <span>Lời bài hát đồng bộ (.lrc)</span>
+                <span style={{ padding: '2px 4px', borderRadius: '3px', background: 'rgba(255, 255, 255, 0.08)', color: 'var(--color-cloud-whisper)', fontSize: '9px', fontWeight: 800 }}>LRC</span>
+                <span>Synced Lyrics (.lrc)</span>
               </div>
-              <Download size={12} />
+              <Download size={12} style={{ color: isSyncReady ? 'var(--color-deep-violet)' : 'rgba(255,255,255,0.2)' }} />
             </button>
 
             {/* SRT Subtitles */}
@@ -562,10 +562,10 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
               disabled={!isSyncReady}
               style={{
                 padding: '8px 12px',
-                borderRadius: '6px',
+                borderRadius: 'var(--radius-buttons)',
                 background: 'rgba(255,255,255,0.02)',
-                border: '1px solid var(--border-color)',
-                color: isSyncReady ? 'var(--text-main)' : 'var(--text-dark)',
+                border: '1px solid var(--color-steel-accent)',
+                color: isSyncReady ? 'var(--color-cloud-whisper)' : 'rgba(255, 255, 255, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -574,17 +574,17 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ padding: '2px 4px', borderRadius: '3px', background: 'rgba(236,72,153,0.1)', color: 'var(--secondary)', fontSize: '9px', fontWeight: 800 }}>SRT</span>
-                <span>Phụ đề SRT thông thường (.srt)</span>
+                <span style={{ padding: '2px 4px', borderRadius: '3px', background: 'rgba(255, 255, 255, 0.08)', color: 'var(--color-cloud-whisper)', fontSize: '9px', fontWeight: 800 }}>SRT</span>
+                <span>Standard Subtitles (.srt)</span>
               </div>
-              <Download size={12} />
+              <Download size={12} style={{ color: isSyncReady ? 'var(--color-deep-violet)' : 'rgba(255,255,255,0.2)' }} />
             </button>
           </div>
           
           {!isSyncReady && (
             <div style={{ display: 'flex', gap: '4px', alignItems: 'center', color: 'var(--warning)', fontSize: '10px', marginTop: '4px' }}>
               <AlertCircle size={10} />
-              <span>Hãy đồng bộ ít nhất một từ để kích hoạt xuất bản!</span>
+              <span>Please sync at least one word to enable export!</span>
             </div>
           )}
 

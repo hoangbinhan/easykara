@@ -73,20 +73,20 @@ const EasyKaraAppContent: React.FC = () => {
             className="header-btn"
             onClick={undo}
             disabled={!canUndo}
-            title="Hoàn tác (Ctrl+Z)"
+            title="Undo (Ctrl+Z)"
           >
             <Undo2 size={14} />
-            <span>Hoàn tác</span>
+            <span>Undo</span>
           </button>
           
           <button
             className="header-btn"
             onClick={redo}
             disabled={!canRedo}
-            title="Làm lại (Ctrl+Y)"
+            title="Redo (Ctrl+Y)"
           >
             <Redo2 size={14} />
-            <span>Làm lại</span>
+            <span>Redo</span>
           </button>
         </div>
       </header>

@@ -5,7 +5,7 @@ import { ZoomIn, ZoomOut, Edit, HelpCircle } from 'lucide-react';
 
 interface WaveformTimelineProps {
   audioRef: React.RefObject<HTMLAudioElement | null>;
-  waveformData: any;
+  waveformData: { peaks: number[] } | null;
   loadingWaveform: boolean;
   waveformProgress: number;
 }
@@ -29,10 +29,30 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
   const [zoom, setZoom] = useState<number>(60); // pixels per second
   const [scrollLeft, setScrollLeft] = useState<number>(0);
   const [editingSyl, setEditingSyl] = useState<{ lineIdx: number; sylIdx: number; text: string } | null>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Monitor container width using ResizeObserver to avoid accessing ref value during render
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    });
+
+    resizeObserver.observe(container);
+    setContainerWidth(container.clientWidth);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   // Handle Zoom change
   const handleZoomIn = () => setZoom((z) => Math.min(240, z + 30));
@@ -119,7 +139,7 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
     const { peaks } = waveformData;
     const peaksCount = peaks.length;
     
-    ctx.fillStyle = 'rgba(139, 92, 246, 0.25)'; // Semitransparent violet
+    ctx.fillStyle = 'rgba(175, 80, 255, 0.3)'; // Deep Violet translucent
     
     const pxPerSecond = peaksCount / duration;
     
@@ -202,44 +222,50 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
   const totalWidth = duration * zoom;
 
   return (
-    <div className="timeline-container">
+    <div className="timeline-container" style={{ background: 'var(--surface-frosted-pane)', backdropFilter: 'var(--glass-backdrop)', borderRadius: 'var(--radius-cards)', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '20px' }}>
       {/* Zoom and Info header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-muted)' }}>
-            DÒNG THỜI GIAN (TIMELINE EDITOR)
+          <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-cloud-whisper)', letterSpacing: '-0.01em' }}>
+            TIMELINE EDITOR
           </span>
           {loadingWaveform && (
-            <span style={{ fontSize: '11px', color: 'var(--primary)' }}>
-              ⚡ Đang xử lý dạng sóng âm: <strong>{waveformProgress}%</strong>
+            <span style={{ fontSize: '12px', color: 'var(--color-deep-violet)' }}>
+              ⚡ Processing waveform: <strong>{waveformProgress}%</strong>
             </span>
           )}
         </div>
         
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <button
             onClick={handleZoomOut}
             disabled={zoom <= 20}
             style={{
-              padding: '4px',
-              borderRadius: '4px',
-              background: 'rgba(255,255,255,0.05)',
-              color: 'var(--text-muted)',
+              padding: '6px 10px',
+              borderRadius: '6px',
+              background: 'rgba(247, 249, 250, 0.08)',
+              border: 'none',
+              color: 'var(--color-cloud-whisper)',
               display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
             }}
           >
             <ZoomOut size={14} />
           </button>
-          <span style={{ fontSize: '11px', width: '40px', textAlign: 'center' }}>{zoom} px/s</span>
+          <span style={{ fontSize: '12px', color: 'var(--color-slate-hint)', width: '60px', textAlign: 'center', fontWeight: 500 }}>{zoom} px/s</span>
           <button
             onClick={handleZoomIn}
             disabled={zoom >= 240}
             style={{
-              padding: '4px',
-              borderRadius: '4px',
-              background: 'rgba(255,255,255,0.05)',
-              color: 'var(--text-muted)',
+              padding: '6px 10px',
+              borderRadius: '6px',
+              background: 'rgba(247, 249, 250, 0.08)',
+              border: 'none',
+              color: 'var(--color-cloud-whisper)',
               display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
             }}
           >
             <ZoomIn size={14} />
@@ -258,9 +284,9 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
           overflowX: 'auto',
           overflowY: 'hidden',
           position: 'relative',
-          background: 'rgba(5, 6, 12, 0.6)',
-          border: '1px solid rgba(255,255,255,0.04)',
-          borderRadius: '8px',
+          background: 'rgba(9, 9, 9, 0.6)',
+          border: '1px solid var(--color-steel-accent)',
+          borderRadius: 'var(--radius-smallwidgets)',
           cursor: 'ew-resize',
         }}
       >
@@ -269,7 +295,7 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
           ref={scrollRef}
           className="timeline-scroll-spacer"
           style={{
-            width: `${Math.max(containerRef.current?.clientWidth || 0, totalWidth)}px`,
+            width: `${Math.max(containerWidth, totalWidth)}px`,
             height: '100%',
             position: 'relative',
           }}
@@ -283,7 +309,7 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
               top: 0,
               left: 0,
               height: '100%',
-              width: `${containerRef.current?.clientWidth || 0}px`,
+              width: `${containerWidth}px`,
               transform: `translateX(${scrollLeft}px)`,
               pointerEvents: 'none',
             }}
@@ -298,8 +324,8 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
                 bottom: 0,
                 left: `${currentTime * zoom}px`,
                 width: '2px',
-                background: 'var(--secondary)',
-                boxShadow: '0 0 8px var(--secondary-glow)',
+                background: 'var(--color-deep-violet)',
+                boxShadow: '0 0 10px rgba(175, 80, 255, 0.6)',
                 zIndex: 10,
                 pointerEvents: 'none',
               }}
@@ -312,7 +338,7 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
                   width: '10px',
                   height: '10px',
                   borderRadius: '50%',
-                  background: 'var(--secondary)',
+                  background: 'var(--color-deep-violet)',
                 }}
               />
             </div>
@@ -338,21 +364,20 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
                       height: '32px',
                       bottom: '25px',
                       background: isActive
-                        ? 'linear-gradient(to bottom, rgba(236,72,153,0.3), rgba(139,92,246,0.3))'
-                        : 'linear-gradient(to bottom, rgba(139,92,246,0.12), rgba(139,92,246,0.06))',
+                        ? 'linear-gradient(to bottom, rgba(175, 80, 255, 0.3), rgba(175, 80, 255, 0.5))'
+                        : 'rgba(255, 255, 255, 0.05)',
                       border: isActive
-                        ? '1px solid var(--secondary)'
-                        : '1px solid rgba(139, 92, 246, 0.4)',
-                      borderRadius: '4px',
+                        ? '1px solid var(--color-deep-violet)'
+                        : '1px solid rgba(255, 255, 255, 0.08)',
+                      borderRadius: 'var(--radius-buttons)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '11px',
-                      color: 'white',
+                      fontSize: '12px',
+                      color: 'var(--color-cloud-whisper)',
                       fontWeight: 600,
                       cursor: 'grab',
                       userSelect: 'none',
-                      boxShadow: isActive ? '0 0 10px rgba(236,72,153,0.2)' : 'none',
                     }}
                     onMouseDown={(e) => handleBlockDrag(e, lIdx, sIdx, syl, 'move')}
                     title={`${syl.text} (${syl.startTime}s - ${syl.endTime}s)`}
@@ -437,19 +462,18 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            background: 'var(--bg-surface-solid)',
-            border: '1px solid var(--primary)',
-            borderRadius: '12px',
-            padding: '16px',
-            boxShadow: '0 0 30px rgba(0,0,0,0.8)',
+            background: 'var(--color-midnight-eclipse)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: 'var(--radius-cards)',
+            padding: '24px',
             zIndex: 1000,
-            width: '280px',
+            width: '320px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '10px',
+            gap: '14px',
           }}
         >
-          <h4 style={{ fontSize: '13px', color: 'var(--primary)' }}>Chỉnh sửa từ</h4>
+          <h4 style={{ fontSize: '17px', fontWeight: 600, color: 'var(--color-cloud-whisper)', margin: 0, letterSpacing: '-0.019em' }}>Edit Syllable</h4>
           <input
             type="text"
             className="input-styled"
@@ -457,31 +481,46 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
             onChange={(e) => setEditingSyl({ ...editingSyl, text: e.target.value })}
             onKeyDown={(e) => e.key === 'Enter' && handleSaveEdit()}
             autoFocus
+            style={{
+              background: 'rgba(9, 9, 9, 0.8)',
+              border: '1px solid var(--color-steel-accent)',
+              borderRadius: 'var(--radius-buttons)',
+              padding: '10px 16px',
+              color: 'var(--color-cloud-whisper)',
+              fontSize: '14px',
+              outline: 'none',
+            }}
           />
           <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
             <button
               onClick={() => setEditingSyl(null)}
               style={{
-                padding: '6px 12px',
-                borderRadius: '6px',
-                fontSize: '12px',
-                background: 'rgba(255,255,255,0.05)',
-                color: 'var(--text-muted)',
+                padding: '8px 16px',
+                borderRadius: 'var(--radius-buttons)',
+                fontSize: '14px',
+                fontWeight: 600,
+                background: 'rgba(247, 249, 250, 0.08)',
+                border: 'none',
+                color: 'var(--color-cloud-whisper)',
+                cursor: 'pointer',
               }}
             >
-              Hủy
+              Cancel
             </button>
             <button
               onClick={handleSaveEdit}
               style={{
-                padding: '6px 12px',
-                borderRadius: '6px',
-                fontSize: '12px',
-                background: 'var(--primary)',
-                color: 'white',
+                padding: '8px 16px',
+                borderRadius: 'var(--radius-buttons)',
+                fontSize: '14px',
+                fontWeight: 600,
+                background: 'var(--color-deep-violet)',
+                border: 'none',
+                color: 'var(--color-cloud-whisper)',
+                cursor: 'pointer',
               }}
             >
-              Lưu
+              Save
             </button>
           </div>
         </div>
@@ -492,16 +531,17 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          fontSize: '10px',
-          color: 'var(--text-dark)',
-          borderTop: '1px solid rgba(255,255,255,0.02)',
-          paddingTop: '4px',
+          fontSize: '12px',
+          color: 'var(--color-slate-hint)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          paddingTop: '8px',
+          marginTop: '8px',
         }}
       >
-        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <HelpCircle size={10} /> Kéo thả block để di chuyển | Kéo 2 viền bên để co giãn thời lượng của từ. Click đúp để sửa chữ.
+        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <HelpCircle size={12} /> Drag block to reposition | Drag side handles to adjust syllable duration. Click to edit.
         </span>
-        <span>Phóng to timeline để zoom sâu, dễ tinh chỉnh mốc thời gian hơn.</span>
+        <span>Zoom in for precise timeline adjustments.</span>
       </div>
     </div>
   );

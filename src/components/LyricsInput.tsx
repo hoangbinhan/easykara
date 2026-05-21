@@ -14,7 +14,7 @@ export const LyricsInput: React.FC = () => {
   };
 
   const handleReset = () => {
-    if (window.confirm('Bạn có chắc chắn muốn xoá dữ liệu sync và đặt lại toàn bộ không?')) {
+    if (window.confirm('Are you sure you want to clear all sync data and reset everything?')) {
       resetSync();
       setIsLocked(false);
     }
@@ -25,34 +25,43 @@ export const LyricsInput: React.FC = () => {
       <div className="card-title" style={{ justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <FileText size={16} />
-          <span>Lời Bài Hát</span>
+          <span>Lyrics</span>
         </div>
         <button
           onClick={() => setIsLocked(!isLocked)}
           style={{
             background: 'none',
-            color: isLocked ? 'var(--primary)' : 'var(--text-dark)',
+            border: 'none',
+            color: isLocked ? 'var(--color-vivid-blue)' : 'var(--color-cool-gray)',
             display: 'flex',
             alignItems: 'center',
+            cursor: 'pointer',
           }}
-          title={isLocked ? 'Mở khoá chỉnh sửa lời' : 'Khoá lời tránh chỉnh sửa nhầm'}
+          title={isLocked ? 'Unlock Lyrics Editing' : 'Lock Lyrics to Prevent Edits'}
         >
           {isLocked ? <Lock size={15} /> : <LockOpen size={15} />}
         </button>
       </div>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <textarea
           className="textarea-styled"
           value={localText}
           onChange={(e) => setLocalText(e.target.value)}
           disabled={isLocked}
-          placeholder="Nhập lời bài hát tại đây..."
+          placeholder="Enter your song lyrics here..."
           style={{
             flex: 1,
             minHeight: '140px',
             opacity: isLocked ? 0.7 : 1,
             cursor: isLocked ? 'not-allowed' : 'text',
+            borderRadius: 'var(--radius-standard)',
+            border: '1px solid var(--surface-storm-gray-overlay)',
+            background: 'var(--surface-deep-graphite-surface)',
+            color: 'var(--color-cloud-white)',
+            padding: '12px',
+            fontSize: '14px',
+            outline: 'none',
           }}
         />
 
@@ -60,43 +69,46 @@ export const LyricsInput: React.FC = () => {
           {!isLocked ? (
             <button
               onClick={handleApply}
-              className="primary-glow-effect"
               style={{
                 flex: 1,
-                padding: '10px',
-                borderRadius: '8px',
-                background: 'var(--primary)',
-                color: 'white',
+                padding: '10px 18px',
+                borderRadius: 'var(--radius-buttons)',
+                background: 'var(--color-interactive-blue)',
+                color: 'var(--color-cloud-white)',
+                border: 'none',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
                 fontWeight: 600,
-                fontSize: '13px',
+                fontSize: '14px',
+                cursor: 'pointer',
               }}
             >
-              <Play size={14} />
-              <span>Nạp Lời & Bắt Đầu</span>
+              <Play size={14} fill="white" />
+              <span>Load Lyrics & Start</span>
             </button>
           ) : (
             <button
               onClick={() => setIsLocked(false)}
               style={{
                 flex: 1,
-                padding: '10px',
-                borderRadius: '8px',
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-main)',
+                padding: '10px 18px',
+                borderRadius: 'var(--radius-buttons)',
+                background: 'var(--surface-storm-gray-overlay)',
+                border: 'none',
+                color: 'var(--color-cloud-white)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                fontSize: '13px',
+                fontSize: '14px',
+                fontWeight: 600,
+                cursor: 'pointer',
               }}
             >
               <LockOpen size={14} />
-              <span>Chỉnh Sửa Lời</span>
+              <span>Edit Lyrics</span>
             </button>
           )}
 
@@ -104,15 +116,16 @@ export const LyricsInput: React.FC = () => {
             onClick={handleReset}
             style={{
               padding: '10px 14px',
-              borderRadius: '8px',
-              background: 'rgba(239, 68, 68, 0.1)',
-              border: '1px solid rgba(239, 68, 68, 0.2)',
-              color: 'var(--danger)',
+              borderRadius: 'var(--radius-buttons)',
+              background: 'rgba(255, 69, 58, 0.15)',
+              border: '1px solid rgba(255, 69, 58, 0.3)',
+              color: '#ff453a',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              cursor: 'pointer',
             }}
-            title="Đặt lại toàn bộ trạng thái đồng bộ"
+            title="Reset All Sync Progress"
           >
             <RotateCcw size={15} />
           </button>
@@ -120,20 +133,21 @@ export const LyricsInput: React.FC = () => {
 
         <div
           style={{
-            fontSize: '11px',
-            color: 'var(--text-muted)',
-            background: 'rgba(0,0,0,0.2)',
-            padding: '8px 10px',
-            borderRadius: '6px',
+            fontSize: '12px',
+            color: 'var(--color-cool-gray)',
+            background: 'var(--surface-deep-graphite-surface)',
+            border: '1px solid var(--surface-storm-gray-overlay)',
+            padding: '10px 14px',
+            borderRadius: 'var(--radius-standard)',
             lineHeight: '1.4',
           }}
         >
-          💡 <strong>Mẹo:</strong> Nhập dòng chữ bình thường. Khoảng trắng sẽ tự động phân tách các từ để bạn nhấn phím Space đồng bộ từng từ một.
+          💡 <strong>Tip:</strong> Enter lyrics normally. Spaces automatically split words, enabling word-by-word sync by pressing Space.
         </div>
 
         {lines.length > 0 && (
-          <div style={{ fontSize: '11px', color: 'var(--primary)' }}>
-            📊 Tổng số dòng: <strong>{lines.length}</strong> | Tổng số từ:{' '}
+          <div style={{ fontSize: '12px', color: 'var(--color-vivid-blue)', fontWeight: 500 }}>
+            📊 Total lines: <strong>{lines.length}</strong> | Total words:{' '}
             <strong>{lines.reduce((acc, curr) => acc + curr.syllables.length, 0)}</strong>
           </div>
         )}

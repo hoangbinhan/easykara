@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 export interface Syllable {
   id: string;
@@ -85,29 +86,56 @@ interface KaraokeContextType extends KaraokeState {
 }
 
 const defaultStyle: StyleConfig = {
-  fontFamily: 'Outfit',
+  fontFamily: 'Montserrat',
   fontSize: 42,
-  fillColor: '#ffffff',
-  activeColor: '#ec4899', // Premium neon pink
-  strokeColor: '#000000',
+  fillColor: '#f7f9fa', // Cloud Whisper
+  activeColor: '#af50ff', // Deep Violet
+  strokeColor: '#090909', // Midnight Eclipse
   strokeWidth: 6,
   alignment: 'center',
   layoutMode: 'classic-2line',
   bgType: 'color',
-  bgColor: '#080916', // Deep elegant dark
+  bgColor: '#090909', // Midnight Eclipse
   bgImage: null,
   bgVideo: null,
   shadowColor: 'rgba(0, 0, 0, 0.6)',
   shadowBlur: 10,
 };
 
+const parseLyricsText = (input: string): Line[] => {
+  const rawLines = input.split('\n');
+  return rawLines
+    .map((lineText, lIdx) => {
+      const trimmed = lineText.trim();
+      if (!trimmed) return null;
+      
+      // Split by whitespaces to get words/syllables
+      const words = trimmed.split(/\s+/);
+      const syllables: Syllable[] = words.map((word, sIdx) => ({
+        id: `syl-${lIdx}-${sIdx}-${Math.random().toString(36).substr(2, 9)}`,
+        text: word,
+        startTime: null,
+        endTime: null,
+      }));
+      
+      return {
+        id: `line-${lIdx}-${Math.random().toString(36).substr(2, 9)}`,
+        text: trimmed,
+        syllables,
+        startTime: null,
+        endTime: null,
+      } as Line;
+    })
+    .filter((item): item is Line => item !== null);
+};
+
 const KaraokeContext = createContext<KaraokeContextType | undefined>(undefined);
 
 export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lyricsInput, setLyricsInputState] = useState<string>(
-    'Tôi muốn tạo một web app\nLàm video dạng karaoke thủ công\nSync nhịp bằng phím space cực mượt\nTải nhạc xuất video chất lượng cao'
+    'Create custom karaoke videos manually\nSync syllables instantly using spacebar\nBreathtaking celestial tech UI design\nExport subtitle files and premium lyrics'
   );
-  const [lines, setLinesState] = useState<Line[]>([]);
+  const [lines, setLinesState] = useState<Line[]>(() => parseLyricsText(lyricsInput));
   const [currentLineIndex, setCurrentLineIndex] = useState<number>(0);
   const [currentSyllableIndex, setCurrentSyllableIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -164,31 +192,7 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Parse raw text into structured syllables
   const parseLyrics = useCallback((input: string) => {
-    const rawLines = input.split('\n');
-    const parsed: Line[] = rawLines
-      .map((lineText, lIdx) => {
-        const trimmed = lineText.trim();
-        if (!trimmed) return null;
-        
-        // Split by whitespaces to get words/syllables
-        const words = trimmed.split(/\s+/);
-        const syllables: Syllable[] = words.map((word, sIdx) => ({
-          id: `syl-${lIdx}-${sIdx}-${Math.random().toString(36).substr(2, 9)}`,
-          text: word,
-          startTime: null,
-          endTime: null,
-        }));
-        
-        return {
-          id: `line-${lIdx}-${Math.random().toString(36).substr(2, 9)}`,
-          text: trimmed,
-          syllables,
-          startTime: null as number | null,
-          endTime: null as number | null,
-        } as Line;
-      })
-      .filter((item): item is Line => item !== null);
-      
+    const parsed = parseLyricsText(input);
     setLinesState(parsed);
     setCurrentLineIndex(0);
     setCurrentSyllableIndex(0);
@@ -196,13 +200,14 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setRedoStack([]);
   }, []);
 
-  // Initialize lyrics parsing
-  useEffect(() => {
-    parseLyrics(lyricsInput);
-  }, [lyricsInput, parseLyrics]);
-
   const setLyricsInput = (input: string) => {
     setLyricsInputState(input);
+    const parsed = parseLyricsText(input);
+    setLinesState(parsed);
+    setCurrentLineIndex(0);
+    setCurrentSyllableIndex(0);
+    setUndoStack([]);
+    setRedoStack([]);
   };
 
   const setLines = (newLines: Line[]) => {

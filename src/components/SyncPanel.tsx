@@ -73,6 +73,17 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
     setIsSpacePressed(false);
   }, [mediaUrl, isSpacePressed, endSyllableSync, audioRef]);
 
+  const handleTogglePlay = useCallback(() => {
+    if (!mediaUrl) return;
+    if (isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current?.play();
+      setIsPlaying(true);
+    }
+  }, [mediaUrl, isPlaying, setIsPlaying, audioRef]);
+
   // Keyboard listeners for spacebar
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -107,18 +118,7 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [isRecording, handleSyncStart, handleSyncEnd]);
-
-  const handleTogglePlay = () => {
-    if (!mediaUrl) return;
-    if (isPlaying) {
-      audioRef.current?.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current?.play();
-      setIsPlaying(true);
-    }
-  };
+  }, [isRecording, handleSyncStart, handleSyncEnd, handleTogglePlay]);
 
   const handleRateChange = (rate: number) => {
     setPlaybackRate(rate);
@@ -147,23 +147,21 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
 
   return (
     <div
-      className="glass-panel glow-pulse"
+      className="panel-card"
       style={{
         width: '100%',
-        padding: '20px',
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
-        background: isRecording ? 'rgba(139, 92, 246, 0.08)' : 'rgba(13, 15, 28, 0.45)',
-        border: isRecording ? '1px solid rgba(139, 92, 246, 0.3)' : '1px solid var(--border-color)',
-        animationDuration: isRecording ? '3s' : '0s',
+        background: isRecording ? 'rgba(175, 80, 255, 0.05)' : 'var(--surface-frosted-pane)',
+        border: isRecording ? '1px solid var(--color-deep-violet)' : '1px solid rgba(255, 255, 255, 0.06)',
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: isRecording ? 'var(--primary)' : 'inherit' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: isRecording ? 'var(--color-deep-violet)' : 'inherit' }}>
           <Keyboard size={18} className={isRecording ? 'brand-icon' : ''} />
-          <span style={{ fontSize: '15px', fontWeight: 700, fontFamily: 'var(--font-display)' }}>
-            {isRecording ? 'Bộ Đồng Bộ Spacebar (ĐANG SYNC)' : 'Bộ Đồng Bộ Nhịp'}
+          <span style={{ fontSize: '15px', fontWeight: 'var(--font-weight-semibold)', fontFamily: 'var(--font-whyte-inktrap)' }}>
+            {isRecording ? 'Spacebar Sync Engine (SYNC ACTIVE)' : 'Beat Sync Engine'}
           </span>
         </div>
 
@@ -173,7 +171,16 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
             className="select-styled"
             value={playbackRate}
             onChange={(e) => handleRateChange(parseFloat(e.target.value))}
-            style={{ width: '80px', padding: '4px 8px', fontSize: '12px' }}
+            style={{
+              width: '80px',
+              padding: '6px 8px',
+              fontSize: '12px',
+              background: 'rgba(9, 9, 9, 0.6)',
+              border: '1px solid var(--color-steel-accent)',
+              borderRadius: 'var(--radius-buttons)',
+              color: 'var(--color-cloud-whisper)',
+              outline: 'none',
+            }}
             disabled={!mediaUrl}
           >
             <option value={0.5}>0.50x</option>
@@ -186,19 +193,23 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
             onClick={handleTogglePlay}
             disabled={!mediaUrl}
             style={{
-              padding: '6px 12px',
-              borderRadius: '6px',
-              background: isPlaying ? 'rgba(255, 255, 255, 0.1)' : 'var(--primary)',
-              color: 'white',
+              padding: '6px 16px',
+              borderRadius: 'var(--radius-buttons)',
+              background: isPlaying ? 'rgba(255, 255, 255, 0.1)' : 'var(--color-deep-violet)',
+              color: 'var(--color-cloud-whisper)',
               fontSize: '12px',
+              fontWeight: 'var(--font-weight-bold)',
               display: 'flex',
               alignItems: 'center',
-              gap: '4px',
-              opacity: mediaUrl ? 1 : 0.5,
+              gap: '6px',
+              opacity: mediaUrl ? 1 : 0.4,
+              transition: 'background-color 0.2s ease',
+              border: 'none',
+              cursor: 'pointer',
             }}
           >
             {isPlaying ? <Pause size={12} /> : <Play size={12} />}
-            <span>{isPlaying ? 'Tạm dừng' : 'Chạy'}</span>
+            <span>{isPlaying ? 'Pause' : 'Play'}</span>
           </button>
         </div>
       </div>
@@ -206,9 +217,9 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
       {/* Sync Queue Visual Screen */}
       <div
         style={{
-          background: 'rgba(0, 0, 0, 0.4)',
-          border: '1px solid rgba(255, 255, 255, 0.05)',
-          borderRadius: '12px',
+          background: 'rgba(9, 9, 9, 0.6)',
+          border: '1px solid var(--color-steel-accent)',
+          borderRadius: 'var(--radius-smallwidgets)',
           padding: '24px',
           minHeight: '130px',
           display: 'flex',
@@ -221,41 +232,42 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
         }}
       >
         {!mediaUrl ? (
-          <p style={{ color: 'var(--text-muted)', fontSize: '13px', textAlign: 'center' }}>
-            Vui lòng tải lên một tệp âm thanh hoặc video để kích hoạt Bộ Đồng bộ.
+          <p style={{ color: 'var(--color-slate-hint)', fontSize: '13px', textAlign: 'center' }}>
+            Please upload an audio or video file to activate the Sync Engine.
           </p>
         ) : isSyncComplete ? (
           <div style={{ textAlign: 'center' }}>
-            <p style={{ color: 'var(--success)', fontWeight: 700, fontSize: '16px', marginBottom: '8px' }}>
-              🎉 Đồng bộ hoàn tất!
+            <p style={{ color: 'var(--success)', fontWeight: 'var(--font-weight-semibold)', fontSize: '16px', marginBottom: '8px' }}>
+              🎉 Synchronization Complete!
             </p>
-            <p style={{ color: 'var(--text-muted)', fontSize: '12px' }}>
-              Bạn có thể nghe lại, xuất file phụ đề hoặc tinh chỉnh mốc thời gian ở Timeline.
+            <p style={{ color: 'var(--color-slate-hint)', fontSize: '12px' }}>
+              You can listen to the preview, export subtitles, or refine time tags in the timeline.
             </p>
           </div>
         ) : !isRecording ? (
           <div style={{ textAlign: 'center' }}>
-            <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '12px' }}>
-              Bật chế độ Đồng bộ và nhấn giữ Spacebar theo nhịp điệu bài hát.
+            <p style={{ color: 'var(--color-slate-hint)', fontSize: '13px', marginBottom: '12px' }}>
+              Activate Sync Mode and tap the Spacebar along with the music.
             </p>
             <button
               onClick={handleToggleRecord}
-              className="primary-glow-effect"
               style={{
-                background: 'var(--primary)',
-                color: 'white',
-                padding: '8px 18px',
-                borderRadius: '8px',
-                fontWeight: 600,
+                background: 'var(--color-deep-violet)',
+                color: 'var(--color-cloud-whisper)',
+                padding: '8px 20px',
+                borderRadius: 'var(--radius-buttons)',
+                fontWeight: 'var(--font-weight-bold)',
                 fontSize: '13px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
                 margin: '0 auto',
+                border: 'none',
+                cursor: 'pointer',
               }}
             >
               <Zap size={14} />
-              <span>Bật Sync Phím Space</span>
+              <span>Enable Spacebar Sync</span>
             </button>
           </div>
         ) : (
@@ -271,21 +283,16 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
                     key={s.id}
                     style={{
                       fontSize: isCurrent ? '26px' : '20px',
-                      fontWeight: isCurrent ? '800' : '500',
+                      fontWeight: 'var(--font-weight-semibold)',
                       color: isCurrent 
-                        ? 'var(--secondary)' 
+                        ? 'var(--color-deep-violet)' 
                         : isPast 
-                          ? 'var(--primary)' 
-                          : 'rgba(255, 255, 255, 0.4)',
-                      textShadow: isCurrent 
-                        ? '0 0 15px var(--secondary-glow)' 
-                        : isPast 
-                          ? '0 0 5px rgba(139, 92, 246, 0.3)' 
-                          : 'none',
+                          ? 'var(--color-cloud-whisper)' 
+                          : 'rgba(255, 255, 255, 0.25)',
                       transition: 'all 0.15s ease',
-                      padding: '2px 4px',
-                      borderRadius: '4px',
-                      background: isCurrent ? 'rgba(236, 72, 153, 0.1)' : 'transparent',
+                      padding: '4px 8px',
+                      borderRadius: 'var(--radius-buttons)',
+                      background: isCurrent ? 'rgba(175, 80, 255, 0.15)' : 'transparent',
                     }}
                   >
                     {s.text}
@@ -302,19 +309,19 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
                   alignItems: 'center',
                   gap: '8px',
                   fontSize: '11px',
-                  color: 'var(--text-muted)',
+                  color: 'var(--color-slate-hint)',
                   borderTop: '1px solid rgba(255, 255, 255, 0.05)',
                   paddingTop: '8px',
                   width: '80%',
                   justifyContent: 'center',
                 }}
               >
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-dark)' }}>Sắp tới:</span>
+                <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--color-slate-hint)' }}>Upcoming:</span>
                 {upcomingQueue.map((item, idx) => (
                   <span
                     key={idx}
                     style={{
-                      background: item.type === 'current-line' ? 'rgba(255,255,255,0.05)' : 'rgba(139, 92, 246, 0.05)',
+                      background: item.type === 'current-line' ? 'rgba(255,255,255,0.05)' : 'rgba(175, 80, 255, 0.05)',
                       padding: '2px 6px',
                       borderRadius: '4px',
                       opacity: 0.8 - idx * 0.15,
@@ -340,24 +347,23 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
             style={{
               width: '80%',
               height: '48px',
-              borderRadius: '10px',
+              borderRadius: 'var(--radius-buttons)',
               background: isSpacePressed 
-                ? 'linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%)'
-                : 'linear-gradient(135deg, rgba(22, 25, 49, 0.8) 0%, rgba(30, 34, 64, 0.8) 100%)',
-              border: isSpacePressed ? '1px solid var(--secondary)' : '1px solid rgba(255,255,255,0.1)',
+                ? 'var(--color-deep-violet)'
+                : 'rgba(247, 249, 250, 0.08)',
+              border: isSpacePressed ? '1px solid var(--color-deep-violet)' : '1px solid var(--color-steel-accent)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontWeight: 700,
+              fontWeight: 'var(--font-weight-bold)',
               fontSize: '14px',
-              color: isSpacePressed ? 'white' : 'var(--text-muted)',
+              color: 'var(--color-cloud-whisper)',
               cursor: 'pointer',
-              boxShadow: isSpacePressed ? '0 0 25px var(--secondary-glow)' : 'none',
               transform: isSpacePressed ? 'scale(0.98)' : 'scale(1)',
               transition: 'all 0.1s ease',
             }}
           >
-            {isSpacePressed ? '🎤 ĐANG GIỮ SPACE (SYNCING...)' : 'NHẤN VÀ GIỮ PHÍM SPACE ĐỂ CHẠY CHỮ'}
+            {isSpacePressed ? '🎤 HOLDING SPACEBAR (SYNCING...)' : 'PRESS AND HOLD SPACEBAR TO SYNC WORDS'}
           </div>
 
           <div
@@ -366,11 +372,11 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
               justifyContent: 'space-between',
               width: '80%',
               fontSize: '11px',
-              color: 'var(--text-dark)',
+              color: 'var(--color-slate-hint)',
             }}
           >
-            <span>Thời gian: {formatTime(currentTime)}</span>
-            <span>Phím tắt: Enter = Chạy/Dừng | Space = Sync nhịp</span>
+            <span>Time: {formatTime(currentTime)}</span>
+            <span>Hotkeys: Enter = Play/Pause | Space = Sync Beat</span>
           </div>
 
           <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
@@ -380,7 +386,6 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
                   // Jump back one syllable
                   endSyllableSync(currentTime); // dummy save
                   const prevIdx = currentSyllableIndex - 1;
-                  // Handle rewind logic or simply decrement index
                   jumpToSyllable(currentLineIndex, prevIdx);
                 } else if (currentLineIndex > 0) {
                   const prevLineIdx = currentLineIndex - 1;
@@ -389,15 +394,17 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
                 }
               }}
               style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid var(--border-color)',
-                padding: '4px 10px',
-                borderRadius: '6px',
-                color: 'var(--text-muted)',
+                background: 'rgba(247, 249, 250, 0.08)',
+                border: '1px solid var(--color-steel-accent)',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-buttons)',
+                color: 'var(--color-code-ghost)',
                 fontSize: '11px',
+                fontWeight: 'var(--font-weight-medium)',
+                cursor: 'pointer',
               }}
             >
-              Quay lại 1 từ
+              Back 1 Word
             </button>
 
             <button
@@ -405,15 +412,17 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
                 setIsRecording(false);
               }}
               style={{
-                background: 'rgba(239, 68, 68, 0.1)',
-                border: '1px solid rgba(239, 68, 68, 0.2)',
-                padding: '4px 10px',
-                borderRadius: '6px',
+                background: 'rgba(255, 69, 58, 0.1)',
+                border: '1px solid rgba(255, 69, 58, 0.2)',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-buttons)',
                 color: 'var(--danger)',
                 fontSize: '11px',
+                fontWeight: 'var(--font-weight-medium)',
+                cursor: 'pointer',
               }}
             >
-              Thoát Chế độ Sync
+              Exit Sync Mode
             </button>
           </div>
         </div>

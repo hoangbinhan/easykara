@@ -22,6 +22,7 @@ export const useAudioAnalyzer = () => {
 
     try {
       // 1. Create AudioContext (compatible with older browsers)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioContextClass) {
         throw new Error('Web Audio API is not supported in your browser.');
@@ -58,7 +59,7 @@ export const useAudioAnalyzer = () => {
       let decodedBuffer: AudioBuffer;
       try {
         decodedBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-      } catch (err) {
+      } catch {
         // Fallback for some browsers
         decodedBuffer = await new Promise<AudioBuffer>((resolve, reject) => {
           audioCtx.decodeAudioData(
@@ -112,9 +113,10 @@ export const useAudioAnalyzer = () => {
       setProgress(100);
       setLoading(false);
       audioCtx.close();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err?.message || 'Không thể giải mã tệp âm thanh. Vui lòng chọn tệp định dạng khác.');
+      const errorMsg = err instanceof Error ? err.message : 'Could not decode the audio file. Please try another format.';
+      setError(errorMsg);
       setLoading(false);
     }
   }, []);
