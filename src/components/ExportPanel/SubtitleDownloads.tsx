@@ -32,87 +32,54 @@ export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncRead
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '10px' }}>
-      <label style={{ color: 'var(--text-muted)', fontSize: '11px', fontWeight: 600 }}>Download Karaoke Subtitles</label>
+    <div className="flex flex-col gap-1.5 border-t border-graphite-light pt-2.5">
+      <label className="font-sans text-[11px] font-semibold text-ash uppercase tracking-wider">Download Karaoke Subtitles</label>
       
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      <div className="flex flex-col gap-1.5">
         
         {/* ASS Subtitles */}
         <button
           onClick={handleExportASS}
           disabled={!isSyncReady}
-          style={{
-            padding: '8px 12px',
-            borderRadius: 'var(--radius-buttons)',
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid var(--color-steel-accent)',
-            color: isSyncReady ? 'var(--color-cloud-whisper)' : 'rgba(255, 255, 255, 0.2)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: '12px',
-            cursor: isSyncReady ? 'pointer' : 'not-allowed',
-          }}
+          className="w-full px-4 py-2 bg-graphite hover:bg-graphite-light disabled:bg-blackout disabled:opacity-40 disabled:cursor-not-allowed border border-graphite-light hover:border-whiteout disabled:hover:border-graphite-light text-whiteout font-sans text-xs font-semibold rounded-full flex items-center justify-between transition-all duration-200 cursor-pointer"
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ padding: '2px 4px', borderRadius: '3px', background: 'rgba(175, 80, 255, 0.15)', color: 'var(--color-deep-violet)', fontSize: '9px', fontWeight: 800 }}>ASS</span>
+          <div className="flex items-center gap-2">
+            <span className="px-1.5 py-0.5 rounded-[3px] bg-neon-muted text-neon-glow font-mono text-[9px] font-bold uppercase">ASS</span>
             <span>Aegisub Subtitles (.ass)</span>
           </div>
-          <Download size={12} style={{ color: isSyncReady ? 'var(--color-deep-violet)' : 'rgba(255,255,255,0.2)' }} />
+          <Download size={12} className="text-neon-glow transition-all" />
         </button>
 
         {/* LRC Lyrics */}
         <button
           onClick={handleExportLRC}
           disabled={!isSyncReady}
-          style={{
-            padding: '8px 12px',
-            borderRadius: 'var(--radius-buttons)',
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid var(--color-steel-accent)',
-            color: isSyncReady ? 'var(--color-cloud-whisper)' : 'rgba(255, 255, 255, 0.2)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: '12px',
-            cursor: isSyncReady ? 'pointer' : 'not-allowed',
-          }}
+          className="w-full px-4 py-2 bg-graphite hover:bg-graphite-light disabled:bg-blackout disabled:opacity-40 disabled:cursor-not-allowed border border-graphite-light hover:border-whiteout disabled:hover:border-graphite-light text-whiteout font-sans text-xs font-semibold rounded-full flex items-center justify-between transition-all duration-200 cursor-pointer"
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ padding: '2px 4px', borderRadius: '3px', background: 'rgba(255, 255, 255, 0.08)', color: 'var(--color-cloud-whisper)', fontSize: '9px', fontWeight: 800 }}>LRC</span>
+          <div className="flex items-center gap-2">
+            <span className="px-1.5 py-0.5 rounded-[3px] bg-graphite-light text-whiteout font-mono text-[9px] font-bold uppercase">LRC</span>
             <span>Synced Lyrics (.lrc)</span>
           </div>
-          <Download size={12} style={{ color: isSyncReady ? 'var(--color-deep-violet)' : 'rgba(255,255,255,0.2)' }} />
+          <Download size={12} className="text-neon-glow transition-all" />
         </button>
 
         {/* SRT Subtitles */}
         <button
           onClick={handleExportSRT}
           disabled={!isSyncReady}
-          style={{
-            padding: '8px 12px',
-            borderRadius: 'var(--radius-buttons)',
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid var(--color-steel-accent)',
-            color: isSyncReady ? 'var(--color-cloud-whisper)' : 'rgba(255, 255, 255, 0.2)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: '12px',
-            cursor: isSyncReady ? 'pointer' : 'not-allowed',
-          }}
+          className="w-full px-4 py-2 bg-graphite hover:bg-graphite-light disabled:bg-blackout disabled:opacity-40 disabled:cursor-not-allowed border border-graphite-light hover:border-whiteout disabled:hover:border-graphite-light text-whiteout font-sans text-xs font-semibold rounded-full flex items-center justify-between transition-all duration-200 cursor-pointer"
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ padding: '2px 4px', borderRadius: '3px', background: 'rgba(255, 255, 255, 0.08)', color: 'var(--color-cloud-whisper)', fontSize: '9px', fontWeight: 800 }}>SRT</span>
+          <div className="flex items-center gap-2">
+            <span className="px-1.5 py-0.5 rounded-[3px] bg-graphite-light text-whiteout font-mono text-[9px] font-bold uppercase">SRT</span>
             <span>Standard Subtitles (.srt)</span>
           </div>
-          <Download size={12} style={{ color: isSyncReady ? 'var(--color-deep-violet)' : 'rgba(255,255,255,0.2)' }} />
+          <Download size={12} className="text-neon-glow transition-all" />
         </button>
       </div>
       
       {!isSyncReady && (
-        <div style={{ display: 'flex', gap: '4px', alignItems: 'center', color: 'var(--warning)', fontSize: '10px', marginTop: '4px' }}>
-          <AlertCircle size={10} />
+        <div className="flex gap-1 items-center text-system-warning font-sans text-[10px] mt-1">
+          <AlertCircle size={10} className="text-system-warning animate-pulse" />
           <span>Please sync at least one word to enable export!</span>
         </div>
       )}

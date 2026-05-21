@@ -1,73 +1,58 @@
-# dope.security — Style Reference
-> Celestial command center
+# Neon — Style Reference
+> Server Room After Dark. A deep black environment where data and interactions are the only sources of light.
 
 **Theme:** dark
 
-Dope.security establishes a celestial-tech aesthetic: dark, ethereal backgrounds evoke a night sky, contrasted by sharp, almost glowing typography. Translucent frosted glass elements and subtle, vibrant gradients create a sense of advanced technology. The system balances highly stylized display fonts for impact with clean, legible sans-serifs for detail, and uses a single strong violet accent to highlight critical actions, ensuring focus within the dark UI.
+The design feels like a high-end server room after dark — a pure black void where information glows. A strict monochrome palette of pure black (#000000) and white (#ffffff) creates maximum contrast, ensuring text and UI are starkly legible. All visual energy comes from a single, electric green (#34d59a) that mimics terminal output and data visualizations, used exclusively for accents and decorative, code-like background graphics. The system achieves depth not with shadows but with subtle, layered near-black surfaces. A unique tension exists between the pill-shaped buttons and the sharp, 4px corners of all other UI containers.
 
 ## Tokens — Colors
 
 | Name | Value | Token | Role |
 |------|-------|-------|------|
-| Midnight Eclipse | `#090909` | `--color-midnight-eclipse` | Page backgrounds, card containers, dark base for interactive elements |
-| Cloud Whisper | `#f7f9fa` | `--color-cloud-whisper` | Primary text, headers, icon fills, and borders on dark backgrounds. Creates bright contrast |
-| Code Ghost | `#f0f0f0` | `--color-code-ghost` | Secondary text in lists, code snippets, and specific heading styles. Slightly softer than Cloud Whisper |
-| Slate Hint | `#6b6b6b` | `--color-slate-hint` | Muted text, iconography, and subtle borders for outlines or inactive states |
-| Steel Accent | `#475467` | `--color-steel-accent` | Borders for ghost buttons and subtle accent text, especially in navigation |
-| Deep Violet | `#af50ff` | `--color-deep-violet` | Primary action background, interactive element highlights, and brand accents. Provides a vivid focal point |
-| Cosmic Gradient A | `radial-gradient(circle closest-corner at 10% 50%, rgb(108, 75, 214), rgba(0, 0, 0, 0) 55%)` | `--color-cosmic-gradient-a` | Hero section background, atmospheric graphic elements. Creates a deep, dramatic sky effect |
-| Cosmic Gradient B | `linear-gradient(90deg, rgb(64, 24, 96), rgb(72, 35, 180) 50%, rgb(99, 78, 120))` | `--color-cosmic-gradient-b` | Background for feature cards, creating a dynamic, blended surface |
+| Neon Glow | `#34d59a` | `--color-neon-glow` | Key brand accent, active state indicators, data visualizations — injects a vibrant, code-like energy. |
+| Neon Muted | `#285d49` | `--color-neon-muted` | Subtle background tones in visualizations, less prominent brand elements. |
+| Scanline Fade | `linear-gradient(90deg, rgba(57, 165, 125, 0.6) 50%, rgba(0, 0, 0, 0) 50%)` | `--color-scanline-fade` | Special effect for highlighting code or UI elements, mimicking a terminal scanline. |
+| System Warning | `#ff3621` | `--color-system-warning` | Used sparingly for icons or highlights requiring urgent attention. |
+| Whiteout | `#ffffff` | `--color-whiteout` | Primary text, primary CTA button backgrounds, icons. |
+| Ash | `#797d86` | `--color-ash` | Secondary text, descriptive copy, inactive navigation links. |
+| Pewter | `#94979` | `--color-pewter` | Tertiary text, metadata, placeholder text. |
+| Cloud | `#c9cbcf` | `--color-cloud` | Hover states on dark elements, subtle highlights. |
+| Graphite Light | `#303236` | `--color-graphite-light` | Borders, dividers, subtle UI structure. |
+| Graphite | `#242628` | `--color-graphite` | Secondary surfaces floating on the background. |
+| Graphite Deep | `#151617` | `--color-graphite-deep` | Card backgrounds, code block surfaces. |
+| Depth | `#0a0a0b` | `--color-depth` | The darkest surface color before pure black, for subtle elevation. |
+| Blackout | `#000000` | `--color-blackout` | The absolute page background. |
 
 ## Tokens — Typography
 
-### Whyte Inktrap — Primary UI text, body copy, subheadings, and some display text. The variable letter-spacing provides a compressed, technical feel at larger sizes but remains legible at smaller scales. · `--font-whyte-inktrap`
-- **Substitute:** Montserrat, sans-serif
-- **Weights:** 300, 400, 500, 700
-- **Sizes:** 10px, 12px, 14px, 16px, 18px, 20px, 24px, 28px, 32px, 40px, 48px, 49px, 50px, 64px, 80px, 88px
-- **Line height:** 0.80, 0.90, 1.00, 1.11, 1.20, 1.25, 1.50, 1.56, 1.60
-- **Letter spacing:** -0.07em at 88px, -0.04em at 64px, -0.03em at 50px, -0.01em at 24px, normal at 16px and below
-- **Role:** Primary UI text, body copy, subheadings, and some display text. The variable letter-spacing provides a compressed, technical feel at larger sizes but remains legible at smaller scales.
+### Inter — Headlines and primary marketing copy. Its clean, neutral geometry provides high readability, contrasting with the more stylized monospaced font. · `--font-inter`
+- **Substitute:** Inter
+- **Weights:** 400, 500
+- **Sizes:** 10px, 12px, 13px, 14px, 15px, 16px, 18px, 20px, 24px, 28px, 32px, 40px, 44px, 48px, 60px, 80px
+- **Line height:** 1.00, 1.13, 1.25, 1.38, 1.50
+- **Letter spacing:** Tight negative tracking on all display and heading sizes (-3.2px at 80px, -1.2px at 48px), becoming normal at body copy sizes.
+- **Role:** Headlines and primary marketing copy. Its clean, neutral geometry provides high readability, contrasting with the more stylized monospaced font.
 
-### Whyte Inktrap Mono — Monospaced text for specific section headings, code examples, and technical annotations. The wide letter-spacing gives a distinct, almost coded aesthetic. · `--font-whyte-inktrap-mono`
-- **Substitute:** Space Mono, monospace
-- **Weights:** 400
-- **Sizes:** 14px, 74px
-- **Line height:** 0.90, 1.50
-- **Letter spacing:** 0.2em
-- **Role:** Monospaced text for specific section headings, code examples, and technical annotations. The wide letter-spacing gives a distinct, almost coded aesthetic.
-
-### GrandSlang — Hero headlines and large display marketing text. The lighter weights and tight tracking create a distinguished, authoritative presence that feels modern yet substantial. · `--font-grandslang`
-- **Substitute:** Playfair Display, serif
-- **Weights:** 300, 400
-- **Sizes:** 32px, 50px, 64px, 88px, 146px
-- **Line height:** 0.80, 1.20, 1.25, 1.50
-- **Letter spacing:** -0.03em
-- **Role:** Hero headlines and large display marketing text. The lighter weights and tight tracking create a distinguished, authoritative presence that feels modern yet substantial.
-
-### system-ui — system-ui — detected in extracted data but not described by AI · `--font-system-ui`
-- **Weights:** 600
-- **Sizes:** 16px
-- **Line height:** 1.5
-- **Role:** system-ui — detected in extracted data but not described by AI
-
-### Karla — Karla — detected in extracted data but not described by AI · `--font-karla`
-- **Weights:** 700
-- **Sizes:** 16px
-- **Line height:** 1, 1.2
-- **Role:** Karla — detected in extracted data but not described by AI
+### GeistMono — Code snippets, UI labels, and data displays. Its monospaced form adds a technical, typewriter-like precision, reinforcing the developer-centric identity. · `--font-geistmono`
+- **Substitute:** Fira Code, Source Code Pro
+- **Weights:** 400, 500, 600
+- **Sizes:** 12px, 14px, 16px, 18px, 20px
+- **Line height:** 1.00, 1.13, 1.38, 1.50, 1.65
+- **Letter spacing:** Slight negative tracking enhances density in UI contexts (-0.7px at 14px, -0.43px at 16px).
+- **Role:** Code snippets, UI labels, and data displays. Its monospaced form adds a technical, typewriter-like precision, reinforcing the developer-centric identity.
 
 ### Type Scale
 
 | Role | Size | Line Height | Letter Spacing | Token |
 |------|------|-------------|----------------|-------|
-| caption | 10px | 1.5 | — | `--text-caption` |
-| body-sm | 14px | 1.5 | — | `--text-body-sm` |
-| body | 16px | 1.5 | — | `--text-body` |
-| subheading | 24px | 1.5 | -0.24px | `--text-subheading` |
-| heading-sm | 32px | 1.25 | -0.96px | `--text-heading-sm` |
-| heading | 50px | 0.9 | -1.5px | `--text-heading` |
-| heading-lg | 74px | 0.9 | 1.48px | `--text-heading-lg` |
-| display | 88px | 0.8 | -6.16px | `--text-display` |
+| caption | 12px | 1.5 | -0.7px | `--text-caption` |
+| body-sm | 14px | 1.5 | -0.7px | `--text-body-sm` |
+| body | 16px | 1.5 | -0.43px | `--text-body` |
+| subheading | 18px | 1.38 | -0.36px | `--text-subheading` |
+| heading-sm | 24px | 1.25 | -0.24px | `--text-heading-sm` |
+| heading | 32px | 1.25 | -0.64px | `--text-heading` |
+| heading-lg | 48px | 1.13 | -1.2px | `--text-heading-lg` |
+| display | 80px | 1 | -3.2px | `--text-display` |
 
 ## Tokens — Spacing & Shapes
 
@@ -85,140 +70,129 @@ Dope.security establishes a celestial-tech aesthetic: dark, ethereal backgrounds
 | 16 | 16px | `--spacing-16` |
 | 20 | 20px | `--spacing-20` |
 | 24 | 24px | `--spacing-24` |
+| 28 | 28px | `--spacing-28` |
 | 32 | 32px | `--spacing-32` |
+| 36 | 36px | `--spacing-36` |
 | 40 | 40px | `--spacing-40` |
-| 48 | 48px | `--spacing-48` |
+| 56 | 56px | `--spacing-56` |
 | 64 | 64px | `--spacing-64` |
-| 72 | 72px | `--spacing-72` |
 | 80 | 80px | `--spacing-80` |
-| 96 | 96px | `--spacing-96` |
 | 128 | 128px | `--spacing-128` |
-| 136 | 136px | `--spacing-136` |
 | 160 | 160px | `--spacing-160` |
+| 240 | 240px | `--spacing-240` |
 
 ### Border Radius
 
 | Element | Value |
 |---------|-------|
-| tags | 99px |
-| cards | 19.2px |
-| buttons | 8px |
-| circular | 10000px |
-| pillButtons | 1584px |
-| smallWidgets | 10.8px |
+| cards | 4px |
+| inputs | 4px |
+| buttons | 9999px |
+| containers | 4px |
 
 ### Shadows
 
 | Name | Value | Token |
 |------|-------|-------|
-| subtle | `rgba(16, 24, 40, 0.05) 0px 1px 2px 0px` | `--shadow-subtle` |
+| lg | `rgba(0, 0, 0, 0.4) 0px 8px 20px 0px` | `--shadow-lg` |
 
 ### Layout
 
 - **Page max-width:** 1200px
-- **Section gap:** 64px
-- **Card padding:** 16px
-- **Element gap:** 16px
+- **Section gap:** 96-128px
+- **Card padding:** 24px
+- **Element gap:** 8-16px
 
 ## Components
 
-### Primary Filled Button
-**Role:** Call to action.
+### Primary Pill Button
+**Role:** The main call-to-action, e.g., 'Get started', 'Sign up'.
 
-Filled with Deep Violet (#af50ff), white text (#f7f9fa), 8px border-radius, 16px vertical and 16px horizontal padding. Font: Whyte Inktrap, weight 700.
+A pill-shaped button with a Whiteout (#ffffff) background and Graphite Deep (#151617) text. Uses Inter font. Padding is H: 28px, V: 12px. Radius is 9999px.
 
-### Ghost Button (Primary)
-**Role:** Secondary call to action.
+### Ghost Pill Button
+**Role:** Secondary actions, e.g., 'Read the docs', 'Log in'.
 
-Transparent background, Steel Accent (#475467) text and border, 0px border-radius, 10.4px top/bottom padding, 0px left/right padding. Used for subtle navigation or inline actions.
+A pill-shaped button with a transparent background, Whiteout (#ffffff) text, and a 1px solid border in Graphite Light (#303236). Uses Inter font. Padding is H: 18px, V: 12px. Radius is 9999px.
 
-### Pill Button
-**Role:** Interactive filters or small, rounded CTAs.
+### Feature List Item
+**Role:** Bulleted items in feature sections.
 
-Background color rgba(237, 195, 196, 0.05), Cloud Whisper text (#f7f9fa), 1584px border-radius, 20px vertical and 32px horizontal padding. Creates a soft, distinct interactive element.
-
-### Small Ghost Button
-**Role:** Tertiary actions or compact navigation items.
-
-Background rgba(247, 249, 250, 0.08), Cloud Whisper text (#f7f9fa), 6px border-radius, 9px vertical and 15px horizontal padding. Used for less prominent actions.
-
-### Frosted Card (Large)
-**Role:** Content segmentation and informational display, primarily in hero sections.
-
-Transparent background (rgba(0,0,0,0)), 19.2px border-radius, no shadow. Content within uses Cloud Whisper and Slate Hint for text.
-
-### Frosted Card (Small)
-**Role:** Nested content or smaller feature blocks.
-
-Transparent background (rgba(0,0,0,0)), 10.8px border-radius, no shadow.
+Whiteout (#ffffff) text using Inter. Preceded by a small dot or icon colored with Neon Glow (#34d59a).
 
 ### Navigation Link
-**Role:** Primary navigation.
+**Role:** Links in the main site header.
 
-Cloud Whisper (#f7f9fa) text, Whyte Inktrap, 16px, weight 400. Inactive text uses Slate Hint (#6b6b6b). Active state indicated by a 1px bottom border in Deep Violet (#7f56d9).
+Text in Ash (#797d86) using Inter font. On hover or active state, text becomes Whiteout (#ffffff).
 
-### Text Block Heading (Mono)
-**Role:** Section titles presenting technical concepts or lists.
+### Tag Badge
+**Role:** Small informational tags, like 'A DATABRICKS COMPANY'.
 
-Code Ghost (#f0f0f0) text, Whyte Inktrap Mono, 74px, weight 400, letter-spacing 0.2em. Rendered all caps to enhance the technical, coded feel.
+Small, all-caps text using GeistMono in Ash (#797d86) or a similar gray. Often preceded by a Neon Glow (#34d59a) icon or symbol.
+
+### Announcement Bar
+**Role:** A persistent top bar for site-wide announcements.
+
+Full-width bar with a Blackout (#000000) background. Text uses Inter font in a legible color like Whiteout (#ffffff) or Neon Glow (#34d59a).
+
+### Logo Bar
+**Role:** A section displaying logos of partner or client companies.
+
+A row of logos rendered in a monochrome Ash (#797d86) or Pewter (#94979e) color on a Blackout (#000000) background.
 
 ## Do's and Don'ts
 
 ### Do
-- Prioritize Midnight Eclipse (#090909) for all large background areas and surfaces to maintain the dark theme.
-- Use Cloud Whisper (#f7f9fa) for primary text and critical information to ensure high contrast and legibility.
-- Apply Deep Violet (#af50ff) exclusively for primary calls to action, active states, and small, potent brand accents.
-- Employ Whythe Inktrap with negative letter-spacing for large headlines to create a condensed, forceful typography style.
-- Utilize GrandSlang for hero headlines, leveraging its light weights and tight tracking for a sophisticated, high-impact statement.
-- Integrate frosted glass effects (using `backdrop-filter: blur(10px)` or similar) on modals or prominent UI elements to complement the celestial-tech aesthetic.
-- Maintain consistent 8px for button radii and 19.2px for card radii to reinforce the subtle rounding throughout the UI.
+- Use pure Blackout (#000000) for all main section backgrounds.
+- Reserve Neon Glow (#34d59a) for interactive highlights, data visualizations, and small decorative accents only.
+- Employ the Whiteout (#ffffff) pill button for all primary calls-to-action.
+- Use GeistMono for all code snippets, terminal simulations, and compact UI labels.
+- Apply tight negative letter-spacing (-1.2px or more) to all headlines 48px and larger.
+- Achieve depth by layering near-black surfaces (e.g., #151617 on #000000), not with box-shadows.
+- Maintain a strict dichotomy of shapes: 9999px radius for buttons, 4px for all other containers.
 
 ### Don't
-- Avoid using saturated colors other than Deep Violet without specific design system approval, to preserve the monochrome base and accent strategy.
-- Do not introduce heavy drop shadows or strong borders on cards; surfaces should primarily be transparent or use subtle blur effects.
-- Refrain from using generic sans-serifs for headlines; GrandSlang and Whyte Inktrap are essential for brand typographic identity.
-- Do not use generic system fonts for any primary content or UI elements; use Whyte Inktrap for all standard text roles.
-- Avoid arbitrary text colors; all text should derive from Cloud Whisper, Code Ghost, Slate Hint, or Steel Accent based on hierarchy.
-- Do not clutter layouts with excessive imagery; the aesthetic is text-dominant with strategic visual elements.
-- Avoid inconsistent spacing; adhere to the 16px element and card padding, and 64px section gap for vertical rhythm.
+- Don't use gradients or background colors on main page sections.
+- Don't use traditional box-shadows for elevation.
+- Don't use Neon Glow (#34d59a) for body copy or headlines.
+- Don't use saturated colors other than the primary brand green and the occasional red alert accent.
+- Don't mix Inter and GeistMono within the same sentence or headline.
+- Don't use rounded corners larger than 4px on cards, code blocks, or input fields.
+- Don't create buttons that aren't pill-shaped.
 
-## Surfaces
+## Elevation
 
-| Level | Name | Value | Purpose |
-|-------|------|-------|---------|
-| 0 | Deep Space Canvas | `#090909` | Primary page background, base for all content sections. |
-| 1 | Frosted Pane | `#00000000` | Translucent elements within sections, often with backdrop blur, such as informational cards or content containers in headers. |
-| 2 | Gradient Field | `#401860` | Layered backgrounds for feature cards or interactive modules, providing subtle color variation through gradients. |
+Elevation is achieved through layered, near-black surfaces, not traditional box-shadows. Surfaces like Graphite Deep (#151617) float on the pure Blackout (#000000) background, creating depth through contrast without relying on blurs. This reinforces a flat, digital-native aesthetic.
 
 ## Imagery
 
-The imagery aesthetic is characterized by abstract, ethereal graphics and heavily stylized product illustrations/icons. Photography is minimal, if present. Visuals like the 'vapor trail' airplane and cloud formations reinforce the celestial-tech theme. Icons are predominantly outlined (`stroke-width` suggests a thin weight), monochromatic, and often integrated into button-like elements. Imagery is used decoratively to establish atmosphere rather than convey explicit product features, often interacting with text or UI elements through transparency. Density is text-dominant, with imagery serving as atmospheric backdrops or small, functional accents.
+Visuals are exclusively abstract, generative graphics resembling data streams, server activity, or glitch art. Composed of thin vertical lines in Neon Glow (#34d59a) and other muted tones, they serve as atmospheric backdrops rather than informational content. Product visuals are limited to stylized screenshots of terminal windows and code blocks, treated as UI components. Photography and traditional illustrations are absent. This text-and-abstract-graphic approach creates a purely digital, code-native environment.
 
 ## Layout
 
-The page uses a maximum-width contained layout, typically setting content within a 1200px constraint, though some hero elements breach this for full-bleed atmospheric effects. The hero section is full-bleed, featuring a dark, gradient background with a prominent centered headline and interactive elements (frosted cards for calls to action). Subsequent sections alternate between uniform dark backgrounds and gradient-infused card arrays. Content arrangement often features centered stacks for headlines and subtext, and symmetrical multi-column grids for feature comparison or lists, with visual dividers enhancing flow. Vertical rhythm is consistent with a 64px section gap. A sticky top navigation bar provides continuous access to main categories and action buttons.
+The page structure is full-bleed black, creating an immersive, infinite canvas. A centered headline over an abstract data-viz graphic defines the hero. Below the hero, content is organized within a centered max-width container (approx. 1200px), creating focus. Sections flow seamlessly into one another without visual dividers, relying on generous vertical spacing (96-128px) to create rhythm. Content is arranged in simple, symmetrical layouts: centered stacks for headlines, two-column grids for feature lists, and multi-column grids for logos. A sticky header provides persistent navigation.
 
 ## Agent Prompt Guide
 
-Quick Color Reference:
-text: #f7f9fa
-background: #090909
-border: #6b6b6b
-accent: #af50ff
-primary action: #af50ff (filled action)
+### Quick Color Reference
+- **Page Background:** Blackout (`#000000`)
+- **Primary Text:** Whiteout (`#ffffff`)
+- **Secondary Text:** Ash (`#797d86`)
+- **Accent / Highlight:** Neon Glow (`#34d59a`)
+- **CTA Button:** Whiteout (`#ffffff`) background, Graphite Deep (`#151617`) text
+- **Border / Divider:** Graphite Light (`#303236`)
 
-Example Component Prompts:
-1. Create a Hero Headline: Text 'Your new Secure Web Gateway' using GrandSlang, weight 300, size 88px, #f7f9fa, letter-spacing -6.16px, line-height 0.8. Position centrally over Cosmic Gradient A background.
-2. Build a Primary Action Button for 'Get Started': Filled with Deep Violet (#af50ff), Cloud Whisper text (#f7f9fa), 8px border-radius, 16px padding on all sides. Font: Whyte Inktrap, weight 700.
-3. Design a Frosted Feature Card: Transparent background (rgba(0,0,0,0)), 19.2px border-radius. Inner heading (Whyte Inktrap, 24px, #f7f9fa, letter-spacing -0.24px).
-4. Create a Monospace Section Title: Text 'BLOCK PERSONAL EMAIL' using Whyte Inktrap Mono, weight 400, size 74px, #f0f0f0, letter-spacing 1.48px. Background is Midnight Eclipse (#090909).
+### Example Component Prompts
+1.  **Hero Section:** "Create a full-screen hero section with a `Blackout` #000000 background. Add a large display headline: text 'Fast Postgres Databases', font `Inter` 80px weight 500, color `Whiteout` #ffffff, line-height 1.0, and letter-spacing -3.2px. Below it, add a primary CTA button: 'Get started' in a `Whiteout` #ffffff pill with `Graphite Deep` #151617 text, 9999px radius, and 12px 28px padding."
+2.  **Code Block:** "Design a terminal code block component. Use a `Graphite Deep` #151617 background with 4px rounded corners and 24px padding. The text inside should use the `GeistMono` font at 14px. Default text color is `Whiteout` #ffffff. Highlight specific keywords or outputs with `Neon Glow` #34d59a."
+3.  **Feature Section:** "Create a two-column section on a `Blackout` #000000 background. In the left column, create a list of features with `Whiteout` #ffffff text and a `Neon Glow` #34d59a dot prefix. In the right column, add a heading 'Integrate with a single command' using `Inter` 48px, `Whiteout` #ffffff color, and -1.2px letter-spacing."
 
 ## Similar Brands
 
-- **Linear** — Shares a meticulous dark UI, strong typographic hierarchy with custom fonts, and minimal color accents for functionality.
-- **Tailwind UI (dark mode demos)** — Features a similar combination of minimalist dark surfaces contrasted with crisp whites and single-color functional accents.
-- **Vercel** — Employs an elevated dark theme with subtle gradients and a strong focus on technical typography and clear, concise communication.
-- **Supabase** — Utilizes a dark, ethereal aesthetic with space-like imagery and vivid single-hue accents for interactive elements.
+- **Vercel** — Identical developer focus with a black/white monochrome palette, single accent color, and use of Inter font.
+- **Linear** — Shares a pristine, high-contrast dark UI, minimalist aesthetic, and sharp focus on typography.
+- **GitHub** — Similar dark-mode theming, developer-centric tooling aesthetic, and heavy reliance on monospaced fonts for identity.
+- **Replit** — Also uses a dark, code-focused environment with vibrant color accents to appeal to a developer audience.
 
 ## Quick Start
 
@@ -227,53 +201,55 @@ Example Component Prompts:
 ```css
 :root {
   /* Colors */
-  --color-midnight-eclipse: #090909;
-  --color-cloud-whisper: #f7f9fa;
-  --color-code-ghost: #f0f0f0;
-  --color-slate-hint: #6b6b6b;
-  --color-steel-accent: #475467;
-  --color-deep-violet: #af50ff;
-  --color-cosmic-gradient-a: #6c4bd6;
-  --gradient-cosmic-gradient-a: radial-gradient(circle closest-corner at 10% 50%, rgb(108, 75, 214), rgba(0, 0, 0, 0) 55%);
-  --color-cosmic-gradient-b: #401860;
-  --gradient-cosmic-gradient-b: linear-gradient(90deg, rgb(64, 24, 96), rgb(72, 35, 180) 50%, rgb(99, 78, 120));
+  --color-neon-glow: #34d59a;
+  --color-neon-muted: #285d49;
+  --color-scanline-fade: #39a57d;
+  --gradient-scanline-fade: linear-gradient(90deg, rgba(57, 165, 125, 0.6) 50%, rgba(0, 0, 0, 0) 50%);
+  --color-system-warning: #ff3621;
+  --color-whiteout: #ffffff;
+  --color-ash: #797d86;
+  --color-pewter: #94979;
+  --color-cloud: #c9cbcf;
+  --color-graphite-light: #303236;
+  --color-graphite: #242628;
+  --color-graphite-deep: #151617;
+  --color-depth: #0a0a0b;
+  --color-blackout: #000000;
 
   /* Typography — Font Families */
-  --font-whyte-inktrap: 'Whyte Inktrap', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-whyte-inktrap-mono: 'Whyte Inktrap Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-grandslang: 'GrandSlang', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-system-ui: 'system-ui', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-karla: 'Karla', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-geistmono: 'GeistMono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Typography — Scale */
-  --text-caption: 10px;
+  --text-caption: 12px;
   --leading-caption: 1.5;
+  --tracking-caption: -0.7px;
   --text-body-sm: 14px;
   --leading-body-sm: 1.5;
+  --tracking-body-sm: -0.7px;
   --text-body: 16px;
   --leading-body: 1.5;
-  --text-subheading: 24px;
-  --leading-subheading: 1.5;
-  --tracking-subheading: -0.24px;
-  --text-heading-sm: 32px;
+  --tracking-body: -0.43px;
+  --text-subheading: 18px;
+  --leading-subheading: 1.38;
+  --tracking-subheading: -0.36px;
+  --text-heading-sm: 24px;
   --leading-heading-sm: 1.25;
-  --tracking-heading-sm: -0.96px;
-  --text-heading: 50px;
-  --leading-heading: 0.9;
-  --tracking-heading: -1.5px;
-  --text-heading-lg: 74px;
-  --leading-heading-lg: 0.9;
-  --tracking-heading-lg: 1.48px;
-  --text-display: 88px;
-  --leading-display: 0.8;
-  --tracking-display: -6.16px;
+  --tracking-heading-sm: -0.24px;
+  --text-heading: 32px;
+  --leading-heading: 1.25;
+  --tracking-heading: -0.64px;
+  --text-heading-lg: 48px;
+  --leading-heading-lg: 1.13;
+  --tracking-heading-lg: -1.2px;
+  --text-display: 80px;
+  --leading-display: 1;
+  --tracking-display: -3.2px;
 
   /* Typography — Weights */
-  --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
-  --font-weight-bold: 700;
 
   /* Spacing */
   --spacing-unit: 4px;
@@ -283,46 +259,34 @@ Example Component Prompts:
   --spacing-16: 16px;
   --spacing-20: 20px;
   --spacing-24: 24px;
+  --spacing-28: 28px;
   --spacing-32: 32px;
+  --spacing-36: 36px;
   --spacing-40: 40px;
-  --spacing-48: 48px;
+  --spacing-56: 56px;
   --spacing-64: 64px;
-  --spacing-72: 72px;
   --spacing-80: 80px;
-  --spacing-96: 96px;
   --spacing-128: 128px;
-  --spacing-136: 136px;
   --spacing-160: 160px;
+  --spacing-240: 240px;
 
   /* Layout */
   --page-max-width: 1200px;
-  --section-gap: 64px;
-  --card-padding: 16px;
-  --element-gap: 16px;
+  --section-gap: 96-128px;
+  --card-padding: 24px;
+  --element-gap: 8-16px;
 
   /* Border Radius */
-  --radius-lg: 8px;
-  --radius-lg-2: 10.8px;
-  --radius-2xl: 19.2px;
-  --radius-full: 99px;
-  --radius-full-2: 1584px;
-  --radius-full-3: 10000px;
+  --radius-md: 4px;
 
   /* Named Radii */
-  --radius-tags: 99px;
-  --radius-cards: 19.2px;
-  --radius-buttons: 8px;
-  --radius-circular: 10000px;
-  --radius-pillbuttons: 1584px;
-  --radius-smallwidgets: 10.8px;
+  --radius-cards: 4px;
+  --radius-inputs: 4px;
+  --radius-buttons: 9999px;
+  --radius-containers: 4px;
 
   /* Shadows */
-  --shadow-subtle: rgba(16, 24, 40, 0.05) 0px 1px 2px 0px;
-
-  /* Surfaces */
-  --surface-deep-space-canvas: #090909;
-  --surface-frosted-pane: #00000000;
-  --surface-gradient-field: #401860;
+  --shadow-lg: rgba(0, 0, 0, 0.4) 0px 8px 20px 0px;
 }
 ```
 
@@ -331,44 +295,49 @@ Example Component Prompts:
 ```css
 @theme {
   /* Colors */
-  --color-midnight-eclipse: #090909;
-  --color-cloud-whisper: #f7f9fa;
-  --color-code-ghost: #f0f0f0;
-  --color-slate-hint: #6b6b6b;
-  --color-steel-accent: #475467;
-  --color-deep-violet: #af50ff;
-  --color-cosmic-gradient-a: #6c4bd6;
-  --color-cosmic-gradient-b: #401860;
+  --color-neon-glow: #34d59a;
+  --color-neon-muted: #285d49;
+  --color-scanline-fade: #39a57d;
+  --color-system-warning: #ff3621;
+  --color-whiteout: #ffffff;
+  --color-ash: #797d86;
+  --color-pewter: #94979;
+  --color-cloud: #c9cbcf;
+  --color-graphite-light: #303236;
+  --color-graphite: #242628;
+  --color-graphite-deep: #151617;
+  --color-depth: #0a0a0b;
+  --color-blackout: #000000;
 
   /* Typography */
-  --font-whyte-inktrap: 'Whyte Inktrap', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-whyte-inktrap-mono: 'Whyte Inktrap Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-grandslang: 'GrandSlang', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-system-ui: 'system-ui', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-karla: 'Karla', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-geistmono: 'GeistMono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Typography — Scale */
-  --text-caption: 10px;
+  --text-caption: 12px;
   --leading-caption: 1.5;
+  --tracking-caption: -0.7px;
   --text-body-sm: 14px;
   --leading-body-sm: 1.5;
+  --tracking-body-sm: -0.7px;
   --text-body: 16px;
   --leading-body: 1.5;
-  --text-subheading: 24px;
-  --leading-subheading: 1.5;
-  --tracking-subheading: -0.24px;
-  --text-heading-sm: 32px;
+  --tracking-body: -0.43px;
+  --text-subheading: 18px;
+  --leading-subheading: 1.38;
+  --tracking-subheading: -0.36px;
+  --text-heading-sm: 24px;
   --leading-heading-sm: 1.25;
-  --tracking-heading-sm: -0.96px;
-  --text-heading: 50px;
-  --leading-heading: 0.9;
-  --tracking-heading: -1.5px;
-  --text-heading-lg: 74px;
-  --leading-heading-lg: 0.9;
-  --tracking-heading-lg: 1.48px;
-  --text-display: 88px;
-  --leading-display: 0.8;
-  --tracking-display: -6.16px;
+  --tracking-heading-sm: -0.24px;
+  --text-heading: 32px;
+  --leading-heading: 1.25;
+  --tracking-heading: -0.64px;
+  --text-heading-lg: 48px;
+  --leading-heading-lg: 1.13;
+  --tracking-heading-lg: -1.2px;
+  --text-display: 80px;
+  --leading-display: 1;
+  --tracking-display: -3.2px;
 
   /* Spacing */
   --spacing-4: 4px;
@@ -377,26 +346,21 @@ Example Component Prompts:
   --spacing-16: 16px;
   --spacing-20: 20px;
   --spacing-24: 24px;
+  --spacing-28: 28px;
   --spacing-32: 32px;
+  --spacing-36: 36px;
   --spacing-40: 40px;
-  --spacing-48: 48px;
+  --spacing-56: 56px;
   --spacing-64: 64px;
-  --spacing-72: 72px;
   --spacing-80: 80px;
-  --spacing-96: 96px;
   --spacing-128: 128px;
-  --spacing-136: 136px;
   --spacing-160: 160px;
+  --spacing-240: 240px;
 
   /* Border Radius */
-  --radius-lg: 8px;
-  --radius-lg-2: 10.8px;
-  --radius-2xl: 19.2px;
-  --radius-full: 99px;
-  --radius-full-2: 1584px;
-  --radius-full-3: 10000px;
+  --radius-md: 4px;
 
   /* Shadows */
-  --shadow-subtle: rgba(16, 24, 40, 0.05) 0px 1px 2px 0px;
+  --shadow-lg: rgba(0, 0, 0, 0.4) 0px 8px 20px 0px;
 }
 ```

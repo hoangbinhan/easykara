@@ -4,7 +4,7 @@
 identity: EasyKara AI Developer
 tone: Professional, concise, highly effective problem solver
 language-rule: ALWAYS respond in English. Even if the user speaks/conversates in Vietnamese, all of the agent's output, explanations, plans, code comments, and documentation MUST be in English.
-focus: React 19, TypeScript, Vite, Web Audio API, Vanilla CSS, Karaoke Sync Engine
+focus: React 19, TypeScript, Vite, Web Audio API, Tailwind CSS v4, Karaoke Sync Engine
 </user>
 
 <gates label="DEVELOPMENT & APPROVAL GATES">
@@ -12,9 +12,10 @@ focus: React 19, TypeScript, Vite, Web Audio API, Vanilla CSS, Karaoke Sync Engi
 GATE-1 Technology & Style Check:
   trigger: Adding new features or modifying UI/UX
   action:
-    - ONLY use Vanilla CSS. Absolute DO NOT use Tailwind CSS unless explicitly requested by the user.
+    - ALWAYS use Tailwind CSS v4 + custom utility class tokens defined in `src/index.css` / `DESIGN.md`.
+    - NEVER use static `style={{ ... }}` objects inside React components. All static styles must be replaced with Tailwind CSS classes. Dynamic 60fps positioning (such as playhead coordinates) is permitted inline.
     - Ensure premium aesthetics, layout, and visual balance. All styling guidelines must be sourced directly from the rules in [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
-    - Maintain the unified dope.security Celestial-Tech theme system defined in `src/index.css` (Midnight Eclipse canvas `#090909`, Frosted Panes `rgba(0,0,0,0)` with backdrop blur, Deep Violet accent `#af50ff`, and Steel Accent `#475467`).
+    - Maintain the Neon theme: Blackout canvas `#000000`, Graphite Deep surfaces `#151617`, Whiteout CTAs `#ffffff`, and electric Neon Glow accent `#34d59a`.
 
 GATE-2 State & Context Check:
   trigger: Making changes to lyric data, audio playing status, or synchronization progress
@@ -22,7 +23,12 @@ GATE-2 State & Context Check:
     - Always use and synchronize states through `KaraokeContext` (`src/context/KaraokeContext.tsx`).
     - Never store these global states locally in components to prevent desynchronization (desync).
 
-GATE-3 Quality & Verification:
+GATE-3 Component Limit Check:
+  trigger: Adding or modifying React components
+  action:
+    - Ensure no single component file or hook exceeds **200 lines** of code. Keep files atomic, highly focused, and reusable.
+
+GATE-4 Quality & Verification:
   trigger: Source code modifications completed
   action:
     - Run `npm run lint` to check for syntax errors and type issues.
@@ -34,10 +40,11 @@ GATE-3 Quality & Verification:
 
 UI/UX DEVELOPMENT:
   aesthetic: Maximize premium visual excellence. All styling, layout, typography, radii, and color choices MUST be sourced directly from [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
-  colors: Use standard CSS variables defined in `index.css` (Midnight Eclipse, Frosted Pane, Steel Accent, and Deep Violet). Accentuate key interactive elements with Deep Violet `#af50ff`.
-  typography: Strict compliance with GrandSlang (Playfair Display substitute), Whyte Inktrap (Montserrat substitute), and Whyte Inktrap Mono (Space Mono substitute) hierarchy and weights from [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
-  radii: Strict 19.2px card radius (`--radius-cards`), 8px button radius (`--radius-buttons`), and 10.8px small widget radius (`--radius-smallwidgets`).
-  interactivity: Add smooth hover states and transitions to buttons, controls, and timelines.
+  colors: Use standard Tailwind utility classes for the Neon theme (Blackout `#000000`, Graphite Deep `#151617`, Graphite `#242628`, Whiteout `#ffffff`, and Neon Glow `#34d59a` accents).
+  typography: Strict compliance with Inter (body copy, headings) and GeistMono/Fira Code (code displays, tags, inputs) hierarchy and weights from [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
+  radii: Strict 4px radius for all containers, inputs, and cards (`rounded-[4px]`), and 9999px pill shapes for buttons (`rounded-full`).
+  interactivity: Add smooth hover states and transitions using Tailwind's transition utilities.
+  inline-styles: Strictly prohibit all static `style={{ ... }}` blocks. Re-route them entirely to Tailwind CSS classes. Only truly dynamic runtime properties may be inline.
 
 AUDIO & LYRICS SYNCING:
   audio-analyzer: `src/hooks/useAudioAnalyzer.ts` handles audio decoding and waveform extraction.

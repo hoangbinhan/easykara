@@ -1,221 +1,106 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap');
+@import "tailwindcss";
 
-:root {
+@theme {
   /* Colors from DESIGN.md */
-  --color-midnight-eclipse: #090909;
-  --color-cloud-whisper: #f7f9fa;
-  --color-code-ghost: #f0f0f0;
-  --color-slate-hint: #6b6b6b;
-  --color-steel-accent: #475467;
-  --color-deep-violet: #af50ff;
-  
-  /* Gradients */
-  --color-cosmic-gradient-a: #6c4bd6;
-  --gradient-cosmic-gradient-a: radial-gradient(circle closest-corner at 10% 50%, rgb(108, 75, 214), rgba(0, 0, 0, 0) 55%);
-  --color-cosmic-gradient-b: #401860;
-  --gradient-cosmic-gradient-b: linear-gradient(90deg, rgb(64, 24, 96), rgb(72, 35, 180) 50%, rgb(99, 78, 120));
+  --color-neon-glow: #34d59a;
+  --color-neon-muted: #285d49;
+  --color-scanline-fade: #39a57d;
+  --color-system-warning: #ff3621;
+  --color-whiteout: #ffffff;
+  --color-ash: #797d86;
+  --color-pewter: #94979e;
+  --color-cloud: #c9cbcf;
+  --color-graphite-light: #303236;
+  --color-graphite: #242628;
+  --color-graphite-deep: #151617;
+  --color-depth: #0a0a0b;
+  --color-blackout: #000000;
 
-  /* Typography — Font Families */
-  --font-whyte-inktrap: 'Montserrat', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-whyte-inktrap-mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-grandslang: 'Playfair Display', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-system-ui: 'system-ui', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-karla: 'Montserrat', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Typography */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* Typography — Scale */
-  --text-caption: 10px;
-  --leading-caption: 1.5;
+  /* Typography — Scale & Letter Spacing */
+  --text-caption: 12px;
   --text-body-sm: 14px;
-  --leading-body-sm: 1.5;
   --text-body: 16px;
-  --leading-body: 1.5;
-  --text-subheading: 24px;
-  --leading-subheading: 1.5;
-  --tracking-subheading: -0.24px;
-  --text-heading-sm: 32px;
-  --leading-heading-sm: 1.25;
-  --tracking-heading-sm: -0.96px;
-  --text-heading: 50px;
-  --leading-heading: 0.9;
-  --tracking-heading: -1.5px;
-  --text-heading-lg: 74px;
-  --leading-heading-lg: 0.9;
-  --tracking-heading-lg: 1.48px;
-  --text-display: 88px;
-  --leading-display: 0.8;
-  --tracking-display: -6.16px;
+  --text-subheading: 18px;
+  --text-heading-sm: 24px;
+  --text-heading: 32px;
+  --text-heading-lg: 48px;
+  --text-display: 80px;
 
-  /* Typography — Weights */
-  --font-weight-light: 300;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-
-  /* Spacing */
-  --spacing-unit: 4px;
-  --spacing-4: 4px;
-  --spacing-8: 8px;
-  --spacing-12: 12px;
-  --spacing-16: 16px;
-  --spacing-20: 20px;
-  --spacing-24: 24px;
-  --spacing-32: 32px;
-  --spacing-40: 40px;
-  --spacing-48: 48px;
-  --spacing-64: 64px;
-  --spacing-72: 72px;
-  --spacing-80: 80px;
-  --spacing-96: 96px;
-  --spacing-128: 128px;
-  --spacing-136: 136px;
-  --spacing-160: 160px;
-
-  /* Layout */
-  --page-max-width: 1200px;
-  --section-gap: 64px;
-  --card-padding: 16px;
-  --element-gap: 16px;
-
-  /* Named Radii */
-  --radius-tags: 99px;
-  --radius-cards: 19.2px;
-  --radius-buttons: 8px;
-  --radius-circular: 10000px;
-  --radius-pillbuttons: 1584px;
-  --radius-smallwidgets: 10.8px;
+  /* Border Radii */
+  --radius-md: 4px;
+  
+  /* Named Radii for strict Design System */
+  --radius-cards: 4px;
+  --radius-inputs: 4px;
+  --radius-buttons: 9999px;
+  --radius-containers: 4px;
 
   /* Shadows */
-  --shadow-subtle: rgba(16, 24, 40, 0.05) 0px 1px 2px 0px;
-
-  /* Surfaces */
-  --surface-deep-space-canvas: #090909;
-  --surface-frosted-pane: rgba(0, 0, 0, 0);
-  --surface-gradient-field: #401860;
-
-  /* -----------------------------
-     Backward Compatibility Mapping
-     ----------------------------- */
-  --bg-main: var(--surface-deep-space-canvas);
-  --bg-surface: rgba(9, 9, 9, 0.6);
-  --bg-surface-solid: #111111;
-  --bg-card: var(--surface-frosted-pane);
-  --bg-card-hover: rgba(255, 255, 255, 0.04);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.15);
-  --border-active: var(--color-deep-violet);
-  
-  --primary: var(--color-deep-violet);
-  --primary-glow: rgba(175, 80, 255, 0.25);
-  --secondary: var(--color-deep-violet);
-  --secondary-glow: rgba(175, 80, 255, 0.15);
-  --accent: var(--color-deep-violet);
-  --accent-glow: rgba(175, 80, 255, 0.15);
-  --success: #30d158;
-  --warning: #ff9f0a;
-  --danger: #ff453a;
-  
-  /* Text Mapping */
-  --text-main: var(--color-cloud-whisper);
-  --text-muted: var(--color-slate-hint);
-  --text-dark: var(--color-steel-accent);
-  
-  --font-display: var(--font-whyte-inktrap);
-  --font-sans: var(--font-whyte-inktrap);
-  
-  --shadow-sm: var(--shadow-subtle);
-  --shadow-md: none;
-  --shadow-lg: none;
-  --shadow-primary: none;
-  --shadow-secondary: none;
-  
-  --glass-backdrop: blur(10px);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --shadow-lg: rgba(0, 0, 0, 0.4) 0px 8px 20px 0px;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  user-select: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Base Styles & Resets */
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-blackout);
+    color: var(--color-whiteout);
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    color: var(--color-whiteout);
+  }
+
+  input, textarea, select {
+    font-family: var(--font-sans);
+    user-select: text;
+  }
+
+  /* Monospace overrides */
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
 }
 
-body {
-  font-family: var(--font-sans);
-  background-color: var(--bg-main);
-  background-image: var(--gradient-cosmic-gradient-a);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  color: var(--text-main);
-  overflow-x: hidden;
-  overflow-y: auto;
-  min-height: 100vh;
-}
-
-/* Custom Premium Scrollbars */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-midnight-eclipse);
+  background: var(--color-blackout);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--color-graphite-light);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--color-ash);
 }
 
-/* Typography Scale Implementation */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: -0.02em;
-  color: var(--color-cloud-whisper);
-}
-
-/* General Button styles */
-button {
-  font-family: var(--font-sans);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  border: none;
-  outline: none;
-  background: transparent;
+/* Custom transitions and dynamic helpers */
+.transition-all-custom {
   transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-input, textarea, select {
-  font-family: var(--font-sans);
-  outline: none;
-  transition: all 0.2s ease;
-  user-select: text;
-}
-
-/* Premium Card / Panel container */
-.glass-panel {
-  background: var(--surface-frosted-pane);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-cards);
-  backdrop-filter: var(--glass-backdrop);
-}
-
-
-/* Animation Override to match Apple Restraint */
-@keyframes pulse-spacebar {
-  0%, 100% {
-    transform: scale(1);
-    background: var(--color-interactive-blue);
-  }
-  50% {
-    transform: scale(0.98);
-    background: var(--color-vivid-blue);
-  }
 }

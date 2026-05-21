@@ -54,29 +54,9 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '12px',
-        width: '100%',
-        maxWidth: '720px',
-      }}
-    >
+    <div className="flex flex-col items-center gap-3 w-full max-w-[720px]">
       {/* Real-time Render Canvas */}
-      <div
-        className="glass-panel"
-        style={{
-          width: '100%',
-          aspectRatio: '16/9',
-          overflow: 'hidden',
-          position: 'relative',
-          background: '#090909',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: 'var(--radius-cards)',
-        }}
-      >
+      <div className="w-full aspect-video overflow-hidden relative bg-blackout border border-graphite-light rounded-[4px]">
         <CanvasPlayer
           canvasRef={canvasRef}
           videoRef={videoRef}
@@ -94,52 +74,28 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={handleEnded}
-            style={{
-              display: 'none',
-            }}
+            className="hidden"
           />
         )}
       </div>
 
       {/* Under-canvas Toolbar */}
       {mediaUrl && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-            background: 'rgba(9, 9, 9, 0.6)',
-            border: '1px solid var(--color-steel-accent)',
-            padding: '12px 20px',
-            borderRadius: 'var(--radius-smallwidgets)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div className="flex justify-between items-center w-full bg-graphite-deep border border-graphite-light px-5 py-3 rounded-[4px]">
+          <div className="flex items-center gap-3.5">
             <button
               onClick={handleTogglePlay}
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                background: 'var(--color-deep-violet)',
-                color: 'var(--color-cloud-whisper)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: 'none',
-                cursor: 'pointer',
-              }}
+              className="w-9 h-9 rounded-full bg-whiteout hover:bg-cloud text-graphite-deep flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95"
             >
-              {isPlaying ? <Pause size={16} fill="white" /> : <Play size={16} fill="white" />}
+              {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-0.5" />}
             </button>
             
-            <span style={{ fontSize: '14px', color: 'var(--color-slate-hint)' }}>
+            <span className="text-sm text-ash font-sans font-medium">
               {mediaType === 'video' ? '📺 Background Video' : '🎵 Audio Track'}
             </span>
           </div>
 
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div className="flex gap-2">
             <button
               onClick={() => {
                 if (videoRef.current) {
@@ -147,19 +103,7 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
                   setCurrentTime(0);
                 }
               }}
-              style={{
-                background: 'rgba(247, 249, 250, 0.08)',
-                border: 'none',
-                padding: '8px 16px',
-                borderRadius: 'var(--radius-buttons)',
-                color: 'var(--color-cloud-whisper)',
-                fontSize: '12px',
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                cursor: 'pointer',
-              }}
+              className="px-4 py-2 bg-graphite hover:bg-graphite-light text-whiteout font-sans text-xs font-semibold rounded-full border border-graphite-light hover:border-whiteout transition-all duration-200 flex items-center gap-1.5 cursor-pointer"
             >
               <RotateCcw size={12} />
               <span>Restart</span>

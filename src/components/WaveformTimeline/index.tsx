@@ -36,6 +36,7 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
     editingSyl,
     setEditingSyl,
     containerWidth,
+    containerHeight,
     containerRef,
     scrollRef,
     canvasRef,
@@ -59,7 +60,7 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
   const totalWidth = duration * zoom;
 
   return (
-    <div className="timeline-container" style={{ background: 'var(--surface-frosted-pane)', backdropFilter: 'var(--glass-backdrop)', borderRadius: 'var(--radius-cards)', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '20px' }}>
+    <div className="w-full h-40 min-h-[160px] border-t border-graphite-light bg-blackout flex flex-col p-4 gap-2 z-10 relative">
       <TimelineControls
         zoom={zoom}
         handleZoomIn={handleZoomIn}
@@ -72,25 +73,13 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
         ref={containerRef}
         onScroll={handleScroll}
         onClick={handleTimelineClick}
-        className="timeline-scrollable"
-        style={{
-          flex: 1,
-          overflowX: 'auto',
-          overflowY: 'hidden',
-          position: 'relative',
-          background: 'rgba(9, 9, 9, 0.6)',
-          border: '1px solid var(--color-steel-accent)',
-          borderRadius: 'var(--radius-smallwidgets)',
-          cursor: 'ew-resize',
-        }}
+        className="flex-1 overflow-x-auto overflow-y-hidden relative bg-blackout/40 border border-graphite-light rounded-[4px] cursor-ew-resize"
       >
         <div
           ref={scrollRef}
-          className="timeline-scroll-spacer"
+          className="h-full relative pointer-events-auto"
           style={{
             width: `${Math.max(containerWidth, totalWidth)}px`,
-            height: '100%',
-            position: 'relative',
           }}
         >
           <WaveformCanvas
@@ -100,34 +89,17 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
             zoom={zoom}
             scrollLeft={scrollLeft}
             containerWidth={containerWidth}
-            containerHeight={containerRef.current?.clientHeight || 120}
+            containerHeight={containerHeight}
           />
 
           {duration > 0 && (
             <div
+              className="absolute top-0 bottom-0 w-[2px] bg-neon-glow z-10 pointer-events-none shadow-[0_0_10px_#34d59a]"
               style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
                 left: `${currentTime * zoom}px`,
-                width: '2px',
-                background: 'var(--color-deep-violet)',
-                boxShadow: '0 0 10px rgba(175, 80, 255, 0.6)',
-                zIndex: 10,
-                pointerEvents: 'none',
               }}
             >
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: '-4px',
-                  width: '10px',
-                  height: '10px',
-                  borderRadius: '50%',
-                  background: 'var(--color-deep-violet)',
-                }}
-              />
+              <div className="absolute top-0 -left-1 w-2.5 h-2.5 rounded-full bg-neon-glow" />
             </div>
           )}
 
@@ -149,25 +121,15 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
         handleSaveEdit={handleSaveEdit}
       />
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          fontSize: '12px',
-          color: 'var(--color-slate-hint)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-          paddingTop: '8px',
-          marginTop: '8px',
-        }}
-      >
-        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <HelpCircle size={12} /> Drag block to reposition | Drag side handles to adjust syllable duration. Click to edit.
+      <div className="flex justify-between font-sans text-[10px] text-ash border-t border-graphite-light pt-2 mt-1 select-none">
+        <span className="flex items-center gap-1.5">
+          <HelpCircle size={10} /> Drag block to reposition | Drag side handles to adjust syllable duration. Click to edit.
         </span>
         <span>Zoom in for precise timeline adjustments.</span>
       </div>
       
       <style>{`
-        .timeline-scroll-spacer > div:hover .edit-icon-btn {
+        .cursor-ew-resize div:hover .edit-icon-btn {
           display: flex !important;
         }
       `}</style>

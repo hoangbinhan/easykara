@@ -113,11 +113,7 @@ export const CanvasPlayer: React.FC<CanvasPlayerProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'block',
-      }}
+      className="w-full h-full block"
     />
   );
 };

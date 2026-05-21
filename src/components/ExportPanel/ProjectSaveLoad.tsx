@@ -53,23 +53,12 @@ export const ProjectSaveLoad: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+    <div className="grid grid-cols-2 gap-2">
       <button
         onClick={handleSaveProject}
-        style={{
-          padding: '8px 10px',
-          borderRadius: 'var(--radius-buttons)',
-          background: 'rgba(247, 249, 250, 0.05)',
-          border: '1px solid var(--color-steel-accent)',
-          color: 'var(--color-cloud-whisper)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '6px',
-          fontSize: '11px',
-        }}
+        className="px-3 py-2 bg-graphite hover:bg-graphite-light text-whiteout font-sans text-[11px] font-semibold rounded-full border border-graphite-light hover:border-whiteout transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
       >
-        <FileJson size={13} style={{ color: 'var(--color-deep-violet)' }} />
+        <FileJson size={13} className="text-neon-glow" />
         <span>Save Project (.json)</span>
       </button>
 
@@ -78,25 +67,14 @@ export const ProjectSaveLoad: React.FC = () => {
         ref={fileInputRef}
         onChange={handleFileChange}
         accept=".json"
-        style={{ display: 'none' }}
+        className="hidden"
       />
 
       <button
         onClick={handleLoadProjectClick}
-        style={{
-          padding: '8px 10px',
-          borderRadius: 'var(--radius-buttons)',
-          background: 'rgba(247, 249, 250, 0.05)',
-          border: '1px solid var(--color-steel-accent)',
-          color: 'var(--color-cloud-whisper)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '6px',
-          fontSize: '11px',
-        }}
+        className="px-3 py-2 bg-graphite hover:bg-graphite-light text-whiteout font-sans text-[11px] font-semibold rounded-full border border-graphite-light hover:border-whiteout transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
       >
-        <Upload size={13} style={{ color: 'var(--color-deep-violet)' }} />
+        <Upload size={13} className="text-neon-glow" />
         <span>Load Project (.json)</span>
       </button>
     </div>

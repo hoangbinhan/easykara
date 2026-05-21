@@ -13,22 +13,13 @@ export const TypographySelectors: React.FC<TypographySelectorsProps> = ({
   return (
     <>
       {/* Style Preset Header */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-        <label style={{ color: 'var(--color-slate-hint)', fontWeight: 600 }}>Font & Layout</label>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+      <div className="flex flex-col gap-1.5">
+        <label className="font-sans text-[11px] font-semibold text-ash uppercase tracking-wider">Font & Layout</label>
+        <div className="grid grid-cols-2 gap-2">
           <select
-            className="select-styled"
+            className="w-full px-3 py-1.5 bg-blackout border border-graphite-light rounded-[4px] text-whiteout font-sans text-xs focus:border-neon-glow outline-none cursor-pointer transition-colors duration-200"
             value={styleConfig.fontFamily}
             onChange={(e) => onStyleChange('fontFamily', e.target.value)}
-            style={{
-              background: 'rgba(9, 9, 9, 0.6)',
-              border: '1px solid var(--color-steel-accent)',
-              borderRadius: 'var(--radius-buttons)',
-              padding: '8px 12px',
-              color: 'var(--color-cloud-whisper)',
-              fontSize: '13px',
-              outline: 'none',
-            }}
           >
             <option value="Montserrat">Montserrat (Whyte)</option>
             <option value="Space Mono">Space Mono (Whyte Mono)</option>
@@ -38,18 +29,9 @@ export const TypographySelectors: React.FC<TypographySelectorsProps> = ({
           </select>
 
           <select
-            className="select-styled"
+            className="w-full px-3 py-1.5 bg-blackout border border-graphite-light rounded-[4px] text-whiteout font-sans text-xs focus:border-neon-glow outline-none cursor-pointer transition-colors duration-200"
             value={styleConfig.layoutMode}
             onChange={(e) => onStyleChange('layoutMode', e.target.value as StyleConfig['layoutMode'])}
-            style={{
-              background: 'rgba(9, 9, 9, 0.6)',
-              border: '1px solid var(--color-steel-accent)',
-              borderRadius: 'var(--radius-buttons)',
-              padding: '8px 12px',
-              color: 'var(--color-cloud-whisper)',
-              fontSize: '13px',
-              outline: 'none',
-            }}
           >
             <option value="classic-2line">Classic 2-Line</option>
             <option value="subtitles">Modern Subtitle</option>
@@ -58,43 +40,25 @@ export const TypographySelectors: React.FC<TypographySelectorsProps> = ({
       </div>
 
       {/* Text Align & Size */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '8px' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <label style={{ color: 'var(--color-slate-hint)', fontSize: '11px' }}>Font Size (px)</label>
+      <div className="grid grid-cols-2 gap-2">
+        <div className="flex flex-col gap-1">
+          <label className="font-sans text-[10px] text-ash uppercase tracking-wider">Font Size (px)</label>
           <input
             type="number"
-            className="input-styled"
+            className="w-full px-3 py-1.5 bg-blackout border border-graphite-light rounded-[4px] text-whiteout font-sans text-xs focus:border-neon-glow outline-none transition-colors duration-200"
             value={styleConfig.fontSize}
             onChange={(e) => onStyleChange('fontSize', parseInt(e.target.value) || 30)}
             min={20}
             max={80}
-            style={{
-              background: 'rgba(9, 9, 9, 0.6)',
-              border: '1px solid var(--color-steel-accent)',
-              borderRadius: 'var(--radius-buttons)',
-              padding: '8px 12px',
-              color: 'var(--color-cloud-whisper)',
-              fontSize: '13px',
-              outline: 'none',
-            }}
           />
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <label style={{ color: 'var(--color-slate-hint)', fontSize: '11px' }}>Alignment</label>
+        <div className="flex flex-col gap-1">
+          <label className="font-sans text-[10px] text-ash uppercase tracking-wider">Alignment</label>
           <select
-            className="select-styled"
+            className="w-full px-3 py-1.5 bg-blackout border border-graphite-light rounded-[4px] text-whiteout font-sans text-xs focus:border-neon-glow outline-none cursor-pointer transition-colors duration-200"
             value={styleConfig.alignment}
             onChange={(e) => onStyleChange('alignment', e.target.value as StyleConfig['alignment'])}
-            style={{
-              background: 'rgba(9, 9, 9, 0.6)',
-              border: '1px solid var(--color-steel-accent)',
-              borderRadius: 'var(--radius-buttons)',
-              padding: '8px 12px',
-              color: 'var(--color-cloud-whisper)',
-              fontSize: '13px',
-              outline: 'none',
-            }}
           >
             <option value="left">Left</option>
             <option value="center">Center</option>

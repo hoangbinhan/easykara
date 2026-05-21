@@ -1,9 +1,15 @@
 import React from 'react';
+import type { Line, Syllable } from '../../context/KaraokeContext';
+
+interface UpcomingItem {
+  type: string;
+  text: string;
+}
 
 interface WordBubblesProps {
-  currentLine: any;
+  currentLine: Line | null;
   currentSyllableIndex: number;
-  upcomingQueue: any[];
+  upcomingQueue: UpcomingItem[];
 }
 
 export const WordBubbles: React.FC<WordBubblesProps> = ({
@@ -12,29 +18,23 @@ export const WordBubbles: React.FC<WordBubblesProps> = ({
   upcomingQueue,
 }) => {
   return (
-    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
+    <div className="w-full flex flex-col items-center gap-4">
       {/* Active Display */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px', maxWidth: '90%' }}>
-        {currentLine?.syllables.map((s: any, idx: number) => {
+      <div className="flex flex-wrap justify-center gap-2 max-w-[90%] items-center">
+        {currentLine?.syllables.map((s: Syllable, idx: number) => {
           const isCurrent = idx === currentSyllableIndex;
           const isPast = idx < currentSyllableIndex;
           
           return (
             <span
               key={s.id}
-              style={{
-                fontSize: isCurrent ? '26px' : '20px',
-                fontWeight: 'var(--font-weight-semibold)',
-                color: isCurrent 
-                  ? 'var(--color-deep-violet)' 
+              className={`font-sans font-bold px-2 py-1 rounded-[4px] transition-all duration-150 ${
+                isCurrent 
+                  ? 'text-2xl text-neon-glow bg-neon-muted/20 border border-neon-glow/20 scale-105 shadow-[0_0_12px_rgba(52,213,154,0.1)]' 
                   : isPast 
-                    ? 'var(--color-cloud-whisper)' 
-                    : 'rgba(255, 255, 255, 0.25)',
-                transition: 'all 0.15s ease',
-                padding: '4px 8px',
-                borderRadius: 'var(--radius-buttons)',
-                background: isCurrent ? 'rgba(175, 80, 255, 0.15)' : 'transparent',
-              }}
+                    ? 'text-lg text-whiteout' 
+                    : 'text-lg text-ash/40'
+              }`}
             >
               {s.text}
             </span>
@@ -44,29 +44,17 @@ export const WordBubbles: React.FC<WordBubblesProps> = ({
 
       {/* Upcoming Queue */}
       {upcomingQueue.length > 0 && (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            fontSize: '11px',
-            color: 'var(--color-slate-hint)',
-            borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-            paddingTop: '8px',
-            width: '80%',
-            justifyContent: 'center',
-          }}
-        >
-          <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--color-slate-hint)' }}>Upcoming:</span>
+        <div className="flex items-center gap-2 text-[10px] text-ash border-t border-graphite-light pt-2.5 w-[80%] justify-center">
+          <span className="font-mono text-[9px] uppercase tracking-wider text-pewter shrink-0">Upcoming:</span>
           {upcomingQueue.map((item, idx) => (
             <span
               key={idx}
-              style={{
-                background: item.type === 'current-line' ? 'rgba(255,255,255,0.05)' : 'rgba(175, 80, 255, 0.05)',
-                padding: '2px 6px',
-                borderRadius: '4px',
-                opacity: 0.8 - idx * 0.15,
-              }}
+              className={`font-sans text-[10px] px-2 py-0.5 rounded-[4px] border ${
+                item.type === 'current-line' 
+                  ? 'bg-blackout border-graphite-light text-pewter' 
+                  : 'bg-neon-muted/5 border-neon-glow/20 text-neon-glow'
+              }`}
+              style={{ opacity: Math.max(0.2, 0.8 - idx * 0.15) }}
             >
               {item.text}
             </span>

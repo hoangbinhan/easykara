@@ -24,6 +24,7 @@ export const useTimelineDrag = ({
   const [scrollLeft, setScrollLeft] = useState<number>(0);
   const [editingSyl, setEditingSyl] = useState<{ lineIdx: number; sylIdx: number; text: string } | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
+  const [containerHeight, setContainerHeight] = useState<number>(120);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -36,11 +37,13 @@ export const useTimelineDrag = ({
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         setContainerWidth(entry.contentRect.width);
+        setContainerHeight(entry.contentRect.height || 120);
       }
     });
 
     resizeObserver.observe(container);
     setContainerWidth(container.clientWidth);
+    setContainerHeight(container.clientHeight || 120);
 
     return () => resizeObserver.disconnect();
   }, []);
@@ -143,6 +146,7 @@ export const useTimelineDrag = ({
     editingSyl,
     setEditingSyl,
     containerWidth,
+    containerHeight,
     containerRef,
     scrollRef,
     canvasRef,

@@ -21,76 +21,37 @@ export const HotkeyIndicator: React.FC<HotkeyIndicatorProps> = ({
   spacebarRef,
 }) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+    <div className="flex flex-col gap-2 items-center w-full">
       <div
         ref={spacebarRef}
         onMouseDown={handleSyncStart}
         onMouseUp={handleSyncEnd}
         onMouseLeave={handleSyncEnd}
-        style={{
-          width: '80%',
-          height: '48px',
-          borderRadius: 'var(--radius-buttons)',
-          background: isSpacePressed 
-            ? 'var(--color-deep-violet)'
-            : 'rgba(247, 249, 250, 0.08)',
-          border: isSpacePressed ? '1px solid var(--color-deep-violet)' : '1px solid var(--color-steel-accent)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontWeight: 'var(--font-weight-bold)',
-          fontSize: '14px',
-          color: 'var(--color-cloud-whisper)',
-          cursor: 'pointer',
-          transform: isSpacePressed ? 'scale(0.98)' : 'scale(1)',
-          transition: 'all 0.1s ease',
-        }}
+        className={`w-[80%] h-12 rounded-full flex items-center justify-center font-sans text-xs font-bold select-none cursor-pointer transition-all duration-100 ${
+          isSpacePressed
+            ? 'bg-neon-glow text-graphite-deep scale-[0.98] shadow-[0_0_15px_rgba(52,213,154,0.3)]'
+            : 'bg-graphite-deep border border-graphite-light text-whiteout hover:bg-neon-muted/5 scale-100'
+        }`}
       >
         {isSpacePressed ? '🎤 HOLDING SPACEBAR (SYNCING...)' : 'PRESS AND HOLD SPACEBAR TO SYNC WORDS'}
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '80%',
-          fontSize: '11px',
-          color: 'var(--color-slate-hint)',
-        }}
-      >
+      <div className="flex justify-between w-[80%] font-mono text-[10px] text-ash">
         <span>Time: {formatLRCTime(currentTime)}</span>
         <span>Hotkeys: Enter = Play/Pause | Space = Sync Beat</span>
       </div>
 
-      <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+      <div className="flex gap-2 mt-1">
         <button
           onClick={onBackOneWord}
-          style={{
-            background: 'rgba(247, 249, 250, 0.08)',
-            border: '1px solid var(--color-steel-accent)',
-            padding: '6px 14px',
-            borderRadius: 'var(--radius-buttons)',
-            color: 'var(--color-code-ghost)',
-            fontSize: '11px',
-            fontWeight: 'var(--font-weight-medium)',
-            cursor: 'pointer',
-          }}
+          className="bg-transparent border border-graphite-light text-whiteout text-[11px] px-4 py-1.5 rounded-full hover:bg-neon-muted/10 hover:border-neon-glow transition-all duration-200 cursor-pointer font-sans font-semibold"
         >
           Back 1 Word
         </button>
 
         <button
           onClick={onExitSync}
-          style={{
-            background: 'rgba(255, 69, 58, 0.1)',
-            border: '1px solid rgba(255, 69, 58, 0.2)',
-            padding: '6px 14px',
-            borderRadius: 'var(--radius-buttons)',
-            color: 'var(--danger)',
-            fontSize: '11px',
-            fontWeight: 'var(--font-weight-medium)',
-            cursor: 'pointer',
-          }}
+          className="bg-transparent border border-system-warning/40 text-system-warning text-[11px] px-4 py-1.5 rounded-full hover:bg-system-warning/10 hover:border-system-warning transition-all duration-200 cursor-pointer font-sans font-semibold"
         >
           Exit Sync Mode
         </button>

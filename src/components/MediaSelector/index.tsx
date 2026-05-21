@@ -33,7 +33,6 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
     setIsDragOver(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0];
-      // Accept only audio/video
       if (file.type.startsWith('audio/') || file.type.startsWith('video/')) {
         loadMedia(file);
         if (onMediaLoaded) onMediaLoaded(file);
@@ -46,89 +45,59 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
   };
 
   return (
-    <div className="panel-card">
-      <div className="card-title">
-        {mediaType === 'video' ? <Video size={16} /> : <Music size={16} />}
+    <div className="bg-graphite-deep border border-graphite-light rounded-[4px] p-4 flex flex-col gap-3 transition-colors duration-200 hover:border-neon-glow/40">
+      <div className="flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-wider text-neon-glow">
+        {mediaType === 'video' ? <Video size={14} /> : <Music size={14} />}
         <span>Media Asset</span>
       </div>
 
       {!mediaName ? (
         <div
-          className={`dropzone ${isDragOver ? 'drag-over' : ''}`}
+          className={`border border-dashed rounded-[4px] p-6 text-center cursor-pointer flex flex-col items-center gap-2 bg-blackout transition-all duration-200 ${
+            isDragOver
+              ? 'border-neon-glow bg-neon-muted/10'
+              : 'border-graphite-light hover:border-neon-glow/60 hover:bg-neon-muted/5'
+          }`}
           onClick={handleDivClick}
           onDragOver={onDragOver}
           onDragLeave={onDragLeave}
           onDrop={onDrop}
-          style={{
-            borderColor: isDragOver ? 'var(--color-deep-violet)' : undefined,
-            backgroundColor: isDragOver ? 'rgba(175, 80, 255, 0.08)' : undefined,
-          }}
         >
           <input
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
             accept="audio/*,video/*"
-            style={{ display: 'none' }}
+            className="hidden"
           />
-          <Upload className="dropzone-icon" size={32} />
-          <p style={{ fontSize: '13px', fontWeight: 600 }}>Upload Music or Background Video</p>
-          <p style={{ fontSize: '11px', color: 'var(--color-slate-hint)' }}>
+          <Upload className="text-ash group-hover:text-neon-glow transition-colors duration-200" size={28} />
+          <p className="font-sans text-xs font-semibold text-whiteout">Upload Music or Background Video</p>
+          <p className="font-sans text-[10px] text-ash">
             Drag & drop or click to browse files (MP3, WAV, MP4, WebM...)
           </p>
         </div>
       ) : (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            background: 'rgba(247, 249, 250, 0.02)',
-            border: '1px solid var(--color-steel-accent)',
-            borderRadius: 'var(--radius-smallwidgets)',
-            padding: '10px 14px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', overflow: 'hidden' }}>
+        <div className="flex items-center justify-between bg-blackout border border-graphite-light rounded-[4px] px-3.5 py-2.5 gap-3 overflow-hidden">
+          <div className="flex items-center gap-2.5 overflow-hidden">
             {mediaType === 'video' ? (
-              <Video size={18} className="brand-icon" style={{ flexShrink: 0 }} />
+              <Video size={16} className="text-neon-glow shrink-0" />
             ) : (
-              <Music size={18} className="brand-icon" style={{ flexShrink: 0 }} />
+              <Music size={16} className="text-neon-glow shrink-0" />
             )}
-            <div style={{ overflow: 'hidden' }}>
-              <p
-                style={{
-                  fontSize: '13px',
-                  fontWeight: 600,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-              >
+            <div className="overflow-hidden">
+              <p className="font-sans text-xs font-semibold text-whiteout truncate">
                 {mediaName}
               </p>
-              <p style={{ fontSize: '11px', color: 'var(--color-slate-hint)' }}>
+              <p className="font-mono text-[10px] text-ash uppercase">
                 {mediaType === 'video' ? 'Video File' : 'Audio File'}
               </p>
             </div>
           </div>
           <button
             onClick={clearMedia}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'var(--color-slate-hint)',
-              padding: '4px',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#ff453a')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-slate-hint)')}
+            className="p-1 bg-transparent border-none text-ash hover:text-system-warning rounded-full transition-colors duration-200 cursor-pointer"
           >
-            <X size={16} />
+            <X size={14} />
           </button>
         </div>
       )}

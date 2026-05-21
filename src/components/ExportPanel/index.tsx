@@ -21,7 +21,7 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ videoRef }) => {
         <span>Publish & Export</span>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div className="flex flex-col gap-2.5">
         {/* Project JSON Save/Load */}
         <ProjectSaveLoad />
 

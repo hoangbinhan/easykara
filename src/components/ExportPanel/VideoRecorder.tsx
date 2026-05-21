@@ -18,24 +18,13 @@ export const VideoRecorder: React.FC<VideoRecorderProps> = ({ videoRef, isSyncRe
   } = useVideoRecorder({ videoRef, mediaUrl });
 
   return (
-    <div
-      style={{
-        border: '1px solid var(--color-steel-accent)',
-        background: 'rgba(9, 9, 9, 0.4)',
-        borderRadius: 'var(--radius-smallwidgets)',
-        padding: '12px',
-        marginTop: '4px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--color-deep-violet)', fontWeight: 700 }}>
-        <Film size={14} className="brand-icon" />
+    <div className="border border-graphite-light bg-blackout px-3 py-3 rounded-[4px] flex flex-col gap-2 mt-1">
+      <div className="flex items-center gap-1.5 text-xs font-semibold text-neon-glow font-sans">
+        <Film size={14} />
         <span>Export to Video File (.webm)</span>
       </div>
 
-      <p style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.4' }}>
+      <p className="text-[11px] text-ash font-sans leading-normal">
         Record the live karaoke canvas and merge it with the source audio to download a video directly from your browser!
       </p>
 
@@ -43,50 +32,30 @@ export const VideoRecorder: React.FC<VideoRecorderProps> = ({ videoRef, isSyncRe
         <button
           onClick={handleStartRecording}
           disabled={!isSyncReady || !mediaUrl}
-          style={{
-            width: '100%',
-            padding: '10px',
-            borderRadius: 'var(--radius-buttons)',
-            background: isSyncReady && mediaUrl ? 'var(--color-deep-violet)' : 'rgba(255,255,255,0.05)',
-            color: isSyncReady && mediaUrl ? 'var(--color-cloud-whisper)' : 'rgba(255,255,255,0.3)',
-            fontWeight: 700,
-            fontSize: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '6px',
-            cursor: isSyncReady && mediaUrl ? 'pointer' : 'not-allowed',
-            opacity: isSyncReady && mediaUrl ? 1 : 0.5,
-            boxShadow: isSyncReady && mediaUrl ? '0 0 12px rgba(175, 80, 255, 0.3)' : 'none',
-          }}
+          className="w-full px-4 py-2 font-sans font-bold text-xs rounded-full flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer bg-whiteout hover:bg-cloud text-graphite-deep disabled:bg-graphite disabled:text-ash disabled:border disabled:border-graphite-light disabled:cursor-not-allowed"
         >
           <Video size={14} />
           <span>Record Karaoke Video</span>
         </button>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-deep-violet)' }}>
-              <Disc size={12} className="glow-pulse" style={{ color: 'var(--color-deep-violet)', animationDuration: '1s' }} />
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between text-[11px] font-sans text-whiteout">
+            <span className="flex items-center gap-1.5 text-neon-glow">
+              <Disc size={12} className="animate-spin text-neon-glow" />
               Recording video...
             </span>
-            <span>{recordProgress}%</span>
+            <span className="font-mono">{recordProgress}%</span>
           </div>
-          <div style={{ height: '6px', width: '100%', background: 'rgba(255,255,255,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
-            <div style={{ height: '100%', width: `${recordProgress}%`, background: 'var(--color-deep-violet)', transition: 'width 0.2s ease' }} />
+          <div className="h-1.5 w-full bg-graphite rounded-[4px] overflow-hidden">
+            <div
+              className="h-full bg-neon-glow transition-all duration-200"
+              style={{ width: `${recordProgress}%` }}
+            />
           </div>
 
           <button
             onClick={handleStopRecordingVideo}
-            style={{
-              width: '100%',
-              padding: '8px',
-              borderRadius: 'var(--radius-buttons)',
-              background: 'var(--danger)',
-              color: 'white',
-              fontWeight: 600,
-              fontSize: '11px',
-            }}
+            className="w-full px-4 py-1.5 bg-system-warning hover:bg-red-600 text-whiteout font-sans font-semibold text-[11px] rounded-full cursor-pointer transition-all duration-200 flex items-center justify-center"
           >
             Stop & Save Video Now
           </button>

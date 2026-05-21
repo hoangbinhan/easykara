@@ -31,7 +31,7 @@ export const StyleConfigurator: React.FC = () => {
         <span>Canvas Aesthetics</span>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '13px' }}>
+      <div className="flex flex-col gap-3.5 text-[13px]">
         <TypographySelectors
           styleConfig={styleConfig}
           onStyleChange={handleStyleChange}

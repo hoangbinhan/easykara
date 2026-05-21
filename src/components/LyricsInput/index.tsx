@@ -21,134 +21,68 @@ export const LyricsInput: React.FC = () => {
   };
 
   return (
-    <div className="panel-card" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-      <div className="card-title" style={{ justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <FileText size={16} />
+    <div className="bg-graphite-deep border border-graphite-light rounded-[4px] p-4 flex flex-col gap-3 transition-colors duration-200 hover:border-neon-glow/40 flex-1">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-wider text-neon-glow">
+          <FileText size={14} />
           <span>Lyrics</span>
         </div>
         <button
           onClick={() => setIsLocked(!isLocked)}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: isLocked ? 'var(--color-vivid-blue)' : 'var(--color-cool-gray)',
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-          }}
+          className={`p-1 bg-transparent border-none transition-colors duration-200 cursor-pointer flex items-center ${
+            isLocked ? 'text-neon-glow' : 'text-ash hover:text-neon-glow'
+          }`}
           title={isLocked ? 'Unlock Lyrics Editing' : 'Lock Lyrics to Prevent Edits'}
         >
-          {isLocked ? <Lock size={15} /> : <LockOpen size={15} />}
+          {isLocked ? <Lock size={14} /> : <LockOpen size={14} />}
         </button>
       </div>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <div className="flex-1 flex flex-col gap-3">
         <textarea
-          className="textarea-styled"
+          className="w-full flex-1 min-h-[140px] px-3.5 py-2.5 bg-blackout border border-graphite-light rounded-[4px] text-whiteout font-sans text-xs leading-normal resize-none focus:border-neon-glow focus:bg-neon-muted/5 transition-colors duration-200 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
           value={localText}
           onChange={(e) => setLocalText(e.target.value)}
           disabled={isLocked}
           placeholder="Enter your song lyrics here..."
-          style={{
-            flex: 1,
-            minHeight: '140px',
-            opacity: isLocked ? 0.7 : 1,
-            cursor: isLocked ? 'not-allowed' : 'text',
-            borderRadius: 'var(--radius-standard)',
-            border: '1px solid var(--surface-storm-gray-overlay)',
-            background: 'var(--surface-deep-graphite-surface)',
-            color: 'var(--color-cloud-white)',
-            padding: '12px',
-            fontSize: '14px',
-            outline: 'none',
-          }}
         />
 
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div className="flex gap-2">
           {!isLocked ? (
             <button
               onClick={handleApply}
-              style={{
-                flex: 1,
-                padding: '10px 18px',
-                borderRadius: 'var(--radius-buttons)',
-                background: 'var(--color-interactive-blue)',
-                color: 'var(--color-cloud-white)',
-                border: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                fontWeight: 600,
-                fontSize: '14px',
-                cursor: 'pointer',
-              }}
+              className="flex-1 flex items-center justify-center gap-2 px-5 py-2 bg-whiteout text-graphite-deep font-sans text-xs font-semibold rounded-full hover:bg-cloud active:scale-95 transition-all duration-200 cursor-pointer"
             >
-              <Play size={14} fill="white" />
+              <Play size={12} className="fill-current" />
               <span>Load Lyrics & Start</span>
             </button>
           ) : (
             <button
               onClick={() => setIsLocked(false)}
-              style={{
-                flex: 1,
-                padding: '10px 18px',
-                borderRadius: 'var(--radius-buttons)',
-                background: 'var(--surface-storm-gray-overlay)',
-                border: 'none',
-                color: 'var(--color-cloud-white)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                fontSize: '14px',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
+              className="flex-1 flex items-center justify-center gap-2 px-5 py-2 bg-transparent text-whiteout font-sans text-xs font-semibold border border-graphite-light rounded-full hover:bg-neon-muted/10 hover:border-neon-glow transition-all duration-200 cursor-pointer"
             >
-              <LockOpen size={14} />
+              <LockOpen size={12} />
               <span>Edit Lyrics</span>
             </button>
           )}
 
           <button
             onClick={handleReset}
-            style={{
-              padding: '10px 14px',
-              borderRadius: 'var(--radius-buttons)',
-              background: 'rgba(255, 69, 58, 0.15)',
-              border: '1px solid rgba(255, 69, 58, 0.3)',
-              color: '#ff453a',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}
+            className="px-3.5 py-2 bg-transparent border border-system-warning/40 text-system-warning hover:bg-system-warning/10 hover:border-system-warning rounded-full transition-all duration-200 cursor-pointer flex items-center justify-center"
             title="Reset All Sync Progress"
           >
-            <RotateCcw size={15} />
+            <RotateCcw size={14} />
           </button>
         </div>
 
-        <div
-          style={{
-            fontSize: '12px',
-            color: 'var(--color-cool-gray)',
-            background: 'var(--surface-deep-graphite-surface)',
-            border: '1px solid var(--surface-storm-gray-overlay)',
-            padding: '10px 14px',
-            borderRadius: 'var(--radius-standard)',
-            lineHeight: '1.4',
-          }}
-        >
-          💡 <strong>Tip:</strong> Enter lyrics normally. Spaces automatically split words, enabling word-by-word sync by pressing Space.
+        <div className="font-sans text-[11px] text-ash bg-blackout border border-graphite-light rounded-[4px] p-3.5 leading-relaxed">
+          💡 <strong className="text-whiteout font-semibold">Tip:</strong> Enter lyrics normally. Spaces automatically split words, enabling word-by-word sync by pressing Space.
         </div>
 
         {lines.length > 0 && (
-          <div style={{ fontSize: '12px', color: 'var(--color-vivid-blue)', fontWeight: 500 }}>
-            📊 Total lines: <strong>{lines.length}</strong> | Total words:{' '}
-            <strong>{lines.reduce((acc, curr) => acc + curr.syllables.length, 0)}</strong>
+          <div className="font-mono text-[10px] text-neon-glow font-medium">
+            📊 Total lines: <strong className="text-whiteout">{lines.length}</strong> | Total words:{' '}
+            <strong className="text-whiteout">{lines.reduce((acc, curr) => acc + curr.syllables.length, 0)}</strong>
           </div>
         )}
       </div>

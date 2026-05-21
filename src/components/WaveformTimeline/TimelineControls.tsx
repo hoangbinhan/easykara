@@ -17,51 +17,35 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
   waveformProgress,
 }) => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-cloud-whisper)', letterSpacing: '-0.01em' }}>
+    <div className="flex justify-between items-center mb-3.5 w-full">
+      <div className="flex items-center gap-3">
+        <span className="font-sans text-xs font-semibold uppercase tracking-wider text-neon-glow">
           TIMELINE EDITOR
         </span>
         {loadingWaveform && (
-          <span style={{ fontSize: '12px', color: 'var(--color-deep-violet)' }}>
-            ⚡ Processing waveform: <strong>{waveformProgress}%</strong>
+          <span className="font-mono text-[10px] text-neon-glow">
+            ⚡ Processing waveform: <strong className="text-whiteout">{waveformProgress}%</strong>
           </span>
         )}
       </div>
       
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div className="flex items-center gap-2">
         <button
           onClick={handleZoomOut}
           disabled={zoom <= 20}
-          style={{
-            padding: '6px 10px',
-            borderRadius: '6px',
-            background: 'rgba(247, 249, 250, 0.08)',
-            border: 'none',
-            color: 'var(--color-cloud-whisper)',
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-          }}
+          className="p-1.5 rounded-full bg-graphite-deep text-whiteout hover:bg-neon-muted/20 border border-graphite-light hover:border-neon-glow transition-all duration-200 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed flex items-center"
+          title="Zoom Out"
         >
-          <ZoomOut size={14} />
+          <ZoomOut size={12} />
         </button>
-        <span style={{ fontSize: '12px', color: 'var(--color-slate-hint)', width: '60px', textAlign: 'center', fontWeight: 500 }}>{zoom} px/s</span>
+        <span className="font-mono text-[10px] text-ash w-14 text-center font-medium">{zoom} px/s</span>
         <button
           onClick={handleZoomIn}
           disabled={zoom >= 240}
-          style={{
-            padding: '6px 10px',
-            borderRadius: '6px',
-            background: 'rgba(247, 249, 250, 0.08)',
-            border: 'none',
-            color: 'var(--color-cloud-whisper)',
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-          }}
+          className="p-1.5 rounded-full bg-graphite-deep text-whiteout hover:bg-neon-muted/20 border border-graphite-light hover:border-neon-glow transition-all duration-200 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed flex items-center"
+          title="Zoom In"
         >
-          <ZoomIn size={14} />
+          <ZoomIn size={12} />
         </button>
       </div>
     </div>

@@ -14,73 +14,39 @@ export const SyllableEditModal: React.FC<SyllableEditModalProps> = ({
   if (!editingSyl) return null;
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        background: 'var(--color-midnight-eclipse)',
-        border: '1px solid rgba(255, 255, 255, 0.15)',
-        borderRadius: 'var(--radius-cards)',
-        padding: '24px',
-        zIndex: 1000,
-        width: '320px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '14px',
-      }}
-    >
-      <h4 style={{ fontSize: '17px', fontWeight: 600, color: 'var(--color-cloud-whisper)', margin: 0, letterSpacing: '-0.019em' }}>Edit Syllable</h4>
-      <input
-        type="text"
-        className="input-styled"
-        value={editingSyl.text}
-        onChange={(e) => setEditingSyl({ ...editingSyl, text: e.target.value })}
-        onKeyDown={(e) => e.key === 'Enter' && handleSaveEdit()}
-        autoFocus
-        style={{
-          background: 'rgba(9, 9, 9, 0.8)',
-          border: '1px solid var(--color-steel-accent)',
-          borderRadius: 'var(--radius-buttons)',
-          padding: '10px 16px',
-          color: 'var(--color-cloud-whisper)',
-          fontSize: '14px',
-          outline: 'none',
-        }}
+    <>
+      {/* Backdrop overlay */}
+      <div 
+        className="fixed inset-0 bg-blackout/60 backdrop-blur-sm z-[999]" 
+        onClick={() => setEditingSyl(null)}
       />
-      <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-        <button
-          onClick={() => setEditingSyl(null)}
-          style={{
-            padding: '8px 16px',
-            borderRadius: 'var(--radius-buttons)',
-            fontSize: '14px',
-            fontWeight: 600,
-            background: 'rgba(247, 249, 250, 0.08)',
-            border: 'none',
-            color: 'var(--color-cloud-whisper)',
-            cursor: 'pointer',
-          }}
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleSaveEdit}
-          style={{
-            padding: '8px 16px',
-            borderRadius: 'var(--radius-buttons)',
-            fontSize: '14px',
-            fontWeight: 600,
-            background: 'var(--color-deep-violet)',
-            border: 'none',
-            color: 'var(--color-cloud-whisper)',
-            cursor: 'pointer',
-          }}
-        >
-          Save
-        </button>
+      
+      {/* Modal Content */}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-graphite-deep border border-graphite-light rounded-[4px] p-6 z-[1000] w-80 flex flex-col gap-3.5 shadow-lg">
+        <h4 className="font-sans text-sm font-semibold text-whiteout">Edit Syllable</h4>
+        <input
+          type="text"
+          className="w-full px-3.5 py-2.5 bg-blackout border border-graphite-light rounded-[4px] text-whiteout font-sans text-xs focus:border-neon-glow outline-none transition-colors"
+          value={editingSyl.text}
+          onChange={(e) => setEditingSyl({ ...editingSyl, text: e.target.value })}
+          onKeyDown={(e) => e.key === 'Enter' && handleSaveEdit()}
+          autoFocus
+        />
+        <div className="flex gap-2 justify-end">
+          <button
+            onClick={() => setEditingSyl(null)}
+            className="px-4 py-1.5 bg-transparent border border-graphite-light rounded-full text-whiteout font-sans text-xs font-semibold hover:bg-neon-muted/10 hover:border-neon-glow transition-all duration-200 cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSaveEdit}
+            className="px-4 py-1.5 bg-whiteout text-graphite-deep font-sans text-xs font-semibold rounded-full hover:bg-cloud active:scale-95 transition-all duration-200 cursor-pointer"
+          >
+            Save
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
