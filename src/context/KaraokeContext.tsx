@@ -33,6 +33,19 @@ export interface StyleConfig {
   shadowBlur: number;
 }
 
+export interface MediaTrack {
+  id: string;
+  name: string;
+  url: string;
+  type: 'audio' | 'video';
+  volume: number; // 0 to 1
+  offset: number; // in seconds
+  duration: number; // in seconds
+  waveformData?: { peaks: number[] } | null;
+  isMuted?: boolean;
+  isSoloed?: boolean;
+}
+
 export interface KaraokeState {
   lyricsInput: string;
   lines: Line[];
@@ -47,6 +60,7 @@ export interface KaraokeState {
   mediaName: string | null;
   isRecording: boolean;
   styleConfig: StyleConfig;
+  tracks: MediaTrack[];
 }
 
 interface HistoryEntry {
@@ -69,6 +83,14 @@ interface KaraokeContextType extends KaraokeState {
   clearMedia: () => void;
   setIsRecording: (recording: boolean) => void;
   updateStyleConfig: (config: Partial<StyleConfig>) => void;
+
+  // Multi-Track actions
+  addTrack: (file: File, waveformData?: { peaks: number[]; duration: number } | null) => void;
+  removeTrack: (id: string) => void;
+  updateTrackOffset: (id: string, offset: number) => void;
+  updateTrackVolume: (id: string, volume: number) => void;
+  toggleMuteTrack: (id: string) => void;
+  toggleSoloTrack: (id: string) => void;
   
   // Sync Actions
   startSyllableSync: (time: number) => void;
@@ -147,6 +169,7 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [mediaName, setMediaName] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [styleConfig, setStyleConfig] = useState<StyleConfig>(defaultStyle);
+  const [tracks, setTracks] = useState<MediaTrack[]>([]);
   
   // Undo/Redo Stacks
   const [undoStack, setUndoStack] = useState<HistoryEntry[]>([]);
@@ -215,35 +238,114 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setLinesState(newLines);
   };
 
-  const loadMedia = (file: File) => {
-    if (mediaUrl) {
-      URL.revokeObjectURL(mediaUrl);
+  // Helper to synchronize master track attributes when track collection changes
+  const syncMasterTrack = (updatedTracks: MediaTrack[]) => {
+    setTracks(updatedTracks);
+    
+    if (updatedTracks.length === 0) {
+      setMediaUrl(null);
+      setMediaType(null);
+      setMediaName(null);
+      setDuration(0);
+      return;
     }
     
+    // Video takes precedence as master, otherwise the first loaded track
+    const videoTrack = updatedTracks.find(t => t.type === 'video');
+    const master = videoTrack || updatedTracks[0];
+    
+    setMediaUrl(master.url);
+    setMediaType(master.type);
+    setMediaName(master.name);
+    
+    // Set total duration to the maximum span of all tracks combined
+    const totalDuration = Math.max(...updatedTracks.map(t => t.offset + t.duration));
+    setDuration(totalDuration);
+  };
+
+  const getMediaDuration = (file: File, type: 'audio' | 'video'): Promise<number> => {
+    return new Promise((resolve) => {
+      const el = document.createElement(type);
+      el.src = URL.createObjectURL(file);
+      el.onloadedmetadata = () => {
+        resolve(el.duration || 180);
+        URL.revokeObjectURL(el.src);
+      };
+      el.onerror = () => {
+        resolve(180);
+      };
+    });
+  };
+
+  const addTrack = async (file: File, waveformData?: { peaks: number[]; duration: number } | null) => {
+    const isVideo = file.type.startsWith('video/');
+    const type = isVideo ? 'video' : 'audio';
+    
+    if (isVideo && tracks.some(t => t.type === 'video')) {
+      alert('Maximum 1 video background is supported.');
+      return;
+    }
+    
+    const durationVal = waveformData ? waveformData.duration : await getMediaDuration(file, type);
     const url = URL.createObjectURL(file);
-    setMediaUrl(url);
-    setMediaName(file.name);
+    const newTrack: MediaTrack = {
+      id: `track-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      name: file.name,
+      url,
+      type,
+      volume: 1.0,
+      offset: 0,
+      duration: durationVal || 180,
+      waveformData: waveformData || null,
+      isMuted: false,
+      isSoloed: false,
+    };
     
-    if (file.type.startsWith('video/')) {
-      setMediaType('video');
-    } else {
-      setMediaType('audio');
+    const updated = [...tracks, newTrack];
+    syncMasterTrack(updated);
+  };
+
+  const removeTrack = (id: string) => {
+    const track = tracks.find(t => t.id === id);
+    if (track) {
+      URL.revokeObjectURL(track.url);
     }
-    
-    setIsPlaying(false);
-    setCurrentTime(0);
+    const updated = tracks.filter(t => t.id !== id);
+    syncMasterTrack(updated);
+  };
+
+  const updateTrackOffset = (id: string, offset: number) => {
+    const updated = tracks.map(t => t.id === id ? { ...t, offset: Math.max(0, offset) } : t);
+    syncMasterTrack(updated);
+  };
+
+  const updateTrackVolume = (id: string, volume: number) => {
+    const updated = tracks.map(t => t.id === id ? { ...t, volume: Math.max(0, Math.min(1, volume)) } : t);
+    syncMasterTrack(updated);
+  };
+
+  const toggleMuteTrack = (id: string) => {
+    const updated = tracks.map(t => t.id === id ? { ...t, isMuted: !t.isMuted } : t);
+    syncMasterTrack(updated);
+  };
+
+  const toggleSoloTrack = (id: string) => {
+    const target = tracks.find(t => t.id === id);
+    if (!target) return;
+    const nextSoloState = !target.isSoloed;
+    const updated = tracks.map(t => 
+      t.id === id ? { ...t, isSoloed: nextSoloState } : { ...t, isSoloed: false }
+    );
+    syncMasterTrack(updated);
+  };
+
+  const loadMedia = async (file: File) => {
+    await addTrack(file);
   };
 
   const clearMedia = () => {
-    if (mediaUrl) {
-      URL.revokeObjectURL(mediaUrl);
-    }
-    setMediaUrl(null);
-    setMediaType(null);
-    setMediaName(null);
-    setIsPlaying(false);
-    setCurrentTime(0);
-    setDuration(0);
+    tracks.forEach(t => URL.revokeObjectURL(t.url));
+    syncMasterTrack([]);
   };
 
   const updateStyleConfig = (config: Partial<StyleConfig>) => {
@@ -403,6 +505,7 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
         mediaName,
         isRecording,
         styleConfig,
+        tracks,
         setLyricsInput,
         parseLyrics,
         setLines,
@@ -416,6 +519,12 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
         clearMedia,
         setIsRecording,
         updateStyleConfig,
+        addTrack,
+        removeTrack,
+        updateTrackOffset,
+        updateTrackVolume,
+        toggleMuteTrack,
+        toggleSoloTrack,
         startSyllableSync,
         endSyllableSync,
         resetSync,

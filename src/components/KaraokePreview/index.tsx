@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import { CanvasPlayer } from './CanvasPlayer';
+import { MultiTrackAudioEngine } from './MultiTrackAudioEngine';
 
 interface KaraokePreviewProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
@@ -65,6 +66,9 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
           mediaType={mediaType}
           styleConfig={styleConfig}
         />
+
+        {/* Dynamic Multi-track Audio Playback Sync */}
+        <MultiTrackAudioEngine />
 
         {/* Hidden unified video player */}
         {mediaUrl && (
