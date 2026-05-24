@@ -41,7 +41,6 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
 
   const {
     zoom,
-    scrollLeft,
     editingSyl,
     setEditingSyl,
     containerWidth,
@@ -50,7 +49,6 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
     canvasRef,
     handleZoomIn,
     handleZoomOut,
-    handleScroll,
     handleBlockDrag,
     handleEditClick,
     handleSaveEdit,
@@ -122,7 +120,6 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
 
       <div
         ref={containerRef}
-        onScroll={handleScroll}
         onMouseDown={handleRulerMouseDown}
         className="flex-1 overflow-x-auto overflow-y-auto relative bg-blackout/40 border border-graphite-light rounded-[4px] cursor-ew-resize timeline-scrollable"
       >
@@ -151,7 +148,6 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
                 waveformData={waveformData}
                 duration={duration}
                 zoom={zoom}
-                scrollLeft={scrollLeft}
                 containerWidth={containerWidth}
                 containerHeight={80}
               />

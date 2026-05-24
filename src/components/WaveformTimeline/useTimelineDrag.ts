@@ -21,7 +21,6 @@ export const useTimelineDrag = ({
   audioRef,
 }: UseTimelineDragProps) => {
   const [zoom, setZoom] = useState<number>(60);
-  const [scrollLeft, setScrollLeft] = useState<number>(0);
   const [editingSyl, setEditingSyl] = useState<{ lineIdx: number; sylIdx: number; text: string } | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [containerHeight, setContainerHeight] = useState<number>(120);
@@ -64,9 +63,6 @@ export const useTimelineDrag = ({
     }
   }, [currentTime, zoom, isPlaying]);
 
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    setScrollLeft(e.currentTarget.scrollLeft);
-  };
 
   const handleTimelineClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current || !audioRef.current || duration === 0) return;
@@ -142,7 +138,6 @@ export const useTimelineDrag = ({
 
   return {
     zoom,
-    scrollLeft,
     editingSyl,
     setEditingSyl,
     containerWidth,
@@ -152,7 +147,6 @@ export const useTimelineDrag = ({
     canvasRef,
     handleZoomIn,
     handleZoomOut,
-    handleScroll,
     handleTimelineClick,
     handleBlockDrag,
     handleEditClick,

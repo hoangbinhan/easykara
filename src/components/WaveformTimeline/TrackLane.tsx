@@ -151,7 +151,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
           <span className="font-sans text-[10px] font-semibold text-whiteout/80 truncate z-10 select-none">
             {track.type === 'video' ? `📺 ${t('timeline.trackVideo')}` : `🎵 ${t('timeline.trackAudio')}`}
           </span>
-          <span className="font-mono text-[9px] text-ash shrink-0 z-10 select-none">
+          <span className="font-mono text-[9px] text-ash shrink-0 z-10 select-none track-offset-text">
             {track.duration.toFixed(1)}s ({t('timeline.offset')}: {track.offset.toFixed(2)}s)
           </span>
         </div>

@@ -5,7 +5,6 @@ interface WaveformCanvasProps {
   waveformData: { peaks: number[] } | null;
   duration: number;
   zoom: number;
-  scrollLeft: number;
   containerWidth: number;
   containerHeight: number;
 }
