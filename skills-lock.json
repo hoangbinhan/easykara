@@ -13,6 +13,12 @@
       "skillPath": "skills/git-commit/SKILL.md",
       "computedHash": "2607fc60629b82b257136dd2a7a373f0a4466c0b49df7746d845d59313c99b21"
     },
+    "react-performance-optimization": {
+      "source": "nickcrew/claude-ctx-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/react-performance-optimization/SKILL.md",
+      "computedHash": "724c150fb303279768abde163de33c4b3c9629ffaaca98b6414ae11c9e8c1ec0"
+    },
     "systematic-debugging": {
       "source": "obra/superpowers",
       "sourceType": "github",
