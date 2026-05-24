@@ -1,0 +1,49 @@
+{
+  "header": {
+    "title": "EasyKara",
+    "undo": "Undo",
+    "redo": "Redo"
+  },
+  "mediaSelector": {
+    "title": "Media Asset",
+    "uploadPrompt": "Upload Music or Background Video",
+    "uploadInstructions": "Drag & drop or click to browse files (MP3, WAV, MP4, WebM...)",
+    "videoFileType": "Video File",
+    "audioFileType": "Audio File"
+  },
+  "lyricsInput": {
+    "title": "Lyrics",
+    "btnLoad": "Load Lyrics & Start",
+    "btnEdit": "Edit Lyrics",
+    "tipLabel": "Tip:",
+    "tip": "Enter lyrics normally. Spaces automatically split words, enabling word-by-word sync by pressing Space.",
+    "totalLines": "Total lines:",
+    "totalWords": "Total words:",
+    "confirmReset": "Are you sure you want to clear all sync data and reset everything?"
+  },
+  "syncPanel": {
+    "titleActive": "Spacebar Sync Engine (SYNC ACTIVE)",
+    "titleDefault": "Beat Sync Engine",
+    "btnPause": "Pause",
+    "btnPlay": "Play",
+    "uploadRequired": "Please upload an audio or video file to activate the Sync Engine.",
+    "syncComplete": "🎉 Synchronization Complete!",
+    "syncCompleteDetail": "You can listen to the preview, export subtitles, or refine time tags in the timeline.",
+    "syncInstructions": "Activate Sync Mode and tap the Spacebar along with the music.",
+    "btnEnableSync": "Enable Spacebar Sync"
+  },
+  "styleConfigurator": {
+    "title": "Canvas Aesthetics",
+    "fontAndLayout": "Font & Layout",
+    "fontSize": "Font Size (px)",
+    "alignment": "Alignment",
+    "alignLeft": "Left",
+    "alignCenter": "Center",
+    "alignRight": "Right",
+    "classic2Line": "Classic 2-Line",
+    "subtitleMode": "Modern Subtitle"
+  },
+  "exportPanel": {
+    "title": "Publish & Export"
+  }
+}

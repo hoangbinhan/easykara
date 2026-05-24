@@ -1,5 +1,6 @@
 import React from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Download } from 'lucide-react';
 import { ProjectSaveLoad } from './ProjectSaveLoad';
 import { VideoRecorder } from './VideoRecorder';
@@ -11,6 +12,7 @@ interface ExportPanelProps {
 
 export const ExportPanel: React.FC<ExportPanelProps> = ({ videoRef }) => {
   const { lines } = useKaraoke();
+  const { t } = useLanguage();
 
   const isSyncReady = lines.length > 0 && lines.some(line => line.startTime !== null);
 
@@ -18,7 +20,7 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ videoRef }) => {
     <div className="panel-card">
       <div className="card-title">
         <Download size={16} />
-        <span>Publish & Export</span>
+        <span>{t('exportPanel.title')}</span>
       </div>
 
       <div className="flex flex-col gap-2.5">

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { FileText, Play, RotateCcw, Lock, LockOpen } from 'lucide-react';
 
 export const LyricsInput: React.FC = () => {
   const { lyricsInput, setLyricsInput, parseLyrics, lines, resetSync } = useKaraoke();
+  const { t } = useLanguage();
   const [isLocked, setIsLocked] = useState(false);
   const [localText, setLocalText] = useState(lyricsInput);
 
@@ -14,7 +16,7 @@ export const LyricsInput: React.FC = () => {
   };
 
   const handleReset = () => {
-    if (window.confirm('Are you sure you want to clear all sync data and reset everything?')) {
+    if (window.confirm(t('lyricsInput.confirmReset'))) {
       resetSync();
       setIsLocked(false);
     }
@@ -25,14 +27,14 @@ export const LyricsInput: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-wider text-neon-glow">
           <FileText size={14} />
-          <span>Lyrics</span>
+          <span>{t('lyricsInput.title')}</span>
         </div>
         <button
           onClick={() => setIsLocked(!isLocked)}
           className={`p-1 bg-transparent border-none transition-colors duration-200 cursor-pointer flex items-center ${
             isLocked ? 'text-neon-glow' : 'text-ash hover:text-neon-glow'
           }`}
-          title={isLocked ? 'Unlock Lyrics Editing' : 'Lock Lyrics to Prevent Edits'}
+          title={isLocked ? t('lyricsInput.btnEdit') : t('lyricsInput.btnLoad')}
         >
           {isLocked ? <Lock size={14} /> : <LockOpen size={14} />}
         </button>
@@ -44,7 +46,7 @@ export const LyricsInput: React.FC = () => {
           value={localText}
           onChange={(e) => setLocalText(e.target.value)}
           disabled={isLocked}
-          placeholder="Enter your song lyrics here..."
+          placeholder="Enter lyrics here..."
         />
 
         <div className="flex gap-2">
@@ -54,7 +56,7 @@ export const LyricsInput: React.FC = () => {
               className="flex-1 flex items-center justify-center gap-2 px-5 py-2 bg-whiteout text-graphite-deep font-sans text-xs font-semibold rounded-full hover:bg-cloud active:scale-95 transition-all duration-200 cursor-pointer"
             >
               <Play size={12} className="fill-current" />
-              <span>Load Lyrics & Start</span>
+              <span>{t('lyricsInput.btnLoad')}</span>
             </button>
           ) : (
             <button
@@ -62,7 +64,7 @@ export const LyricsInput: React.FC = () => {
               className="flex-1 flex items-center justify-center gap-2 px-5 py-2 bg-transparent text-whiteout font-sans text-xs font-semibold border border-graphite-light rounded-full hover:bg-neon-muted/10 hover:border-neon-glow transition-all duration-200 cursor-pointer"
             >
               <LockOpen size={12} />
-              <span>Edit Lyrics</span>
+              <span>{t('lyricsInput.btnEdit')}</span>
             </button>
           )}
 
@@ -76,12 +78,12 @@ export const LyricsInput: React.FC = () => {
         </div>
 
         <div className="font-sans text-[11px] text-ash bg-blackout border border-graphite-light rounded-[4px] p-3.5 leading-relaxed">
-          💡 <strong className="text-whiteout font-semibold">Tip:</strong> Enter lyrics normally. Spaces automatically split words, enabling word-by-word sync by pressing Space.
+          💡 <strong className="text-whiteout font-semibold">{t('lyricsInput.tipLabel')}</strong> {t('lyricsInput.tip')}
         </div>
 
         {lines.length > 0 && (
           <div className="font-mono text-[10px] text-neon-glow font-medium">
-            📊 Total lines: <strong className="text-whiteout">{lines.length}</strong> | Total words:{' '}
+            📊 {t('lyricsInput.totalLines')} <strong className="text-whiteout">{lines.length}</strong> | {t('lyricsInput.totalWords')}{' '}
             <strong className="text-whiteout">{lines.reduce((acc, curr) => acc + curr.syllables.length, 0)}</strong>
           </div>
         )}

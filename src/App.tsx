@@ -3,6 +3,7 @@ import './App.css';
 import { KaraokeProvider, useKaraoke } from './context/KaraokeContext';
 import { useAudioAnalyzer } from './hooks/useAudioAnalyzer';
 import { useLayoutResize } from './hooks/useLayoutResize';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { MediaSelector } from './components/MediaSelector';
 import { LyricsInput } from './components/LyricsInput';
 import { SyncPanel } from './components/SyncPanel';
@@ -20,6 +21,8 @@ const EasyKaraAppContent: React.FC = () => {
     canUndo,
     canRedo,
   } = useKaraoke();
+
+  const { t, language, setLanguage } = useLanguage();
 
   const {
     leftWidth,
@@ -61,7 +64,7 @@ const EasyKaraAppContent: React.FC = () => {
       <header className="h-14 flex items-center justify-between px-6 border-b border-graphite-light bg-blackout select-none z-10">
         <div className="flex items-center gap-3">
           <Music className="text-neon-glow" size={20} />
-          <span className="font-sans text-base font-bold tracking-tight text-whiteout">EasyKara</span>
+          <span className="font-sans text-base font-bold tracking-tight text-whiteout">{t('header.title')}</span>
           <span className="text-[10px] bg-neon-muted/20 border border-neon-muted/40 text-neon-glow px-2 py-0.5 rounded-[4px] font-mono flex items-center gap-1 font-semibold">
             <Sparkles size={10} /> v1.0
           </span>
@@ -69,24 +72,34 @@ const EasyKaraAppContent: React.FC = () => {
 
         {/* Global Action Header Controls */}
         <div className="flex items-center gap-3">
+          {/* Language Selector */}
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="px-2.5 py-1 bg-blackout border border-graphite-light rounded-[4px] text-ash font-mono text-xs focus:border-neon-glow hover:text-whiteout outline-none cursor-pointer transition-colors duration-200 mr-2"
+          >
+            <option value="en">EN</option>
+            <option value="vi">VI</option>
+          </select>
+
           <button
             className="flex items-center gap-2 px-4 py-1.5 bg-blackout border border-graphite-light rounded-[9999px] text-ash text-xs font-semibold font-sans hover:bg-neon-muted/10 hover:border-neon-glow hover:text-whiteout disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200"
             onClick={undo}
             disabled={!canUndo}
-            title="Undo (Ctrl+Z)"
+            title={`${t('header.undo')} (Ctrl+Z)`}
           >
             <Undo2 size={12} />
-            <span>Undo</span>
+            <span>{t('header.undo')}</span>
           </button>
           
           <button
             className="flex items-center gap-2 px-4 py-1.5 bg-blackout border border-graphite-light rounded-[9999px] text-ash text-xs font-semibold font-sans hover:bg-neon-muted/10 hover:border-neon-glow hover:text-whiteout disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200"
             onClick={redo}
             disabled={!canRedo}
-            title="Redo (Ctrl+Y)"
+            title={`${t('header.redo')} (Ctrl+Y)`}
           >
             <Redo2 size={12} />
-            <span>Redo</span>
+            <span>{t('header.redo')}</span>
           </button>
         </div>
       </header>
@@ -180,9 +193,11 @@ const EasyKaraAppContent: React.FC = () => {
 
 function App() {
   return (
-    <KaraokeProvider>
-      <EasyKaraAppContent />
-    </KaraokeProvider>
+    <LanguageProvider>
+      <KaraokeProvider>
+        <EasyKaraAppContent />
+      </KaraokeProvider>
+    </LanguageProvider>
   );
 }
 

@@ -1,10 +1,12 @@
 import React from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { Keyboard, Play, Pause, Zap } from 'lucide-react';
 import { WordBubbles } from './WordBubbles';
 import { HotkeyIndicator } from './HotkeyIndicator';
 import { useSyncEngine } from './useSyncEngine';
 
 export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | null> }> = ({ audioRef }) => {
+  const { t } = useLanguage();
   const {
     playbackRate,
     isRecording,
@@ -35,7 +37,7 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
         <div className={`flex items-center gap-2 ${isRecording ? 'text-neon-glow' : 'text-whiteout'}`}>
           <Keyboard size={14} />
           <span className="font-sans text-xs font-semibold uppercase tracking-wider">
-            {isRecording ? 'Spacebar Sync Engine (SYNC ACTIVE)' : 'Beat Sync Engine'}
+            {isRecording ? t('syncPanel.titleActive') : t('syncPanel.titleDefault')}
           </span>
         </div>
 
@@ -62,7 +64,7 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
             }`}
           >
             {isPlaying ? <Pause size={12} /> : <Play size={12} />}
-            <span>{isPlaying ? 'Pause' : 'Play'}</span>
+            <span>{isPlaying ? t('syncPanel.btnPause') : t('syncPanel.btnPlay')}</span>
           </button>
         </div>
       </div>
@@ -70,28 +72,28 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
       <div className="bg-blackout border border-graphite-light rounded-[4px] p-6 min-h-[130px] flex flex-col justify-center items-center gap-4 relative overflow-hidden w-full">
         {!mediaUrl ? (
           <p className="font-sans text-xs text-ash text-center leading-relaxed">
-            Please upload an audio or video file to activate the Sync Engine.
+            {t('syncPanel.uploadRequired')}
           </p>
         ) : isSyncComplete ? (
           <div className="text-center">
             <p className="font-sans text-sm font-semibold text-neon-glow mb-1">
-              🎉 Synchronization Complete!
+              {t('syncPanel.syncComplete')}
             </p>
             <p className="font-sans text-[11px] text-ash">
-              You can listen to the preview, export subtitles, or refine time tags in the timeline.
+              {t('syncPanel.syncCompleteDetail')}
             </p>
           </div>
         ) : !isRecording ? (
           <div className="text-center flex flex-col gap-3.5">
             <p className="font-sans text-xs text-ash">
-              Activate Sync Mode and tap the Spacebar along with the music.
+              {t('syncPanel.syncInstructions')}
             </p>
             <button
               onClick={handleToggleRecord}
               className="flex items-center gap-1.5 px-5 py-2 bg-whiteout text-graphite-deep font-sans text-xs font-semibold rounded-full hover:bg-cloud transition-all duration-200 cursor-pointer mx-auto"
             >
               <Zap size={12} />
-              <span>Enable Spacebar Sync</span>
+              <span>{t('syncPanel.btnEnableSync')}</span>
             </button>
           </div>
         ) : (

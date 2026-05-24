@@ -1,0 +1,49 @@
+{
+  "header": {
+    "title": "EasyKara",
+    "undo": "Hoàn tác",
+    "redo": "Làm lại"
+  },
+  "mediaSelector": {
+    "title": "Tập tin Phương tiện",
+    "uploadPrompt": "Tải nhạc hoặc Video nền lên",
+    "uploadInstructions": "Kéo & thả hoặc nhấp để duyệt tập tin (MP3, WAV, MP4, WebM...)",
+    "videoFileType": "Tập tin Video",
+    "audioFileType": "Tập tin Âm thanh"
+  },
+  "lyricsInput": {
+    "title": "Lời bài hát",
+    "btnLoad": "Tải lời nhạc & Bắt đầu",
+    "btnEdit": "Chỉnh sửa Lời",
+    "tipLabel": "Mẹo:",
+    "tip": "Nhập lời nhạc bình thường. Khoảng trắng sẽ tự động phân tách từ, cho phép đồng bộ từng chữ bằng phím Cách.",
+    "totalLines": "Tổng số dòng:",
+    "totalWords": "Tổng số chữ:",
+    "confirmReset": "Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đồng bộ và đặt lại từ đầu không?"
+  },
+  "syncPanel": {
+    "titleActive": "Bộ đồng bộ phím Cách (ĐANG HOẠT ĐỘNG)",
+    "titleDefault": "Bộ đồng bộ Nhịp điệu",
+    "btnPause": "Tạm dừng",
+    "btnPlay": "Phát",
+    "uploadRequired": "Vui lòng tải lên tập tin âm thanh hoặc video để kích hoạt Bộ đồng bộ.",
+    "syncComplete": "🎉 Hoàn tất đồng bộ bài hát!",
+    "syncCompleteDetail": "Bạn có thể nghe bản xem trước, xuất phụ đề, hoặc tinh chỉnh mốc thời gian trên timeline.",
+    "syncInstructions": "Kích hoạt Chế độ Đồng bộ và nhấn phím Cách theo điệu nhạc.",
+    "btnEnableSync": "Bật đồng bộ bằng phím Cách"
+  },
+  "styleConfigurator": {
+    "title": "Thẩm mỹ Canvas",
+    "fontAndLayout": "Phông chữ & Bố cục",
+    "fontSize": "Cỡ chữ (px)",
+    "alignment": "Căn lề",
+    "alignLeft": "Trái",
+    "alignCenter": "Giữa",
+    "alignRight": "Phải",
+    "classic2Line": "Cổ điển 2 dòng",
+    "subtitleMode": "Phụ đề Hiện đại"
+  },
+  "exportPanel": {
+    "title": "Xuất bản & Tải về"
+  }
+}
