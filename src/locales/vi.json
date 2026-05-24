@@ -7,9 +7,16 @@
   "mediaSelector": {
     "title": "Tập tin Phương tiện",
     "uploadPrompt": "Tải nhạc hoặc Video nền lên",
+    "uploadPromptActive": "Tải lên các bản thu âm/nhạc",
     "uploadInstructions": "Kéo & thả hoặc nhấp để duyệt tập tin (MP3, WAV, MP4, WebM...)",
+    "uploadInstructionsActive": "Kéo & thả hoặc nhấp để thêm (Tối đa 1 video nền, nhiều âm thanh)",
     "videoFileType": "Tập tin Video",
-    "audioFileType": "Tập tin Âm thanh"
+    "audioFileType": "Tập tin Âm thanh",
+    "mixerTitle": "Bàn Trộn Âm Studio",
+    "channels": "Kênh âm thanh",
+    "tooltipMute": "Tắt tiếng Kênh",
+    "tooltipSolo": "Solo Kênh",
+    "tooltipRemove": "Xóa Kênh"
   },
   "lyricsInput": {
     "title": "Lời bài hát",
@@ -41,9 +48,57 @@
     "alignCenter": "Giữa",
     "alignRight": "Phải",
     "classic2Line": "Cổ điển 2 dòng",
-    "subtitleMode": "Phụ đề Hiện đại"
+    "subtitleMode": "Phụ đề Hiện đại",
+    "colorPalette": "Bảng màu Karaoke",
+    "upcomingText": "Lời sắp hát",
+    "activeText": "Lời đang hát",
+    "strokeOutline": "Đường viền chữ",
+    "strokeWidthLabel": "Độ dày viền",
+    "bgSource": "Nguồn ảnh nền",
+    "bgSolidColor": "Màu đơn sắc",
+    "bgOriginalVideo": "Video Gốc",
+    "bgCustomImage": "Hình ảnh tùy chọn",
+    "bgCelestialSpace": "Lưới Vũ trụ Celestial",
+    "bgColorLabel": "Màu nền:",
+    "btnChooseImage": "Chọn tập tin hình ảnh",
+    "bgImageLoaded": "✓ Đã tải hình nền thành công!"
   },
   "exportPanel": {
     "title": "Xuất bản & Tải về"
+  },
+  "project": {
+    "btnSave": "Lưu Dự án (.json)",
+    "btnLoad": "Tải Dự án (.json)",
+    "loadSuccess": "Tải dự án thành công!",
+    "invalidJson": "Cấu trúc tập tin JSON không hợp lệ cho EasyKara.",
+    "readError": "Không thể đọc tập tin dự án JSON."
+  },
+  "export": {
+    "titleDownloads": "Tải về Phụ đề Karaoke",
+    "formatAss": "Phụ đề Aegisub (.ass)",
+    "formatLrc": "Lời nhạc Đồng bộ (.lrc)",
+    "formatSrt": "Phụ đề Tiêu chuẩn (.srt)",
+    "notReadyWarning": "Vui lòng đồng bộ ít nhất một từ để kích hoạt tính năng xuất!"
+  },
+  "videoExport": {
+    "title": "Export to Video File (.webm)",
+    "desc": "Ghi hình trực tiếp canvas karaoke và trộn với âm thanh nguồn để tải video trực tiếp từ trình duyệt của bạn!",
+    "btnRecord": "Ghi hình Video Karaoke",
+    "statusRecording": "Đang ghi hình video...",
+    "btnStopSave": "Dừng & Lưu Video Ngay"
+  },
+  "preview": {
+    "videoLabel": "Background Video",
+    "audioLabel": "Audio Track",
+    "btnRestart": "Bắt đầu lại"
+  },
+  "timeline": {
+    "syllableTitle": "Đồng bộ Âm tiết",
+    "syllableDesc": "Căn chỉnh các âm tiết lời nhạc với đỉnh âm thanh",
+    "trackVideo": "Tập tin Video",
+    "trackAudio": "Kênh Âm thanh",
+    "offset": "độ trễ",
+    "helpInstructions": "Kéo khối âm tiết để căn chỉnh | Kéo khối kênh để chỉnh độ trễ âm thanh. Sử dụng Tắt/Solo.",
+    "helpZoom": "Phóng to (+ / -) để tinh chỉnh micro. Tự động hít điểm phát."
   }
 }

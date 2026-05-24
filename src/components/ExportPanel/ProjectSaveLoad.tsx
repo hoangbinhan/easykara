@@ -1,9 +1,11 @@
 import React, { useRef } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { FileJson, Upload } from 'lucide-react';
 
 export const ProjectSaveLoad: React.FC = () => {
   const { lines, styleConfig, setLines, updateStyleConfig } = useKaraoke();
+  const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSaveProject = () => {
@@ -40,12 +42,12 @@ export const ProjectSaveLoad: React.FC = () => {
             if (project.styleConfig) {
               updateStyleConfig(project.styleConfig);
             }
-            alert('Project loaded successfully!');
+            alert(t('project.loadSuccess'));
           } else {
-            alert('The JSON file structure is invalid for EasyKara.');
+            alert(t('project.invalidJson'));
           }
         } catch {
-          alert('Could not read the JSON project file.');
+          alert(t('project.readError'));
         }
       };
       reader.readAsText(file);
@@ -59,7 +61,7 @@ export const ProjectSaveLoad: React.FC = () => {
         className="px-3 py-2 bg-graphite hover:bg-graphite-light text-whiteout font-sans text-[11px] font-semibold rounded-full border border-graphite-light hover:border-whiteout transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
       >
         <FileJson size={13} className="text-neon-glow" />
-        <span>Save Project (.json)</span>
+        <span>{t('project.btnSave')}</span>
       </button>
 
       <input
@@ -75,7 +77,7 @@ export const ProjectSaveLoad: React.FC = () => {
         className="px-3 py-2 bg-graphite hover:bg-graphite-light text-whiteout font-sans text-[11px] font-semibold rounded-full border border-graphite-light hover:border-whiteout transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
       >
         <Upload size={13} className="text-neon-glow" />
-        <span>Load Project (.json)</span>
+        <span>{t('project.btnLoad')}</span>
       </button>
     </div>
   );

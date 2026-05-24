@@ -1,5 +1,6 @@
 import React from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
+import { useLanguage } from '../../context/LanguageContext';
 import type { MediaTrack } from '../../context/KaraokeContext';
 import { Music, Video, Volume2 } from 'lucide-react';
 
@@ -17,6 +18,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
   totalWidth,
 }) => {
   const { toggleMuteTrack, toggleSoloTrack, updateTrackVolume } = useKaraoke();
+  const { t } = useLanguage();
 
   // Dynamically calculate symmetric vector path for SVG Waveform
   const renderSVGWaveform = (peaks: number[]) => {
@@ -53,7 +55,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
   return (
     <div className="h-[54px] border-b border-graphite-light/25 flex bg-blackout select-none relative group items-center">
       {/* Left Column: Track Mixer Console Header (Sticky) */}
-      <div className="w-[180px] min-w-[180px] h-full bg-graphite-deep border-r border-graphite-light flex flex-col p-2 justify-between z-10 select-none shadow-[4px_0_10px_rgba(0,0,0,0.4)]">
+      <div className="w-[180px] min-w-[180px] h-full sticky left-0 bg-graphite-deep border-r border-graphite-light flex flex-col p-2 justify-between z-10 select-none shadow-[4px_0_10px_rgba(0,0,0,0.4)]">
         {/* Track Title */}
         <div className="flex items-center gap-1.5 overflow-hidden">
           {track.type === 'video' ? (
@@ -94,7 +96,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
                   ? 'bg-system-warning/20 border-system-warning text-system-warning'
                   : 'bg-transparent border-graphite-light text-ash hover:text-whiteout'
               }`}
-              title="Mute"
+              title={t('mediaSelector.tooltipMute')}
             >
               M
             </button>
@@ -105,7 +107,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
                   ? 'bg-neon-muted/30 border-neon-glow text-neon-glow'
                   : 'bg-transparent border-graphite-light text-ash hover:text-whiteout'
               }`}
-              title="Solo"
+              title={t('mediaSelector.tooltipSolo')}
             >
               S
             </button>
@@ -141,10 +143,10 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
 
           {/* Block Text Description */}
           <span className="font-sans text-[10px] font-semibold text-whiteout/80 truncate z-10 select-none">
-            {track.type === 'video' ? '📺 Video Asset' : '🎵 Audio Channel'}
+            {track.type === 'video' ? `📺 ${t('timeline.trackVideo')}` : `🎵 ${t('timeline.trackAudio')}`}
           </span>
           <span className="font-mono text-[9px] text-ash shrink-0 z-10 select-none">
-            {track.duration.toFixed(1)}s (offset: {track.offset.toFixed(2)}s)
+            {track.duration.toFixed(1)}s ({t('timeline.offset')}: {track.offset.toFixed(2)}s)
           </span>
         </div>
       </div>

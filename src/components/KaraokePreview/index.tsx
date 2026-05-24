@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import { CanvasPlayer } from './CanvasPlayer';
 import { MultiTrackAudioEngine } from './MultiTrackAudioEngine';
@@ -19,9 +20,26 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
     mediaUrl,
     mediaType,
     styleConfig,
+    tracks,
   } = useKaraoke();
 
+  const { t } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Synchronize master video element volume, Mute, and Solo states
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const masterTrack = tracks.find(t => t.url === mediaUrl);
+    if (masterTrack) {
+      const hasSoloActive = tracks.some(t => t.isSoloed);
+      const isSilenced = !!(masterTrack.isMuted || (hasSoloActive && !masterTrack.isSoloed));
+      
+      video.muted = isSilenced;
+      video.volume = isSilenced ? 0 : masterTrack.volume;
+    }
+  }, [tracks, mediaUrl, videoRef]);
 
   const handleTimeUpdate = () => {
     if (videoRef.current) {
@@ -70,7 +88,7 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
         {/* Dynamic Multi-track Audio Playback Sync */}
         <MultiTrackAudioEngine />
 
-        {/* Hidden unified video player */}
+        {/* Hidden unified video player (Rendered off-screen for active frame decoding) */}
         {mediaUrl && (
           <video
             ref={videoRef}
@@ -78,7 +96,7 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={handleEnded}
-            className="hidden"
+            className="absolute inset-0 opacity-0 pointer-events-none"
           />
         )}
       </div>
@@ -95,7 +113,7 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
             </button>
             
             <span className="text-sm text-ash font-sans font-medium">
-              {mediaType === 'video' ? '📺 Background Video' : '🎵 Audio Track'}
+              {mediaType === 'video' ? `📺 ${t('preview.videoLabel')}` : `🎵 ${t('preview.audioLabel')}`}
             </span>
           </div>
 
@@ -110,7 +128,7 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
               className="px-4 py-2 bg-graphite hover:bg-graphite-light text-whiteout font-sans text-xs font-semibold rounded-full border border-graphite-light hover:border-whiteout transition-all duration-200 flex items-center gap-1.5 cursor-pointer"
             >
               <RotateCcw size={12} />
-              <span>Restart</span>
+              <span>{t('preview.btnRestart')}</span>
             </button>
           </div>
         </div>

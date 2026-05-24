@@ -68,7 +68,7 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
         </div>
         {tracks.length > 0 && (
           <span className="font-mono text-[10px] text-ash">
-            {tracks.length} Channels
+            {tracks.length} {t('mediaSelector.channels')}
           </span>
         )}
       </div>
@@ -95,10 +95,10 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
         />
         <Upload className="text-ash hover:text-neon-glow transition-colors duration-200" size={24} />
         <p className="font-sans text-xs font-semibold text-whiteout">
-          {hasVideo ? 'Upload Audio Tracks' : t('mediaSelector.uploadPrompt')}
+          {hasVideo ? t('mediaSelector.uploadPromptActive') : t('mediaSelector.uploadPrompt')}
         </p>
         <p className="font-sans text-[9px] text-ash">
-          Drag & drop files or click to add (Max 1 video background, multiple audios)
+          {hasVideo ? t('mediaSelector.uploadInstructionsActive') : t('mediaSelector.uploadInstructions')}
         </p>
       </div>
 
@@ -106,7 +106,7 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
       {tracks.length > 0 && (
         <div className="flex flex-col gap-3 pt-2">
           <div className="text-[10px] uppercase font-mono text-ash tracking-widest font-semibold border-b border-graphite-light/40 pb-1">
-            Studio Mix Console
+            {t('mediaSelector.mixerTitle')}
           </div>
 
           <div className="flex flex-col gap-2.5 max-h-[220px] overflow-y-auto pr-1">
@@ -131,7 +131,7 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
                   <button
                     onClick={() => removeTrack(track.id)}
                     className="p-1 bg-transparent border-none text-ash hover:text-system-warning rounded-full transition-colors duration-200 cursor-pointer shrink-0"
-                    title="Remove Track"
+                    title={t('mediaSelector.tooltipRemove')}
                   >
                     <Trash2 size={12} />
                   </button>
@@ -165,7 +165,7 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
                           ? 'bg-system-warning/20 border-system-warning text-system-warning'
                           : 'bg-transparent border-graphite-light text-ash hover:border-ash hover:text-whiteout'
                       }`}
-                      title="Mute Track"
+                      title={t('mediaSelector.tooltipMute')}
                     >
                       M
                     </button>
@@ -176,7 +176,7 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
                           ? 'bg-neon-muted/30 border-neon-glow text-neon-glow'
                           : 'bg-transparent border-graphite-light text-ash hover:border-ash hover:text-whiteout'
                       }`}
-                      title="Solo Track"
+                      title={t('mediaSelector.tooltipSolo')}
                     >
                       S
                     </button>

@@ -247,6 +247,11 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setMediaType(null);
       setMediaName(null);
       setDuration(0);
+      setStyleConfig(prev => ({
+        ...prev,
+        bgType: prev.bgType === 'video' ? 'color' : prev.bgType,
+        bgVideo: null,
+      }));
       return;
     }
     
@@ -257,6 +262,16 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setMediaUrl(master.url);
     setMediaType(master.type);
     setMediaName(master.name);
+    
+    if (master.type === 'video') {
+      setStyleConfig(prev => ({ ...prev, bgType: 'video', bgVideo: master.url }));
+    } else {
+      setStyleConfig(prev => ({
+        ...prev,
+        bgType: prev.bgType === 'video' ? 'color' : prev.bgType,
+        bgVideo: null,
+      }));
+    }
     
     // Set total duration to the maximum span of all tracks combined
     const totalDuration = Math.max(...updatedTracks.map(t => t.offset + t.duration));

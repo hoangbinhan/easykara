@@ -7,9 +7,16 @@
   "mediaSelector": {
     "title": "Media Asset",
     "uploadPrompt": "Upload Music or Background Video",
+    "uploadPromptActive": "Upload Audio Tracks",
     "uploadInstructions": "Drag & drop or click to browse files (MP3, WAV, MP4, WebM...)",
+    "uploadInstructionsActive": "Drag & drop files or click to add (Max 1 video background, multiple audios)",
     "videoFileType": "Video File",
-    "audioFileType": "Audio File"
+    "audioFileType": "Audio File",
+    "mixerTitle": "Studio Mix Console",
+    "channels": "Channels",
+    "tooltipMute": "Mute Track",
+    "tooltipSolo": "Solo Track",
+    "tooltipRemove": "Remove Track"
   },
   "lyricsInput": {
     "title": "Lyrics",
@@ -41,9 +48,57 @@
     "alignCenter": "Center",
     "alignRight": "Right",
     "classic2Line": "Classic 2-Line",
-    "subtitleMode": "Modern Subtitle"
+    "subtitleMode": "Modern Subtitle",
+    "colorPalette": "Karaoke Palette",
+    "upcomingText": "Upcoming Text",
+    "activeText": "Active Text",
+    "strokeOutline": "Stroke Outline",
+    "strokeWidthLabel": "Stroke",
+    "bgSource": "Background Source",
+    "bgSolidColor": "Solid Color",
+    "bgOriginalVideo": "Original Video",
+    "bgCustomImage": "Custom Image",
+    "bgCelestialSpace": "Celestial Space Grid",
+    "bgColorLabel": "Background Color:",
+    "btnChooseImage": "Choose Image File",
+    "bgImageLoaded": "✓ Background image loaded!"
   },
   "exportPanel": {
     "title": "Publish & Export"
+  },
+  "project": {
+    "btnSave": "Save Project (.json)",
+    "btnLoad": "Load Project (.json)",
+    "loadSuccess": "Project loaded successfully!",
+    "invalidJson": "The JSON file structure is invalid for EasyKara.",
+    "readError": "Could not read the JSON project file."
+  },
+  "export": {
+    "titleDownloads": "Download Karaoke Subtitles",
+    "formatAss": "Aegisub Subtitles (.ass)",
+    "formatLrc": "Synced Lyrics (.lrc)",
+    "formatSrt": "Standard Subtitles (.srt)",
+    "notReadyWarning": "Please sync at least one word to enable export!"
+  },
+  "videoExport": {
+    "title": "Export to Video File (.webm)",
+    "desc": "Record the live karaoke canvas and merge it with the source audio to download a video directly from your browser!",
+    "btnRecord": "Record Karaoke Video",
+    "statusRecording": "Recording video...",
+    "btnStopSave": "Stop & Save Video Now"
+  },
+  "preview": {
+    "videoLabel": "Background Video",
+    "audioLabel": "Audio Track",
+    "btnRestart": "Restart"
+  },
+  "timeline": {
+    "syllableTitle": "Syllable Sync",
+    "syllableDesc": "Align lyric syllables with audio peaks",
+    "trackVideo": "Video Asset",
+    "trackAudio": "Audio Channel",
+    "offset": "offset",
+    "helpInstructions": "Drag syllable blocks to align | Drag track blocks to adjust audio offsets. Use Mute/Solo.",
+    "helpZoom": "Zoom in (+ / -) for micro-adjustments. Playhead snapping active."
   }
 }

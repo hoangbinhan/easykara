@@ -48,6 +48,9 @@ imports: Order imports cleanly: React & hooks first, followed by context, custom
 icons: Use `lucide-react` for all visual icons.
 comments: Maintain clear English code comments explaining complex syncing and audio analysis math.
 
+MULTIPLE LANGUAGES (i18n):
+i18n-rule: ALWAYS use multiple languages for all static and user-facing text copy rendered inside React components. NEVER hardcode strings in the component templates. All text must be defined as key-value pairs in the JSON files under `@src/locales` (e.g. `en.json`, `vi.json`) and retrieved at runtime using the `useLanguage` translation hook (`t`).
+
 </rules>
 
 <rhythm>

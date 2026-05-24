@@ -1,5 +1,6 @@
 import React from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Download, AlertCircle } from 'lucide-react';
 import { triggerDownload, generateASS, generateLRC, generateSRT } from '../../utils/subtitleGenerators';
 
@@ -9,6 +10,7 @@ interface SubtitleDownloadsProps {
 
 export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncReady }) => {
   const { lines, styleConfig } = useKaraoke();
+  const { t } = useLanguage();
 
   const handleExportASS = () => {
     const assText = generateASS(lines, styleConfig);
@@ -33,7 +35,7 @@ export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncRead
 
   return (
     <div className="flex flex-col gap-1.5 border-t border-graphite-light pt-2.5">
-      <label className="font-sans text-[11px] font-semibold text-ash uppercase tracking-wider">Download Karaoke Subtitles</label>
+      <label className="font-sans text-[11px] font-semibold text-ash uppercase tracking-wider">{t('export.titleDownloads')}</label>
       
       <div className="flex flex-col gap-1.5">
         
@@ -45,7 +47,7 @@ export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncRead
         >
           <div className="flex items-center gap-2">
             <span className="px-1.5 py-0.5 rounded-[3px] bg-neon-muted text-neon-glow font-mono text-[9px] font-bold uppercase">ASS</span>
-            <span>Aegisub Subtitles (.ass)</span>
+            <span>{t('export.formatAss')}</span>
           </div>
           <Download size={12} className="text-neon-glow transition-all" />
         </button>
@@ -58,7 +60,7 @@ export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncRead
         >
           <div className="flex items-center gap-2">
             <span className="px-1.5 py-0.5 rounded-[3px] bg-graphite-light text-whiteout font-mono text-[9px] font-bold uppercase">LRC</span>
-            <span>Synced Lyrics (.lrc)</span>
+            <span>{t('export.formatLrc')}</span>
           </div>
           <Download size={12} className="text-neon-glow transition-all" />
         </button>
@@ -71,7 +73,7 @@ export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncRead
         >
           <div className="flex items-center gap-2">
             <span className="px-1.5 py-0.5 rounded-[3px] bg-graphite-light text-whiteout font-mono text-[9px] font-bold uppercase">SRT</span>
-            <span>Standard Subtitles (.srt)</span>
+            <span>{t('export.formatSrt')}</span>
           </div>
           <Download size={12} className="text-neon-glow transition-all" />
         </button>
@@ -80,7 +82,7 @@ export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncRead
       {!isSyncReady && (
         <div className="flex gap-1 items-center text-system-warning font-sans text-[10px] mt-1">
           <AlertCircle size={10} className="text-system-warning animate-pulse" />
-          <span>Please sync at least one word to enable export!</span>
+          <span>{t('export.notReadyWarning')}</span>
         </div>
       )}
     </div>
