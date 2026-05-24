@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import './App.css';
 import { KaraokeProvider, useKaraoke } from './context/KaraokeContext';
 import { useAudioAnalyzer } from './hooks/useAudioAnalyzer';
+import { useLayoutResize } from './hooks/useLayoutResize';
 import { MediaSelector } from './components/MediaSelector';
 import { LyricsInput } from './components/LyricsInput';
 import { SyncPanel } from './components/SyncPanel';
@@ -19,6 +20,18 @@ const EasyKaraAppContent: React.FC = () => {
     canUndo,
     canRedo,
   } = useKaraoke();
+
+  const {
+    leftWidth,
+    rightWidth,
+    timelineHeight,
+    isDraggingLeft,
+    isDraggingRight,
+    isDraggingTimeline,
+    startResizeLeft,
+    startResizeRight,
+    startResizeTimeline,
+  } = useLayoutResize();
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   
@@ -79,15 +92,35 @@ const EasyKaraAppContent: React.FC = () => {
       </header>
 
       {/* Main Workspace Layout */}
-      <main className="flex flex-1 h-[calc(100vh-56px-160px)] overflow-hidden w-full bg-blackout">
+      <main
+        className="flex flex-1 overflow-hidden w-full bg-blackout"
+        style={{ height: `calc(100vh - 56px - ${timelineHeight}px)` }}
+      >
         {/* Left Column: Media & Lyrics Input */}
-        <div className="w-[340px] min-w-[340px] flex flex-col gap-4 p-4 overflow-y-auto border-r border-graphite-light bg-blackout">
+        <div
+          className="flex flex-col gap-4 p-4 overflow-y-auto bg-blackout"
+          style={{ width: `${leftWidth}px`, minWidth: `${leftWidth}px`, maxWidth: `${leftWidth}px` }}
+        >
           <MediaSelector onMediaLoaded={handleMediaLoaded} />
           <LyricsInput />
         </div>
 
+        {/* Left Resizer Handle */}
+        <div
+          className={`w-[4px] -mx-[2px] cursor-col-resize hover:bg-neon-glow select-none transition-colors duration-150 relative z-20 ${
+            isDraggingLeft ? 'bg-neon-glow' : 'bg-transparent'
+          }`}
+          onMouseDown={startResizeLeft}
+        >
+          <div
+            className={`absolute inset-y-0 left-[1px] right-[2px] transition-colors duration-150 ${
+              isDraggingLeft ? 'bg-neon-glow' : 'bg-graphite-light'
+            }`}
+          />
+        </div>
+
         {/* Center Column: Live Preview & Sync Engine */}
-        <div className="flex-1 flex flex-col items-center justify-between p-6 overflow-y-auto border-r border-graphite-light bg-blackout">
+        <div className="flex-1 flex flex-col items-center justify-between p-6 overflow-y-auto bg-blackout">
           {/* Main Canvas Visualizer */}
           <KaraokePreview videoRef={videoRef} />
 
@@ -95,12 +128,43 @@ const EasyKaraAppContent: React.FC = () => {
           <SyncPanel audioRef={videoRef} />
         </div>
 
+        {/* Right Resizer Handle */}
+        <div
+          className={`w-[4px] -mx-[2px] cursor-col-resize hover:bg-neon-glow select-none transition-colors duration-150 relative z-20 ${
+            isDraggingRight ? 'bg-neon-glow' : 'bg-transparent'
+          }`}
+          onMouseDown={startResizeRight}
+        >
+          <div
+            className={`absolute inset-y-0 left-[1px] right-[2px] transition-colors duration-150 ${
+              isDraggingRight ? 'bg-neon-glow' : 'bg-graphite-light'
+            }`}
+          />
+        </div>
+
         {/* Right Column: Styling & Publishing */}
-        <div className="w-[360px] min-w-[360px] flex flex-col gap-4 p-4 overflow-y-auto bg-blackout">
+        <div
+          className="flex flex-col gap-4 p-4 overflow-y-auto bg-blackout"
+          style={{ width: `${rightWidth}px`, minWidth: `${rightWidth}px`, maxWidth: `${rightWidth}px` }}
+        >
           <StyleConfigurator />
           <ExportPanel videoRef={videoRef} />
         </div>
       </main>
+
+      {/* Timeline Resizer Handle */}
+      <div
+        className={`h-[4px] -my-[2px] cursor-row-resize hover:bg-neon-glow select-none transition-colors duration-150 relative z-20 ${
+          isDraggingTimeline ? 'bg-neon-glow' : 'bg-transparent'
+        }`}
+        onMouseDown={startResizeTimeline}
+      >
+        <div
+          className={`absolute inset-x-0 top-[1px] bottom-[2px] transition-colors duration-150 ${
+            isDraggingTimeline ? 'bg-neon-glow' : 'bg-graphite-light'
+          }`}
+        />
+      </div>
 
       {/* Bottom Waveform Timeline Section */}
       <WaveformTimeline
@@ -108,6 +172,7 @@ const EasyKaraAppContent: React.FC = () => {
         waveformData={waveformData}
         loadingWaveform={loadingWaveform}
         waveformProgress={waveformProgress}
+        height={timelineHeight}
       />
     </div>
   );

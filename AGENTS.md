@@ -10,52 +10,43 @@ focus: React 19, TypeScript, Vite, Web Audio API, Tailwind CSS v4, Karaoke Sync 
 <gates label="DEVELOPMENT & APPROVAL GATES">
 
 GATE-1 Technology & Style Check:
-  trigger: Adding new features or modifying UI/UX
-  action:
-    - ALWAYS use Tailwind CSS v4 + custom utility class tokens defined in `src/index.css` / `DESIGN.md`.
-    - NEVER use static `style={{ ... }}` objects inside React components. All static styles must be replaced with Tailwind CSS classes. Dynamic 60fps positioning (such as playhead coordinates) is permitted inline.
-    - Ensure premium aesthetics, layout, and visual balance. All styling guidelines must be sourced directly from the rules in [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
-    - Maintain the Neon theme: Blackout canvas `#000000`, Graphite Deep surfaces `#151617`, Whiteout CTAs `#ffffff`, and electric Neon Glow accent `#34d59a`.
+trigger: Adding new features or modifying UI/UX
+action: - ALWAYS use Tailwind CSS v4 + custom utility class tokens defined in `src/index.css` / `DESIGN.md`. - NEVER use static `style={{ ... }}` objects inside React components. All static styles must be replaced with Tailwind CSS classes. Dynamic 60fps positioning (such as playhead coordinates) is permitted inline. - Ensure premium aesthetics, layout, and visual balance. All styling guidelines must be sourced directly from the rules in [DESIGN.md](file:///E:/personal/easykara/DESIGN.md). - Maintain the Neon theme: Blackout canvas `#000000`, Graphite Deep surfaces `#151617`, Whiteout CTAs `#ffffff`, and electric Neon Glow accent `#34d59a`.
 
 GATE-2 State & Context Check:
-  trigger: Making changes to lyric data, audio playing status, or synchronization progress
-  action:
-    - Always use and synchronize states through `KaraokeContext` (`src/context/KaraokeContext.tsx`).
-    - Never store these global states locally in components to prevent desynchronization (desync).
+trigger: Making changes to lyric data, audio playing status, or synchronization progress
+action: - Always use and synchronize states through `KaraokeContext` (`src/context/KaraokeContext.tsx`). - Never store these global states locally in components to prevent desynchronization (desync).
 
 GATE-3 Component Limit Check:
-  trigger: Adding or modifying React components
-  action:
-    - Ensure no single component file or hook exceeds **200 lines** of code. Keep files atomic, highly focused, and reusable.
+trigger: Adding or modifying React components
+action: - Ensure no single component file or hook exceeds **200 lines** of code. Keep files atomic, highly focused, and reusable.
 
 GATE-4 Quality & Verification:
-  trigger: Source code modifications completed
-  action:
-    - Run `npm run lint` to check for syntax errors and type issues.
-    - Run `npm run build` to ensure the project builds successfully without TypeScript compile errors.
+trigger: Source code modifications completed
+action: - Run `npm run lint` to check for syntax errors and type issues. - Run `npm run build` to ensure the project builds successfully without TypeScript compile errors.
 
 </gates>
 
 <rules>
 
 UI/UX DEVELOPMENT:
-  aesthetic: Maximize premium visual excellence. All styling, layout, typography, radii, and color choices MUST be sourced directly from [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
-  colors: Use standard Tailwind utility classes for the Neon theme (Blackout `#000000`, Graphite Deep `#151617`, Graphite `#242628`, Whiteout `#ffffff`, and Neon Glow `#34d59a` accents).
-  typography: Strict compliance with Inter (body copy, headings) and GeistMono/Fira Code (code displays, tags, inputs) hierarchy and weights from [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
-  radii: Strict 4px radius for all containers, inputs, and cards (`rounded-[4px]`), and 9999px pill shapes for buttons (`rounded-full`).
-  interactivity: Add smooth hover states and transitions using Tailwind's transition utilities.
-  inline-styles: Strictly prohibit all static `style={{ ... }}` blocks. Re-route them entirely to Tailwind CSS classes. Only truly dynamic runtime properties may be inline.
+aesthetic: Maximize premium visual excellence. All styling, layout, typography, radii, and color choices MUST be sourced directly from [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
+colors: Use standard Tailwind utility classes for the Neon theme (Blackout `#000000`, Graphite Deep `#151617`, Graphite `#242628`, Whiteout `#ffffff`, and Neon Glow `#34d59a` accents).
+typography: Strict compliance with Inter (body copy, headings) and GeistMono/Fira Code (code displays, tags, inputs) hierarchy and weights from [DESIGN.md](file:///E:/personal/easykara/DESIGN.md).
+radii: Strict 4px radius for all containers, inputs, and cards (`rounded-[4px]`), and 9999px pill shapes for buttons (`rounded-full`).
+interactivity: Add smooth hover states and transitions using Tailwind's transition utilities.
+inline-styles: Strictly prohibit all static `style={{ ... }}` blocks. Re-route them entirely to Tailwind CSS classes. Only truly dynamic runtime properties may be inline.
 
 AUDIO & LYRICS SYNCING:
-  audio-analyzer: `src/hooks/useAudioAnalyzer.ts` handles audio decoding and waveform extraction.
-  timeline: `src/components/WaveformTimeline.tsx` visualizes timeline tracks, allowing dragging and editing of time tags (word or line levels).
-  sync-engine: `src/components/SyncPanel.tsx` manages keybinds (e.g., Spacebar) to sync lyrics with audio in real time.
-  export: `src/components/ExportPanel.tsx` exports completed karaoke sub/video (.lrc format, etc.).
+audio-analyzer: `src/hooks/useAudioAnalyzer.ts` handles audio decoding and waveform extraction.
+timeline: `src/components/WaveformTimeline.tsx` visualizes timeline tracks, allowing dragging and editing of time tags (word or line levels).
+sync-engine: `src/components/SyncPanel.tsx` manages keybinds (e.g., Spacebar) to sync lyrics with audio in real time.
+export: `src/components/ExportPanel.tsx` exports completed karaoke sub/video (.lrc format, etc.).
 
 CODING STYLE & CONVENTIONS:
-  imports: Order imports cleanly: React & hooks first, followed by context, custom hooks, components, styles, and icons.
-  icons: Use `lucide-react` for all visual icons.
-  comments: Maintain clear English code comments explaining complex syncing and audio analysis math.
+imports: Order imports cleanly: React & hooks first, followed by context, custom hooks, components, styles, and icons. Each component should not exceed 200 lines; it's best to break it down into as many components as possible.
+icons: Use `lucide-react` for all visual icons.
+comments: Maintain clear English code comments explaining complex syncing and audio analysis math.
 
 </rules>
 

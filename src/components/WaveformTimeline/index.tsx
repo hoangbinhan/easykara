@@ -12,6 +12,7 @@ interface WaveformTimelineProps {
   waveformData: { peaks: number[] } | null;
   loadingWaveform: boolean;
   waveformProgress: number;
+  height: number;
 }
 
 export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
@@ -19,6 +20,7 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
   waveformData,
   loadingWaveform,
   waveformProgress,
+  height,
 }) => {
   const {
     lines,
@@ -60,7 +62,10 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
   const totalWidth = duration * zoom;
 
   return (
-    <div className="w-full h-40 min-h-[160px] border-t border-graphite-light bg-blackout flex flex-col p-4 gap-2 z-10 relative">
+    <div
+      className="w-full min-h-[120px] border-t border-graphite-light bg-blackout flex flex-col p-4 gap-2 z-10 relative"
+      style={{ height: `${height}px` }}
+    >
       <TimelineControls
         zoom={zoom}
         handleZoomIn={handleZoomIn}
