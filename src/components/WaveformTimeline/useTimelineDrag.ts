@@ -2,9 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import type { Syllable } from '../../context/KaraokeContext';
 
 interface UseTimelineDragProps {
-  currentTime: number;
   duration: number;
-  isPlaying: boolean;
   setCurrentTime: (time: number) => void;
   updateSyllableTime: (lineIdx: number, sylIdx: number, start: number, end: number) => void;
   updateSyllableText: (lineIdx: number, sylIdx: number, text: string) => void;
@@ -12,9 +10,7 @@ interface UseTimelineDragProps {
 }
 
 export const useTimelineDrag = ({
-  currentTime,
   duration,
-  isPlaying,
   setCurrentTime,
   updateSyllableTime,
   updateSyllableText,
@@ -49,19 +45,6 @@ export const useTimelineDrag = ({
 
   const handleZoomIn = () => setZoom((z) => Math.min(240, z + 30));
   const handleZoomOut = () => setZoom((z) => Math.max(20, z - 30));
-
-  useEffect(() => {
-    if (!isPlaying || !containerRef.current) return;
-    
-    const container = containerRef.current;
-    const playheadPos = currentTime * zoom;
-    const halfWidth = container.clientWidth / 2;
-    
-    const currentScroll = container.scrollLeft;
-    if (playheadPos > currentScroll + halfWidth + 100 || playheadPos < currentScroll + 100) {
-      container.scrollLeft = Math.max(0, playheadPos - halfWidth);
-    }
-  }, [currentTime, zoom, isPlaying]);
 
 
   const handleTimelineClick = (e: React.MouseEvent<HTMLDivElement>) => {

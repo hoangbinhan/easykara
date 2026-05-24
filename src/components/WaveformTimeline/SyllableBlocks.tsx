@@ -1,10 +1,10 @@
 import React from 'react';
+import { useKaraokeStore } from '../../store/useKaraokeStore';
 import type { Line, Syllable } from '../../context/KaraokeContext';
 import { Edit } from 'lucide-react';
 
 interface SyllableBlocksProps {
   lines: Line[];
-  currentTime: number;
   zoom: number;
   handleBlockDrag: (
     e: React.MouseEvent,
@@ -18,11 +18,11 @@ interface SyllableBlocksProps {
 
 export const SyllableBlocks: React.FC<SyllableBlocksProps> = React.memo(({
   lines,
-  currentTime,
   zoom,
   handleBlockDrag,
   handleEditClick,
 }) => {
+  const currentTime = useKaraokeStore((state) => state.currentTime);
   return (
     <>
       {lines.map((line, lIdx) =>

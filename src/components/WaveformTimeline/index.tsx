@@ -1,6 +1,7 @@
 import React from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { useKaraokeStore } from '../../store/useKaraokeStore';
 import { HelpCircle } from 'lucide-react';
 import { TimelineControls } from './TimelineControls';
 import { WaveformCanvas } from './WaveformCanvas';
@@ -28,9 +29,7 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
 }) => {
   const {
     lines,
-    currentTime,
     duration,
-    isPlaying,
     setCurrentTime,
     updateSyllableTime,
     updateSyllableText,
@@ -53,14 +52,40 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
     handleEditClick,
     handleSaveEdit,
   } = useTimelineDrag({
-    currentTime,
     duration,
-    isPlaying,
     setCurrentTime,
     updateSyllableTime,
     updateSyllableText,
     audioRef,
   });
+
+  const playheadRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const unsubscribe = useKaraokeStore.subscribe(
+      (state) => state.currentTime,
+      (currentTime) => {
+        // Move playhead DOM element directly at 60fps
+        if (playheadRef.current) {
+          playheadRef.current.style.left = `${180 + currentTime * zoom}px`;
+        }
+
+        // Auto-scroll timeline container directly without state updates
+        const isPlayingState = useKaraokeStore.getState().isPlaying;
+        if (isPlayingState && containerRef.current) {
+          const container = containerRef.current;
+          const playheadPos = currentTime * zoom;
+          const halfWidth = container.clientWidth / 2;
+          const currentScroll = container.scrollLeft;
+
+          if (playheadPos > currentScroll + halfWidth + 100 || playheadPos < currentScroll + 100) {
+            container.scrollLeft = Math.max(0, playheadPos - halfWidth);
+          }
+        }
+      }
+    );
+    return unsubscribe;
+  }, [zoom, containerRef]);
 
   const { handleTrackDrag } = useTrackDrag({ zoom });
   const totalWidth = duration * zoom;
@@ -154,7 +179,6 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
               {duration > 0 && (
                 <SyllableBlocks
                   lines={lines}
-                  currentTime={currentTime}
                   zoom={zoom}
                   handleBlockDrag={handleBlockDrag}
                   handleEditClick={handleEditClick}
@@ -171,9 +195,10 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
           {/* Global DAW vertical Playhead */}
           {duration > 0 && (
             <div
+              ref={playheadRef}
               onMouseDown={handlePlayheadMouseDown}
               className="absolute top-0 bottom-0 w-[2px] bg-neon-glow z-20 cursor-col-resize shadow-[0_0_10px_#34d59a] pointer-events-auto group/playhead"
-              style={{ left: `${180 + currentTime * zoom}px` }}
+              style={{ left: `${180 + useKaraokeStore.getState().currentTime * zoom}px` }}
             >
               <div className="absolute -top-1 -left-1.5 w-3.5 h-3.5 rounded-full bg-neon-glow cursor-col-resize shadow-[0_0_12px_#34d59a] border border-whiteout scale-100 group-hover/playhead:scale-125 transition-transform duration-100 flex items-center justify-center">
                 <div className="w-1 h-1 rounded-full bg-blackout" />
