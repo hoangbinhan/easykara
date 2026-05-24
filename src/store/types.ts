@@ -1,4 +1,5 @@
 import type { Line, StyleConfig, MediaTrack } from '../context/KaraokeContext';
+import type { WaveformData } from '../hooks/useAudioAnalyzer';
 
 export interface HistoryEntry {
   lines: Line[];
@@ -11,7 +12,10 @@ export interface TracksSlice {
   mediaUrl: string | null;
   mediaType: 'audio' | 'video' | null;
   mediaName: string | null;
-  addTrack: (file: File, waveformData?: { peaks: number[]; duration: number } | null) => Promise<void>;
+  cachedPeaks: Record<string, WaveformData>;
+  cachePeaks: (key: string, data: WaveformData) => void;
+  updateTrackWaveformData: (id: string, waveformData: WaveformData) => void;
+  addTrack: (file: File, waveformData?: MediaTrack['waveformData']) => Promise<void>;
   removeTrack: (id: string) => void;
   updateTrackOffset: (id: string, offset: number) => void;
   updateTrackVolume: (id: string, volume: number) => void;

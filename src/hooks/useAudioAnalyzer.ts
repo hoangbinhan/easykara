@@ -1,9 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import type { MultiResPeaks } from '../utils/peakCache';
+import { useKaraokeStore } from '../store/useKaraokeStore';
 
 export interface WaveformData {
   peaks: number[];
   duration: number;
   sampleRate: number;
+  multiRes?: MultiResPeaks;
 }
 
 export const useAudioAnalyzer = () => {
@@ -12,8 +15,28 @@ export const useAudioAnalyzer = () => {
   const [error, setError] = useState<string | null>(null);
   const [waveformData, setWaveformData] = useState<WaveformData | null>(null);
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
+  const workerRef = useRef<Worker | null>(null);
+
+  const cachedPeaks = useKaraokeStore((state) => state.cachedPeaks);
+  const cachePeaks = useKaraokeStore((state) => state.cachePeaks);
 
   const analyzeAudio = useCallback(async (file: File) => {
+    // Terminate any existing worker
+    if (workerRef.current) {
+      workerRef.current.terminate();
+      workerRef.current = null;
+    }
+
+    const cacheKey = `${file.name}-${file.size}-${file.lastModified}`;
+    const cached = cachedPeaks[cacheKey];
+
+    if (cached) {
+      setWaveformData(cached);
+      setProgress(100);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setProgress(0);
     setError(null);
@@ -71,44 +94,66 @@ export const useAudioAnalyzer = () => {
       }
       
       setAudioBuffer(decodedBuffer);
-      setProgress(80); // Decoded successfully, extracting peaks
+      setProgress(80); // Decoded successfully, extracting peaks in background
 
-      // 4. Generate Peaks for Waveform Rendering
-      // We will generate an array of peak values (absolute max amplitude)
-      // The length of the array depends on the audio length (e.g. 100 peaks per second for details, or 2000 points total)
+      // 4. Generate Peaks for Waveform Rendering via Web Worker
       const channelData = decodedBuffer.getChannelData(0); // Use first channel
-      const numPeaks = 4000; // Number of points to render
-      const blockSize = Math.floor(channelData.length / numPeaks);
-      const peaks: number[] = [];
+      const numPeaksList = [1000, 4000, 16000];
+      
+      // Create a copy of the buffer so the original playable AudioBuffer is not detached/neutered
+      const bufferCopy = channelData.slice().buffer;
 
-      for (let i = 0; i < numPeaks; i++) {
-        const start = i * blockSize;
-        let max = 0;
-        for (let j = 0; j < blockSize; j++) {
-          const val = Math.abs(channelData[start + j]);
-          if (val > max) {
-            max = val;
+      const worker = new Worker(
+        new URL('../workers/peakWorker.ts', import.meta.url),
+        { type: 'module' }
+      );
+      workerRef.current = worker;
+
+      const peaksMap = await new Promise<Record<number, number[]>>((resolve, reject) => {
+        worker.onmessage = (e) => {
+          if (e.data.error) {
+            reject(new Error(e.data.error));
+          } else if (e.data.peaksMap) {
+            const map: Record<number, number[]> = {};
+            for (const count of numPeaksList) {
+              const peaksBuffer = e.data.peaksMap[count] as ArrayBuffer;
+              map[count] = Array.from(new Float32Array(peaksBuffer));
+            }
+            resolve(map);
+          } else {
+            reject(new Error('Failed to extract peaks.'));
           }
-        }
-        peaks.push(max);
-      }
+          worker.terminate();
+          if (workerRef.current === worker) {
+            workerRef.current = null;
+          }
+        };
 
-      // Smooth peaks a bit to make it look nicer
-      const smoothPeaks = peaks.map((val, idx) => {
-        const prev = peaks[idx - 1] || 0;
-        const next = peaks[idx + 1] || 0;
-        return (prev + val + next) / 3;
+        worker.onerror = (err) => {
+          reject(err);
+          worker.terminate();
+          if (workerRef.current === worker) {
+            workerRef.current = null;
+          }
+        };
+
+        // Transfer bufferCopy array buffer
+        worker.postMessage({ channelBuffer: bufferCopy, numPeaksList }, [bufferCopy]);
       });
 
-      // Normalize peaks to 0..1
-      const maxPeak = Math.max(...smoothPeaks);
-      const normalizedPeaks = maxPeak > 0 ? smoothPeaks.map(p => p / maxPeak) : smoothPeaks;
-
-      setWaveformData({
-        peaks: normalizedPeaks,
+      const parsedWaveformData = {
+        peaks: peaksMap[4000], // Keep standard 4000 peaks as main peaks fallback
         duration: decodedBuffer.duration,
         sampleRate: decodedBuffer.sampleRate,
-      });
+        multiRes: {
+          overview: peaksMap[1000],
+          standard: peaksMap[4000],
+          detail: peaksMap[16000],
+        },
+      };
+
+      setWaveformData(parsedWaveformData);
+      cachePeaks(cacheKey, parsedWaveformData);
       
       setProgress(100);
       setLoading(false);
@@ -119,9 +164,13 @@ export const useAudioAnalyzer = () => {
       setError(errorMsg);
       setLoading(false);
     }
-  }, []);
+  }, [cachedPeaks, cachePeaks]);
 
   const clearAnalysis = useCallback(() => {
+    if (workerRef.current) {
+      workerRef.current.terminate();
+      workerRef.current = null;
+    }
     setWaveformData(null);
     setAudioBuffer(null);
     setError(null);
@@ -139,3 +188,4 @@ export const useAudioAnalyzer = () => {
     clearAnalysis,
   };
 };
+

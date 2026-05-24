@@ -12,9 +12,11 @@ import { TimeGrid } from './TimeGrid';
 import { TrackLane } from './TrackLane';
 import { useTrackDrag } from './useTrackDrag';
 
+import type { WaveformData } from '../../hooks/useAudioAnalyzer';
+
 interface WaveformTimelineProps {
   audioRef: React.RefObject<HTMLAudioElement | null>;
-  waveformData: { peaks: number[] } | null;
+  waveformData: WaveformData | null;
   loadingWaveform: boolean;
   waveformProgress: number;
   height: number;
@@ -60,6 +62,30 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
   });
 
   const playheadRef = React.useRef<HTMLDivElement>(null);
+  const [scrollLeft, setScrollLeft] = React.useState(0);
+
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollLeft(container.scrollLeft);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    setScrollLeft(container.scrollLeft);
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [containerRef]);
 
   React.useEffect(() => {
     const unsubscribe = useKaraokeStore.subscribe(
@@ -173,8 +199,9 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
                 waveformData={waveformData}
                 duration={duration}
                 zoom={zoom}
-                containerWidth={containerWidth}
+                containerWidth={Math.max(100, containerWidth - 180)}
                 containerHeight={80}
+                scrollLeft={scrollLeft}
               />
               {duration > 0 && (
                 <SyllableBlocks

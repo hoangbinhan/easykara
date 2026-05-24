@@ -20,6 +20,8 @@ const EasyKaraAppContent: React.FC = () => {
     redo,
     canUndo,
     canRedo,
+    tracks,
+    updateTrackWaveformData,
   } = useKaraoke();
 
   const { t, language, setLanguage } = useLanguage();
@@ -53,6 +55,16 @@ const EasyKaraAppContent: React.FC = () => {
       clearAnalysis();
     }
   }, [mediaUrl, clearAnalysis]);
+
+  // Sync waveformData to the last added track
+  useEffect(() => {
+    if (waveformData && tracks.length > 0) {
+      const lastTrack = tracks[tracks.length - 1];
+      if (lastTrack && !lastTrack.waveformData) {
+        updateTrackWaveformData(lastTrack.id, waveformData);
+      }
+    }
+  }, [waveformData, tracks, updateTrackWaveformData]);
 
   const handleMediaLoaded = (file: File) => {
     analyzeAudio(file);

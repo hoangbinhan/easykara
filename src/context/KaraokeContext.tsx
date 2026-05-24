@@ -42,7 +42,12 @@ export interface MediaTrack {
   volume: number; // 0 to 1
   offset: number; // in seconds
   duration: number; // in seconds
-  waveformData?: { peaks: number[] } | null;
+  waveformData?: {
+    peaks: number[];
+    duration: number;
+    sampleRate: number;
+    multiRes?: import('../utils/peakCache').MultiResPeaks | null;
+  } | null;
   isMuted?: boolean;
   isSoloed?: boolean;
 }

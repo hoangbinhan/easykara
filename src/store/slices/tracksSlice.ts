@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { MediaTrack } from '../../context/KaraokeContext';
 import type { KaraokeStoreState, TracksSlice } from '../types';
+import type { WaveformData } from '../../hooks/useAudioAnalyzer';
 
 const getMediaDuration = (file: File, type: 'audio' | 'video'): Promise<number> => {
   return new Promise((resolve) => {
@@ -26,6 +27,23 @@ export const createTracksSlice: StateCreator<
   mediaUrl: null,
   mediaType: null,
   mediaName: null,
+  cachedPeaks: {},
+
+  cachePeaks: (key: string, data: WaveformData) => {
+    set((state) => ({
+      cachedPeaks: {
+        ...state.cachedPeaks,
+        [key]: data,
+      },
+    }));
+  },
+
+  updateTrackWaveformData: (id: string, waveformData: WaveformData) => {
+    const updated = get().tracks.map((t) =>
+      t.id === id ? { ...t, waveformData } : t
+    );
+    get().syncMasterTrack(updated);
+  },
 
   syncMasterTrack: (updatedTracks: MediaTrack[]) => {
     set({ tracks: updatedTracks });
@@ -74,7 +92,7 @@ export const createTracksSlice: StateCreator<
     set({ duration: totalDuration });
   },
 
-  addTrack: async (file: File, waveformData = null) => {
+  addTrack: async (file: File, waveformData: MediaTrack['waveformData'] = null) => {
     const isVideo = file.type.startsWith('video/');
     const type = isVideo ? 'video' : 'audio';
 
@@ -83,7 +101,7 @@ export const createTracksSlice: StateCreator<
       return;
     }
 
-    const durationVal = waveformData ? (waveformData as { duration: number }).duration : await getMediaDuration(file, type);
+    const durationVal = waveformData ? waveformData.duration : await getMediaDuration(file, type);
     const url = URL.createObjectURL(file);
     const newTrack: MediaTrack = {
       id: `track-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
