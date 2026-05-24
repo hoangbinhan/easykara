@@ -51,6 +51,9 @@ comments: Maintain clear English code comments explaining complex syncing and au
 MULTIPLE LANGUAGES (i18n):
 i18n-rule: ALWAYS use multiple languages for all static and user-facing text copy rendered inside React components. NEVER hardcode strings in the component templates. All text must be defined as key-value pairs in the JSON files under `@src/locales` (e.g. `en.json`, `vi.json`) and retrieved at runtime using the `useLanguage` translation hook (`t`).
 
+GIT COMMITS:
+commit-rule: NEVER commit code automatically or execute "git commit" commands on behalf of the user without explicit user permission. When the user says "commit", the agent MUST only run diagnostic checks (e.g., lint, build) to verify the code correctness, stage the files if requested, and generate/propose a beautifully structured git commit message. Staging or running git commits must be explicitly requested and approved.
+
 </rules>
 
 <rhythm>
