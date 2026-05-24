@@ -20,8 +20,11 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
   const { toggleMuteTrack, toggleSoloTrack, updateTrackVolume } = useKaraoke();
   const { t } = useLanguage();
 
-  // Dynamically calculate symmetric vector path for SVG Waveform
-  const renderSVGWaveform = (peaks: number[]) => {
+  const peaks = track.waveformData?.peaks;
+
+  // Dynamically calculate and memoize symmetric vector path for SVG Waveform to avoid rebuilding on every re-render
+  const svgPath = React.useMemo(() => {
+    if (!peaks) return '';
     const svgHeight = 36;
     const pointsTop: string[] = [];
     const pointsBottom: string[] = [];
@@ -36,15 +39,18 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
       pointsBottom.unshift(`${x.toFixed(1)},${bottomY.toFixed(1)}`);
     });
 
-    const d = `M 0,${svgHeight / 2} L ${pointsTop.join(' L ')} L 100,${svgHeight / 2} L ${pointsBottom.join(' L ')} Z`;
+    return `M 0,${svgHeight / 2} L ${pointsTop.join(' L ')} L 100,${svgHeight / 2} L ${pointsBottom.join(' L ')} Z`;
+  }, [peaks]);
 
+  const renderSVGWaveform = () => {
+    if (!svgPath) return null;
     return (
       <svg
         className="w-full h-full text-neon-glow/20 absolute inset-0 pointer-events-none"
         viewBox="0 0 100 36"
         preserveAspectRatio="none"
       >
-        <path d={d} fill="currentColor" />
+        <path d={svgPath} fill="currentColor" />
       </svg>
     );
   };
@@ -123,7 +129,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
         {/* Draggable audio segment block */}
         <div
           onMouseDown={(e) => onDragStart(e, track)}
-          className={`absolute top-[6px] bottom-[6px] rounded-[4px] border bg-graphite-deep/80 hover:bg-graphite/70 cursor-ew-resize flex items-center px-3 gap-2 select-none pointer-events-auto transition-all duration-150 active:scale-[0.99] active:border-neon-glow active:bg-graphite z-10 ${
+          className={`absolute top-[6px] bottom-[6px] rounded-[4px] border bg-graphite-deep/80 hover:bg-graphite/70 cursor-grab active:cursor-grabbing flex items-center px-3 gap-2 select-none pointer-events-auto transition-all duration-150 active:scale-[0.99] active:border-neon-glow active:bg-graphite z-[1] ${
             track.isMuted
               ? 'border-system-warning/30 opacity-40'
               : 'border-graphite-light hover:border-neon-glow/40'
@@ -135,7 +141,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
         >
           {/* Audio Waveform Peaks Vector Background */}
           {track.waveformData?.peaks ? (
-            renderSVGWaveform(track.waveformData.peaks)
+            renderSVGWaveform()
           ) : (
             // Scanning design grid fallback
             <div className="absolute inset-0 bg-scanline-stripes opacity-[0.03] pointer-events-none" />

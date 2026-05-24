@@ -137,7 +137,7 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
           </div>
 
           {/* Row 1: Syllables Alignment Lane */}
-          <div className="h-[90px] min-h-[90px] border-b border-graphite-light/25 flex bg-blackout select-none relative items-center">
+          <div className="h-[90px] min-h-[90px] border-b border-graphite-light/25 flex bg-blackout select-none relative items-center z-10">
             {/* Syllables Left Sticky Header */}
             <div className="w-[180px] min-w-[180px] h-full sticky left-0 bg-graphite-deep border-r border-graphite-light flex flex-col p-2.5 justify-between z-10 select-none shadow-[4px_0_10px_rgba(0,0,0,0.4)]">
               <span className="font-sans text-[11px] font-semibold text-whiteout uppercase tracking-wider">{t('timeline.syllableTitle')}</span>
