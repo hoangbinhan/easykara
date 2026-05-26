@@ -29,7 +29,7 @@ const parseLyricsText = (input: string): Line[] => {
     .filter((item): item is Line => item !== null);
 };
 
-const initialInput = 'Create custom karaoke videos manually\nSync syllables instantly using spacebar\nBreathtaking celestial tech UI design\nExport subtitle files and premium lyrics';
+const initialInput = '';
 
 export const createTimelineSlice: StateCreator<
   KaraokeStoreState,
