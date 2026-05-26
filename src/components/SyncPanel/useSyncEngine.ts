@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
+import { useKaraokeStore } from '../../store/useKaraokeStore';
 
 export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>) => {
   const {
@@ -8,7 +9,6 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     currentSyllableIndex,
     isPlaying,
     setIsPlaying,
-    currentTime,
     playbackRate,
     setPlaybackRate,
     isRecording,
@@ -125,7 +125,8 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
 
   const handleBackOneWord = () => {
     if (currentSyllableIndex > 0) {
-      endSyllableSync(currentTime);
+      const freshTime = useKaraokeStore.getState().currentTime;
+      endSyllableSync(freshTime);
       const prevIdx = currentSyllableIndex - 1;
       jumpToSyllable(currentLineIndex, prevIdx);
     } else if (currentLineIndex > 0) {
@@ -143,7 +144,6 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     currentLineIndex,
     currentSyllableIndex,
     isPlaying,
-    currentTime,
     playbackRate,
     isRecording,
     setIsRecording,

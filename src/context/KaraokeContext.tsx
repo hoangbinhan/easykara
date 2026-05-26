@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import React from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useKaraokeStore } from '../store/useKaraokeStore';
 
 export interface Syllable {
@@ -74,10 +75,17 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
 };
 
 export const useKaraoke = () => {
-  const store = useKaraokeStore();
+  const store = useKaraokeStore(
+    useShallow((state) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { currentTime, ...rest } = state;
+      return rest;
+    })
+  );
   
   return {
     ...store,
+    currentTime: useKaraokeStore.getState().currentTime,
     canUndo: store.undoStack.length > 0,
     canRedo: store.redoStack.length > 0,
   };

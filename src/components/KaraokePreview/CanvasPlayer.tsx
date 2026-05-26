@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useKaraokeStore } from '../../store/useKaraokeStore';
 import type { Line, StyleConfig } from '../../context/KaraokeContext';
 import { drawLine, drawBackground } from './canvasHelpers';
 
@@ -6,7 +7,6 @@ interface CanvasPlayerProps {
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
   videoRef: React.RefObject<HTMLVideoElement | null>;
   lines: Line[];
-  currentTime: number;
   mediaType: 'audio' | 'video' | null;
   styleConfig: StyleConfig;
 }
@@ -15,7 +15,6 @@ export const CanvasPlayer: React.FC<CanvasPlayerProps> = ({
   canvasRef,
   videoRef,
   lines,
-  currentTime,
   mediaType,
   styleConfig,
 }) => {
@@ -28,7 +27,7 @@ export const CanvasPlayer: React.FC<CanvasPlayerProps> = ({
     canvas.width = 1280;
     canvas.height = 720;
 
-    const renderClassic2Line = (ctx: CanvasRenderingContext2D, width: number) => {
+    const renderClassic2Line = (ctx: CanvasRenderingContext2D, width: number, currentTime: number) => {
       let activeLineIdx = -1;
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -68,7 +67,7 @@ export const CanvasPlayer: React.FC<CanvasPlayerProps> = ({
       }
     };
 
-    const renderSubtitles = (ctx: CanvasRenderingContext2D, width: number) => {
+    const renderSubtitles = (ctx: CanvasRenderingContext2D, width: number, currentTime: number) => {
       let activeLine: Line | null = null;
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -92,10 +91,11 @@ export const CanvasPlayer: React.FC<CanvasPlayerProps> = ({
 
     let animationId: number;
     const render = () => {
+      const currentTime = useKaraokeStore.getState().currentTime;
       drawBackground(ctx, canvas, styleConfig, videoRef, mediaType);
       if (lines.length > 0) {
-        if (styleConfig.layoutMode === 'classic-2line') renderClassic2Line(ctx, canvas.width);
-        else renderSubtitles(ctx, canvas.width);
+        if (styleConfig.layoutMode === 'classic-2line') renderClassic2Line(ctx, canvas.width, currentTime);
+        else renderSubtitles(ctx, canvas.width, currentTime);
       } else {
         ctx.font = 'bold 24px Montserrat';
         ctx.fillStyle = '#6b6b6b';
@@ -108,7 +108,7 @@ export const CanvasPlayer: React.FC<CanvasPlayerProps> = ({
 
     render();
     return () => cancelAnimationFrame(animationId);
-  }, [lines, currentTime, styleConfig, mediaType, videoRef, canvasRef]);
+  }, [lines, styleConfig, mediaType, videoRef, canvasRef]);
 
   return (
     <canvas

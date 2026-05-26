@@ -1,18 +1,18 @@
-import React from 'react';
-import { useKaraoke } from '../../context/KaraokeContext';
-import { useLanguage } from '../../context/LanguageContext';
-import { useKaraokeStore } from '../../store/useKaraokeStore';
-import { HelpCircle } from 'lucide-react';
-import { TimelineControls } from './TimelineControls';
-import { WaveformCanvas } from './WaveformCanvas';
-import { SyllableBlocks } from './SyllableBlocks';
-import { SyllableEditModal } from './SyllableEditModal';
-import { useTimelineDrag } from './useTimelineDrag';
-import { TimeGrid } from './TimeGrid';
-import { TrackLane } from './TrackLane';
-import { useTrackDrag } from './useTrackDrag';
+import React from "react";
+import { useKaraoke } from "../../context/KaraokeContext";
+import { useLanguage } from "../../context/LanguageContext";
+import { useKaraokeStore } from "../../store/useKaraokeStore";
+import { HelpCircle } from "lucide-react";
+import { TimelineControls } from "./TimelineControls";
+import { WaveformCanvas } from "./WaveformCanvas";
+import { SyllableBlocks } from "./SyllableBlocks";
+import { SyllableEditModal } from "./SyllableEditModal";
+import { useTimelineDrag } from "./useTimelineDrag";
+import { TimeGrid } from "./TimeGrid";
+import { TrackLane } from "./TrackLane";
+import { useTrackDrag } from "./useTrackDrag";
 
-import type { WaveformData } from '../../hooks/useAudioAnalyzer';
+import type { WaveformData } from "../../hooks/useAudioAnalyzer";
 
 interface WaveformTimelineProps {
   audioRef: React.RefObject<HTMLAudioElement | null>;
@@ -79,11 +79,11 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
       }
     };
 
-    container.addEventListener('scroll', handleScroll);
+    container.addEventListener("scroll", handleScroll);
     setScrollLeft(container.scrollLeft);
 
     return () => {
-      container.removeEventListener('scroll', handleScroll);
+      container.removeEventListener("scroll", handleScroll);
     };
   }, [containerRef]);
 
@@ -104,11 +104,14 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
           const halfWidth = container.clientWidth / 2;
           const currentScroll = container.scrollLeft;
 
-          if (playheadPos > currentScroll + halfWidth + 100 || playheadPos < currentScroll + 100) {
+          if (
+            playheadPos > currentScroll + halfWidth + 100 ||
+            playheadPos < currentScroll + 100
+          ) {
             container.scrollLeft = Math.max(0, playheadPos - halfWidth);
           }
         }
-      }
+      },
     );
     return unsubscribe;
   }, [zoom, containerRef]);
@@ -127,18 +130,23 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
   const handleRulerMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current || !audioRef.current || duration === 0) return;
     const target = e.target as HTMLElement;
-    if (!target.classList.contains('timeline-scrollable') && !target.classList.contains('waveform-canvas')) return;
+    if (
+      !target.classList.contains("timeline-scrollable") &&
+      !target.classList.contains("waveform-canvas")
+    )
+      return;
 
     const rect = scrollRef.current.getBoundingClientRect();
     updateTimeFromX(e.clientX, rect);
 
-    const handleMouseMove = (moveEvent: MouseEvent) => updateTimeFromX(moveEvent.clientX, rect);
+    const handleMouseMove = (moveEvent: MouseEvent) =>
+      updateTimeFromX(moveEvent.clientX, rect);
     const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
   };
 
   const handlePlayheadMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -147,13 +155,14 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
     e.preventDefault();
 
     const rect = scrollRef.current.getBoundingClientRect();
-    const handleMouseMove = (moveEvent: MouseEvent) => updateTimeFromX(moveEvent.clientX, rect);
+    const handleMouseMove = (moveEvent: MouseEvent) =>
+      updateTimeFromX(moveEvent.clientX, rect);
     const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
   };
 
   return (
@@ -188,12 +197,19 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
           <div className="h-[90px] min-h-[90px] border-b border-graphite-light/25 flex bg-blackout select-none relative items-center z-10">
             {/* Syllables Left Sticky Header */}
             <div className="w-[180px] min-w-[180px] h-full sticky left-0 bg-graphite-deep border-r border-graphite-light flex flex-col p-2.5 justify-between z-10 select-none shadow-[4px_0_10px_rgba(0,0,0,0.4)]">
-              <span className="font-sans text-[11px] font-semibold text-whiteout uppercase tracking-wider">{t('timeline.syllableTitle')}</span>
-              <span className="font-sans text-[9px] text-ash">{t('timeline.syllableDesc')}</span>
+              <span className="font-sans text-[11px] font-semibold text-whiteout uppercase tracking-wider">
+                {t("timeline.syllableTitle")}
+              </span>
+              <span className="font-sans text-[9px] text-ash">
+                {t("timeline.syllableDesc")}
+              </span>
             </div>
 
             {/* Syllable Canvas Block Area */}
-            <div className="flex-1 h-full relative overflow-hidden bg-blackout/10 pointer-events-auto" style={{ width: `${totalWidth}px` }}>
+            <div
+              className="flex-1 h-full relative overflow-hidden bg-blackout/10 pointer-events-auto"
+              style={{ width: `${totalWidth}px` }}
+            >
               <WaveformCanvas
                 canvasRef={canvasRef}
                 waveformData={waveformData}
@@ -215,8 +231,14 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
           </div>
 
           {/* Rows 2+: Loaded Media Track Lanes */}
-          {tracks.map(track => (
-            <TrackLane key={track.id} track={track} zoom={zoom} onDragStart={handleTrackDrag} totalWidth={totalWidth} />
+          {tracks.map((track) => (
+            <TrackLane
+              key={track.id}
+              track={track}
+              zoom={zoom}
+              onDragStart={handleTrackDrag}
+              totalWidth={totalWidth}
+            />
           ))}
 
           {/* Global DAW vertical Playhead */}
@@ -225,7 +247,9 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
               ref={playheadRef}
               onMouseDown={handlePlayheadMouseDown}
               className="absolute top-0 bottom-0 w-[2px] bg-neon-glow z-20 cursor-col-resize shadow-[0_0_10px_#34d59a] pointer-events-auto group/playhead"
-              style={{ left: `${180 + useKaraokeStore.getState().currentTime * zoom}px` }}
+              style={{
+                left: `${180 + useKaraokeStore.getState().currentTime * zoom}px`,
+              }}
             >
               <div className="absolute -top-1 -left-1.5 w-3.5 h-3.5 rounded-full bg-neon-glow cursor-col-resize shadow-[0_0_12px_#34d59a] border border-whiteout scale-100 group-hover/playhead:scale-125 transition-transform duration-100 flex items-center justify-center">
                 <div className="w-1 h-1 rounded-full bg-blackout" />
@@ -235,13 +259,19 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
         </div>
       </div>
 
-      <SyllableEditModal editingSyl={editingSyl} setEditingSyl={setEditingSyl} handleSaveEdit={handleSaveEdit} />
+      <SyllableEditModal
+        editingSyl={editingSyl}
+        setEditingSyl={setEditingSyl}
+        handleSaveEdit={handleSaveEdit}
+      />
 
       <div className="flex justify-between font-sans text-[10px] text-ash border-t border-graphite-light pt-2 mt-1 select-none">
-        <span className="flex items-center gap-1.5"><HelpCircle size={10} /> {t('timeline.helpInstructions')}</span>
-        <span>{t('timeline.helpZoom')}</span>
+        <span className="flex items-center gap-1.5">
+          <HelpCircle size={10} /> {t("timeline.helpInstructions")}
+        </span>
+        <span>{t("timeline.helpZoom")}</span>
       </div>
-      
+
       <style>{`
         .cursor-ew-resize div:hover .edit-icon-btn { display: flex !important; }
       `}</style>

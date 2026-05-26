@@ -7,7 +7,7 @@ interface MediaSelectorProps {
   onMediaLoaded?: (file: File) => void;
 }
 
-export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) => {
+export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMediaLoaded }) => {
   const {
     tracks,
     addTrack,
@@ -189,4 +189,6 @@ export const MediaSelector: React.FC<MediaSelectorProps> = ({ onMediaLoaded }) =
       )}
     </div>
   );
-};
+});
+
+MediaSelector.displayName = 'MediaSelector';

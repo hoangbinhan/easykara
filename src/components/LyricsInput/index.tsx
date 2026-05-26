@@ -3,7 +3,7 @@ import { useKaraoke } from '../../context/KaraokeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { FileText, Play, RotateCcw, Lock, LockOpen } from 'lucide-react';
 
-export const LyricsInput: React.FC = () => {
+export const LyricsInput: React.FC = React.memo(() => {
   const { lyricsInput, setLyricsInput, parseLyrics, lines, resetSync } = useKaraoke();
   const { t } = useLanguage();
   const [isLocked, setIsLocked] = useState(false);
@@ -90,4 +90,6 @@ export const LyricsInput: React.FC = () => {
       </div>
     </div>
   );
-};
+});
+
+LyricsInput.displayName = 'LyricsInput';

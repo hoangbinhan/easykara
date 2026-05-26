@@ -12,7 +12,6 @@ interface KaraokePreviewProps {
 export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
   const {
     lines,
-    currentTime,
     isPlaying,
     setIsPlaying,
     setCurrentTime,
@@ -80,7 +79,6 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
           canvasRef={canvasRef}
           videoRef={videoRef}
           lines={lines}
-          currentTime={currentTime}
           mediaType={mediaType}
           styleConfig={styleConfig}
         />

@@ -5,14 +5,13 @@ import { WordBubbles } from './WordBubbles';
 import { HotkeyIndicator } from './HotkeyIndicator';
 import { useSyncEngine } from './useSyncEngine';
 
-export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | null> }> = ({ audioRef }) => {
+export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | null> }> = React.memo(({ audioRef }) => {
   const { t } = useLanguage();
   const {
     playbackRate,
     isRecording,
     setIsRecording,
     isPlaying,
-    currentTime,
     mediaUrl,
     currentLine,
     upcomingQueue,
@@ -108,7 +107,6 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
       {isRecording && mediaUrl && !isSyncComplete && (
         <HotkeyIndicator
           isSpacePressed={isSpacePressed}
-          currentTime={currentTime}
           handleSyncStart={handleSyncStart}
           handleSyncEnd={handleSyncEnd}
           onBackOneWord={handleBackOneWord}
@@ -118,4 +116,6 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
       )}
     </div>
   );
-};
+});
+
+SyncPanel.displayName = 'SyncPanel';

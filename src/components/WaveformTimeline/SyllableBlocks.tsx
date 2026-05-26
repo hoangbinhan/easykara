@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useKaraokeStore } from '../../store/useKaraokeStore';
 import type { Line, Syllable } from '../../context/KaraokeContext';
 import { Edit } from 'lucide-react';
@@ -22,24 +22,76 @@ export const SyllableBlocks: React.FC<SyllableBlocksProps> = React.memo(({
   handleBlockDrag,
   handleEditClick,
 }) => {
-  const currentTime = useKaraokeStore((state) => state.currentTime);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let lastActiveEl: HTMLElement | null = null;
+
+    const unsubscribe = useKaraokeStore.subscribe(
+      (state) => state.currentTime,
+      (currentTime) => {
+        if (!containerRef.current) return;
+        
+        const elements = containerRef.current.querySelectorAll('[data-syl-start]');
+        let activeEl: HTMLElement | null = null;
+
+        for (let i = 0; i < elements.length; i++) {
+          const el = elements[i] as HTMLElement;
+          const start = parseFloat(el.getAttribute('data-syl-start') || '0');
+          const end = parseFloat(el.getAttribute('data-syl-end') || '0');
+
+          if (currentTime >= start && currentTime <= end) {
+            activeEl = el;
+            break;
+          }
+        }
+
+        if (activeEl !== lastActiveEl) {
+          if (lastActiveEl) {
+            lastActiveEl.classList.remove(
+              'bg-neon-muted/30',
+              'border-neon-glow',
+              'shadow-[0_0_10px_rgba(52,213,154,0.15)]'
+            );
+            lastActiveEl.classList.add('bg-graphite-deep', 'border-graphite-light');
+          }
+          if (activeEl) {
+            activeEl.classList.remove('bg-graphite-deep', 'border-graphite-light');
+            activeEl.classList.add(
+              'bg-neon-muted/30',
+              'border-neon-glow',
+              'shadow-[0_0_10px_rgba(52,213,154,0.15)]'
+            );
+          }
+          lastActiveEl = activeEl;
+        }
+      }
+    );
+
+    return unsubscribe;
+  }, []);
+
+  const initialTime = useKaraokeStore.getState().currentTime;
+
   return (
-    <>
+    <div ref={containerRef} className="absolute inset-0 pointer-events-none">
       {lines.map((line, lIdx) =>
         line.syllables.map((syl: Syllable, sIdx: number) => {
           if (syl.startTime === null || syl.endTime === null) return null;
           
           const left = syl.startTime * zoom;
           const width = (syl.endTime - syl.startTime) * zoom;
-          const isActive = currentTime >= syl.startTime && currentTime <= syl.endTime;
+          const isActive = initialTime >= syl.startTime && initialTime <= syl.endTime;
 
           return (
             <div
               key={syl.id}
-              className={`absolute h-8 bottom-[25px] flex items-center justify-center font-sans text-xs text-whiteout font-bold cursor-grab select-none rounded-[4px] transition-colors duration-150 ${
+              data-syl-start={syl.startTime}
+              data-syl-end={syl.endTime}
+              className={`absolute h-8 bottom-[25px] flex items-center justify-center font-sans text-xs text-whiteout font-bold cursor-grab select-none rounded-[4px] border transition-colors duration-150 pointer-events-auto ${
                 isActive
-                  ? 'bg-neon-muted/30 border border-neon-glow shadow-[0_0_10px_rgba(52,213,154,0.15)]'
-                  : 'bg-graphite-deep border border-graphite-light hover:border-ash'
+                  ? 'bg-neon-muted/30 border-neon-glow shadow-[0_0_10px_rgba(52,213,154,0.15)]'
+                  : 'bg-graphite-deep border-graphite-light hover:border-ash'
               }`}
               style={{
                 left: `${left}px`,
@@ -76,7 +128,7 @@ export const SyllableBlocks: React.FC<SyllableBlocksProps> = React.memo(({
           );
         })
       )}
-    </>
+    </div>
   );
 });
 

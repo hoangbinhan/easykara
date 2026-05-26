@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useKaraokeStore } from '../../store/useKaraokeStore';
 import { formatLRCTime } from '../../utils/timeFormat';
 
 interface HotkeyIndicatorProps {
   isSpacePressed: boolean;
-  currentTime: number;
   handleSyncStart: () => void;
   handleSyncEnd: () => void;
   onBackOneWord: () => void;
@@ -13,13 +13,26 @@ interface HotkeyIndicatorProps {
 
 export const HotkeyIndicator: React.FC<HotkeyIndicatorProps> = ({
   isSpacePressed,
-  currentTime,
   handleSyncStart,
   handleSyncEnd,
   onBackOneWord,
   onExitSync,
   spacebarRef,
 }) => {
+  const timeSpanRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const unsubscribe = useKaraokeStore.subscribe(
+      (state) => state.currentTime,
+      (currentTime) => {
+        if (timeSpanRef.current) {
+          timeSpanRef.current.textContent = `Time: ${formatLRCTime(currentTime)}`;
+        }
+      }
+    );
+    return unsubscribe;
+  }, []);
+
   return (
     <div className="flex flex-col gap-2 items-center w-full">
       <div
@@ -37,7 +50,7 @@ export const HotkeyIndicator: React.FC<HotkeyIndicatorProps> = ({
       </div>
 
       <div className="flex justify-between w-[80%] font-mono text-[10px] text-ash">
-        <span>Time: {formatLRCTime(currentTime)}</span>
+        <span ref={timeSpanRef}>Time: {formatLRCTime(useKaraokeStore.getState().currentTime)}</span>
         <span>Hotkeys: Enter = Play/Pause | Space = Sync Beat</span>
       </div>
 

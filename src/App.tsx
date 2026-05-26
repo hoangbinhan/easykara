@@ -1,17 +1,17 @@
-import React, { useRef, useEffect } from 'react';
-import './App.css';
-import { KaraokeProvider, useKaraoke } from './context/KaraokeContext';
-import { useAudioAnalyzer } from './hooks/useAudioAnalyzer';
-import { useLayoutResize } from './hooks/useLayoutResize';
-import { LanguageProvider, useLanguage } from './context/LanguageContext';
-import { MediaSelector } from './components/MediaSelector';
-import { LyricsInput } from './components/LyricsInput';
-import { SyncPanel } from './components/SyncPanel';
-import { WaveformTimeline } from './components/WaveformTimeline';
-import { StyleConfigurator } from './components/StyleConfigurator';
-import { ExportPanel } from './components/ExportPanel';
-import { KaraokePreview } from './components/KaraokePreview';
-import { Music, Undo2, Redo2, Sparkles } from 'lucide-react';
+import React, { useRef, useEffect, useCallback } from "react";
+import "./App.css";
+import { KaraokeProvider, useKaraoke } from "./context/KaraokeContext";
+import { useAudioAnalyzer } from "./hooks/useAudioAnalyzer";
+import { useLayoutResize } from "./hooks/useLayoutResize";
+import { LanguageProvider, useLanguage } from "./context/LanguageContext";
+import { MediaSelector } from "./components/MediaSelector";
+import { LyricsInput } from "./components/LyricsInput";
+import { SyncPanel } from "./components/SyncPanel";
+import { WaveformTimeline } from "./components/WaveformTimeline";
+import { StyleConfigurator } from "./components/StyleConfigurator";
+import { ExportPanel } from "./components/ExportPanel";
+import { KaraokePreview } from "./components/KaraokePreview";
+import { Music, Undo2, Redo2, Sparkles } from "lucide-react";
 
 const EasyKaraAppContent: React.FC = () => {
   const {
@@ -39,7 +39,7 @@ const EasyKaraAppContent: React.FC = () => {
   } = useLayoutResize();
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  
+
   // Waveform Audio Analyzer
   const {
     loading: loadingWaveform,
@@ -66,9 +66,9 @@ const EasyKaraAppContent: React.FC = () => {
     }
   }, [waveformData, tracks, updateTrackWaveformData]);
 
-  const handleMediaLoaded = (file: File) => {
+  const handleMediaLoaded = useCallback((file: File) => {
     analyzeAudio(file);
-  };
+  }, [analyzeAudio]);
 
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden bg-blackout font-sans text-whiteout">
@@ -76,7 +76,9 @@ const EasyKaraAppContent: React.FC = () => {
       <header className="h-14 flex items-center justify-between px-6 border-b border-graphite-light bg-blackout select-none z-10">
         <div className="flex items-center gap-3">
           <Music className="text-neon-glow" size={20} />
-          <span className="font-sans text-base font-bold tracking-tight text-whiteout">{t('header.title')}</span>
+          <span className="font-sans text-base font-bold tracking-tight text-whiteout">
+            {t("header.title")}
+          </span>
           <span className="text-[10px] bg-neon-muted/20 border border-neon-muted/40 text-neon-glow px-2 py-0.5 rounded-[4px] font-mono flex items-center gap-1 font-semibold">
             <Sparkles size={10} /> v1.0
           </span>
@@ -98,20 +100,20 @@ const EasyKaraAppContent: React.FC = () => {
             className="flex items-center gap-2 px-4 py-1.5 bg-blackout border border-graphite-light rounded-[9999px] text-ash text-xs font-semibold font-sans hover:bg-neon-muted/10 hover:border-neon-glow hover:text-whiteout disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200"
             onClick={undo}
             disabled={!canUndo}
-            title={`${t('header.undo')} (Ctrl+Z)`}
+            title={`${t("header.undo")} (Ctrl+Z)`}
           >
             <Undo2 size={12} />
-            <span>{t('header.undo')}</span>
+            <span>{t("header.undo")}</span>
           </button>
-          
+
           <button
             className="flex items-center gap-2 px-4 py-1.5 bg-blackout border border-graphite-light rounded-[9999px] text-ash text-xs font-semibold font-sans hover:bg-neon-muted/10 hover:border-neon-glow hover:text-whiteout disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200"
             onClick={redo}
             disabled={!canRedo}
-            title={`${t('header.redo')} (Ctrl+Y)`}
+            title={`${t("header.redo")} (Ctrl+Y)`}
           >
             <Redo2 size={12} />
-            <span>{t('header.redo')}</span>
+            <span>{t("header.redo")}</span>
           </button>
         </div>
       </header>
@@ -124,7 +126,11 @@ const EasyKaraAppContent: React.FC = () => {
         {/* Left Column: Media & Lyrics Input */}
         <div
           className="flex flex-col gap-4 p-4 overflow-y-auto bg-blackout"
-          style={{ width: `${leftWidth}px`, minWidth: `${leftWidth}px`, maxWidth: `${leftWidth}px` }}
+          style={{
+            width: `${leftWidth}px`,
+            minWidth: `${leftWidth}px`,
+            maxWidth: `${leftWidth}px`,
+          }}
         >
           <MediaSelector onMediaLoaded={handleMediaLoaded} />
           <LyricsInput />
@@ -133,13 +139,13 @@ const EasyKaraAppContent: React.FC = () => {
         {/* Left Resizer Handle */}
         <div
           className={`w-[4px] -mx-[2px] cursor-col-resize hover:bg-neon-glow select-none transition-colors duration-150 relative z-20 ${
-            isDraggingLeft ? 'bg-neon-glow' : 'bg-transparent'
+            isDraggingLeft ? "bg-neon-glow" : "bg-transparent"
           }`}
           onMouseDown={startResizeLeft}
         >
           <div
             className={`absolute inset-y-0 left-[1px] right-[2px] transition-colors duration-150 ${
-              isDraggingLeft ? 'bg-neon-glow' : 'bg-graphite-light'
+              isDraggingLeft ? "bg-neon-glow" : "bg-graphite-light"
             }`}
           />
         </div>
@@ -156,13 +162,13 @@ const EasyKaraAppContent: React.FC = () => {
         {/* Right Resizer Handle */}
         <div
           className={`w-[4px] -mx-[2px] cursor-col-resize hover:bg-neon-glow select-none transition-colors duration-150 relative z-20 ${
-            isDraggingRight ? 'bg-neon-glow' : 'bg-transparent'
+            isDraggingRight ? "bg-neon-glow" : "bg-transparent"
           }`}
           onMouseDown={startResizeRight}
         >
           <div
             className={`absolute inset-y-0 left-[1px] right-[2px] transition-colors duration-150 ${
-              isDraggingRight ? 'bg-neon-glow' : 'bg-graphite-light'
+              isDraggingRight ? "bg-neon-glow" : "bg-graphite-light"
             }`}
           />
         </div>
@@ -170,7 +176,11 @@ const EasyKaraAppContent: React.FC = () => {
         {/* Right Column: Styling & Publishing */}
         <div
           className="flex flex-col gap-4 p-4 overflow-y-auto bg-blackout"
-          style={{ width: `${rightWidth}px`, minWidth: `${rightWidth}px`, maxWidth: `${rightWidth}px` }}
+          style={{
+            width: `${rightWidth}px`,
+            minWidth: `${rightWidth}px`,
+            maxWidth: `${rightWidth}px`,
+          }}
         >
           <StyleConfigurator />
           <ExportPanel videoRef={videoRef} />
@@ -180,13 +190,13 @@ const EasyKaraAppContent: React.FC = () => {
       {/* Timeline Resizer Handle */}
       <div
         className={`h-[4px] -my-[2px] cursor-row-resize hover:bg-neon-glow select-none transition-colors duration-150 relative z-20 ${
-          isDraggingTimeline ? 'bg-neon-glow' : 'bg-transparent'
+          isDraggingTimeline ? "bg-neon-glow" : "bg-transparent"
         }`}
         onMouseDown={startResizeTimeline}
       >
         <div
           className={`absolute inset-x-0 top-[1px] bottom-[2px] transition-colors duration-150 ${
-            isDraggingTimeline ? 'bg-neon-glow' : 'bg-graphite-light'
+            isDraggingTimeline ? "bg-neon-glow" : "bg-graphite-light"
           }`}
         />
       </div>

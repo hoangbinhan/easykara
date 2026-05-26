@@ -10,7 +10,7 @@ interface ExportPanelProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
 }
 
-export const ExportPanel: React.FC<ExportPanelProps> = ({ videoRef }) => {
+export const ExportPanel: React.FC<ExportPanelProps> = React.memo(({ videoRef }) => {
   const { lines } = useKaraoke();
   const { t } = useLanguage();
 
@@ -35,4 +35,6 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ videoRef }) => {
       </div>
     </div>
   );
-};
+});
+
+ExportPanel.displayName = 'ExportPanel';

@@ -6,7 +6,7 @@ import { Paintbrush } from 'lucide-react';
 import { TypographySelectors } from './TypographySelectors';
 import { ColorPaletteSelectors } from './ColorPaletteSelectors';
 
-export const StyleConfigurator: React.FC = () => {
+export const StyleConfigurator: React.FC = React.memo(() => {
   const { styleConfig, updateStyleConfig, mediaType } = useKaraoke();
   const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -49,4 +49,6 @@ export const StyleConfigurator: React.FC = () => {
       </div>
     </div>
   );
-};
+});
+
+StyleConfigurator.displayName = 'StyleConfigurator';

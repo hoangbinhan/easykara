@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { useKaraokeStore } from '../../store/useKaraokeStore';
 import type { MediaTrack } from '../../context/KaraokeContext';
 
 interface UseTrackDragProps {
@@ -8,7 +9,7 @@ interface UseTrackDragProps {
 }
 
 export const useTrackDrag = ({ zoom }: UseTrackDragProps) => {
-  const { updateTrackOffset, currentTime } = useKaraoke();
+  const { updateTrackOffset } = useKaraoke();
   const { t } = useLanguage();
 
   const handleTrackDrag = useCallback((
@@ -31,6 +32,7 @@ export const useTrackDrag = ({ zoom }: UseTrackDragProps) => {
       let targetOffset = initialOffset + deltaTime;
 
       // Smart Snapping Logic
+      const currentTime = useKaraokeStore.getState().currentTime;
       if (Math.abs(targetOffset - currentTime) < snapToleranceSeconds) {
         targetOffset = currentTime;
       } else {
@@ -61,7 +63,7 @@ export const useTrackDrag = ({ zoom }: UseTrackDragProps) => {
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
-  }, [zoom, currentTime, updateTrackOffset, t]);
+  }, [zoom, updateTrackOffset, t]);
 
   return {
     handleTrackDrag,
