@@ -2,7 +2,6 @@ import React from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { Keyboard, Play, Pause, Zap } from 'lucide-react';
 import { WordBubbles } from './WordBubbles';
-import { HotkeyIndicator } from './HotkeyIndicator';
 import { useSyncEngine } from './useSyncEngine';
 
 export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | null> }> = React.memo(({ audioRef }) => {
@@ -10,19 +9,13 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
   const {
     playbackRate,
     isRecording,
-    setIsRecording,
     isPlaying,
     mediaUrl,
     currentLine,
     upcomingQueue,
-    isSpacePressed,
-    spacebarRef,
-    handleSyncStart,
-    handleSyncEnd,
     handleTogglePlay,
     handleRateChange,
     handleToggleRecord,
-    handleBackOneWord,
     isSyncComplete,
   } = useSyncEngine(audioRef);
 
@@ -103,19 +96,9 @@ export const SyncPanel: React.FC<{ audioRef: React.RefObject<HTMLAudioElement | 
           />
         )}
       </div>
-
-      {isRecording && mediaUrl && !isSyncComplete && (
-        <HotkeyIndicator
-          isSpacePressed={isSpacePressed}
-          handleSyncStart={handleSyncStart}
-          handleSyncEnd={handleSyncEnd}
-          onBackOneWord={handleBackOneWord}
-          onExitSync={() => setIsRecording(false)}
-          spacebarRef={spacebarRef}
-        />
-      )}
     </div>
   );
 });
+
 
 SyncPanel.displayName = 'SyncPanel';

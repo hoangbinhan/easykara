@@ -11,10 +11,13 @@ interface ExportPanelProps {
 }
 
 export const ExportPanel: React.FC<ExportPanelProps> = React.memo(({ videoRef }) => {
-  const { lines } = useKaraoke();
+  const isSyncReady = useKaraoke(
+    React.useCallback(
+      (state) => state.lines.length > 0 && state.lines.some((line) => line.startTime !== null),
+      []
+    )
+  );
   const { t } = useLanguage();
-
-  const isSyncReady = lines.length > 0 && lines.some(line => line.startTime !== null);
 
   return (
     <div className="panel-card">

@@ -10,7 +10,12 @@ interface VideoRecorderProps {
 }
 
 export const VideoRecorder: React.FC<VideoRecorderProps> = ({ videoRef, isSyncReady }) => {
-  const { mediaUrl } = useKaraoke();
+  const mediaUrl = useKaraoke(
+    React.useCallback(
+      (state) => state.mediaUrl,
+      []
+    )
+  );
   const { t } = useLanguage();
   const {
     isRecordingVideo,

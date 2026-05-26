@@ -7,7 +7,16 @@ import { TypographySelectors } from './TypographySelectors';
 import { ColorPaletteSelectors } from './ColorPaletteSelectors';
 
 export const StyleConfigurator: React.FC = React.memo(() => {
-  const { styleConfig, updateStyleConfig, mediaType } = useKaraoke();
+  const { styleConfig, updateStyleConfig, mediaType } = useKaraoke(
+    React.useCallback(
+      (state) => ({
+        styleConfig: state.styleConfig,
+        updateStyleConfig: state.updateStyleConfig,
+        mediaType: state.mediaType,
+      }),
+      []
+    )
+  );
   const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
 

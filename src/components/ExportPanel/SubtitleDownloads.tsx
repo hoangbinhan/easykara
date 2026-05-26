@@ -1,18 +1,19 @@
 import React from 'react';
-import { useKaraoke } from '../../context/KaraokeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { Download, AlertCircle } from 'lucide-react';
 import { triggerDownload, generateASS, generateLRC, generateSRT } from '../../utils/subtitleGenerators';
+import { useKaraokeStore } from '../../store/useKaraokeStore';
 
 interface SubtitleDownloadsProps {
   isSyncReady: boolean;
 }
 
 export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncReady }) => {
-  const { lines, styleConfig } = useKaraoke();
   const { t } = useLanguage();
 
   const handleExportASS = () => {
+    const lines = useKaraokeStore.getState().lines;
+    const styleConfig = useKaraokeStore.getState().styleConfig;
     const assText = generateASS(lines, styleConfig);
     if (assText) {
       triggerDownload(assText, 'karaoke_subtitles.ass', 'text/plain');
@@ -20,6 +21,7 @@ export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncRead
   };
 
   const handleExportLRC = () => {
+    const lines = useKaraokeStore.getState().lines;
     const lrcText = generateLRC(lines);
     if (lrcText) {
       triggerDownload(lrcText, 'karaoke_lyrics.lrc', 'text/plain');
@@ -27,6 +29,7 @@ export const SubtitleDownloads: React.FC<SubtitleDownloadsProps> = ({ isSyncRead
   };
 
   const handleExportSRT = () => {
+    const lines = useKaraokeStore.getState().lines;
     const srtText = generateSRT(lines);
     if (srtText) {
       triggerDownload(srtText, 'karaoke_subtitles.srt', 'text/plain');

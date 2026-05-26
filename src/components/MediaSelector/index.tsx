@@ -15,7 +15,19 @@ export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMedia
     updateTrackVolume,
     toggleMuteTrack,
     toggleSoloTrack,
-  } = useKaraoke();
+  } = useKaraoke(
+    React.useCallback(
+      (state) => ({
+        tracks: state.tracks,
+        addTrack: state.addTrack,
+        removeTrack: state.removeTrack,
+        updateTrackVolume: state.updateTrackVolume,
+        toggleMuteTrack: state.toggleMuteTrack,
+        toggleSoloTrack: state.toggleSoloTrack,
+      }),
+      []
+    )
+  );
 
   const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);

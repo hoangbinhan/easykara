@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
 import { useKaraokeStore } from '../../store/useKaraokeStore';
 
@@ -17,10 +17,28 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     endSyllableSync,
     mediaUrl,
     jumpToSyllable,
-  } = useKaraoke();
+  } = useKaraoke(
+    useCallback(
+      (state) => ({
+        lines: state.lines,
+        currentLineIndex: state.currentLineIndex,
+        currentSyllableIndex: state.currentSyllableIndex,
+        isPlaying: state.isPlaying,
+        setIsPlaying: state.setIsPlaying,
+        playbackRate: state.playbackRate,
+        setPlaybackRate: state.setPlaybackRate,
+        isRecording: state.isRecording,
+        setIsRecording: state.setIsRecording,
+        startSyllableSync: state.startSyllableSync,
+        endSyllableSync: state.endSyllableSync,
+        mediaUrl: state.mediaUrl,
+        jumpToSyllable: state.jumpToSyllable,
+      }),
+      []
+    )
+  );
 
-  const [isSpacePressed, setIsSpacePressed] = useState(false);
-  const spacebarRef = useRef<HTMLDivElement>(null);
+  const isSpacePressedRef = useRef(false);
 
   const currentLine = lines[currentLineIndex];
   
@@ -55,17 +73,17 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     if (audioRef.current) {
       startSyllableSync(audioRef.current.currentTime);
     }
-    setIsSpacePressed(true);
+    isSpacePressedRef.current = true;
   }, [isPlaying, mediaUrl, startSyllableSync, setIsPlaying, audioRef]);
 
   const handleSyncEnd = useCallback(() => {
-    if (!mediaUrl || !isSpacePressed) return;
+    if (!mediaUrl || !isSpacePressedRef.current) return;
     
     if (audioRef.current) {
       endSyllableSync(audioRef.current.currentTime);
     }
-    setIsSpacePressed(false);
-  }, [mediaUrl, isSpacePressed, endSyllableSync, audioRef]);
+    isSpacePressedRef.current = false;
+  }, [mediaUrl, endSyllableSync, audioRef]);
 
   const handleTogglePlay = useCallback(() => {
     if (!mediaUrl) return;
@@ -78,6 +96,19 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     }
   }, [mediaUrl, isPlaying, setIsPlaying, audioRef]);
 
+  const handleBackOneWord = useCallback(() => {
+    if (currentSyllableIndex > 0) {
+      const freshTime = useKaraokeStore.getState().currentTime;
+      endSyllableSync(freshTime);
+      const prevIdx = currentSyllableIndex - 1;
+      jumpToSyllable(currentLineIndex, prevIdx);
+    } else if (currentLineIndex > 0) {
+      const prevLineIdx = currentLineIndex - 1;
+      const prevLine = lines[prevLineIdx];
+      jumpToSyllable(prevLineIdx, prevLine.syllables.length - 1);
+    }
+  }, [currentSyllableIndex, currentLineIndex, lines, endSyllableSync, jumpToSyllable]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isRecording) return;
@@ -89,6 +120,14 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
       if (e.code === 'Enter') {
         e.preventDefault();
         handleTogglePlay();
+      }
+      if (e.code === 'Backspace') {
+        e.preventDefault();
+        handleBackOneWord();
+      }
+      if (e.code === 'Escape') {
+        e.preventDefault();
+        setIsRecording(false);
       }
     };
 
@@ -106,7 +145,7 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [isRecording, handleSyncStart, handleSyncEnd, handleTogglePlay]);
+  }, [isRecording, handleSyncStart, handleSyncEnd, handleTogglePlay, handleBackOneWord, setIsRecording]);
 
   const handleRateChange = (rate: number) => {
     setPlaybackRate(rate);
@@ -120,19 +159,6 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     setIsRecording(!isRecording);
     if (!isRecording && !isPlaying) {
       handleTogglePlay();
-    }
-  };
-
-  const handleBackOneWord = () => {
-    if (currentSyllableIndex > 0) {
-      const freshTime = useKaraokeStore.getState().currentTime;
-      endSyllableSync(freshTime);
-      const prevIdx = currentSyllableIndex - 1;
-      jumpToSyllable(currentLineIndex, prevIdx);
-    } else if (currentLineIndex > 0) {
-      const prevLineIdx = currentLineIndex - 1;
-      const prevLine = lines[prevLineIdx];
-      jumpToSyllable(prevLineIdx, prevLine.syllables.length - 1);
     }
   };
 
@@ -150,10 +176,6 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     mediaUrl,
     currentLine,
     upcomingQueue,
-    isSpacePressed,
-    spacebarRef,
-    handleSyncStart,
-    handleSyncEnd,
     handleTogglePlay,
     handleRateChange,
     handleToggleRecord,
@@ -161,3 +183,4 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     isSyncComplete,
   };
 };
+

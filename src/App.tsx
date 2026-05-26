@@ -22,7 +22,20 @@ const EasyKaraAppContent: React.FC = () => {
     canRedo,
     tracks,
     updateTrackWaveformData,
-  } = useKaraoke();
+  } = useKaraoke(
+    useCallback(
+      (state) => ({
+        mediaUrl: state.mediaUrl,
+        undo: state.undo,
+        redo: state.redo,
+        canUndo: state.canUndo,
+        canRedo: state.canRedo,
+        tracks: state.tracks,
+        updateTrackWaveformData: state.updateTrackWaveformData,
+      }),
+      []
+    )
+  );
 
   const { t, language, setLanguage } = useLanguage();
 

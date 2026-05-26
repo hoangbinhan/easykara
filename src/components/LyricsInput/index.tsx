@@ -4,7 +4,19 @@ import { useLanguage } from '../../context/LanguageContext';
 import { FileText, Play, RotateCcw, Lock, LockOpen } from 'lucide-react';
 
 export const LyricsInput: React.FC = React.memo(() => {
-  const { lyricsInput, setLyricsInput, parseLyrics, lines, resetSync } = useKaraoke();
+  const { lyricsInput, setLyricsInput, parseLyrics, linesCount, totalSyllablesCount, resetSync } = useKaraoke(
+    React.useCallback(
+      (state) => ({
+        lyricsInput: state.lyricsInput,
+        setLyricsInput: state.setLyricsInput,
+        parseLyrics: state.parseLyrics,
+        linesCount: state.lines.length,
+        totalSyllablesCount: state.lines.reduce((acc, curr) => acc + curr.syllables.length, 0),
+        resetSync: state.resetSync,
+      }),
+      []
+    )
+  );
   const { t } = useLanguage();
   const [isLocked, setIsLocked] = useState(false);
   const [localText, setLocalText] = useState(lyricsInput);
@@ -81,10 +93,10 @@ export const LyricsInput: React.FC = React.memo(() => {
           💡 <strong className="text-whiteout font-semibold">{t('lyricsInput.tipLabel')}</strong> {t('lyricsInput.tip')}
         </div>
 
-        {lines.length > 0 && (
+        {linesCount > 0 && (
           <div className="font-mono text-[10px] text-neon-glow font-medium">
-            📊 {t('lyricsInput.totalLines')} <strong className="text-whiteout">{lines.length}</strong> | {t('lyricsInput.totalWords')}{' '}
-            <strong className="text-whiteout">{lines.reduce((acc, curr) => acc + curr.syllables.length, 0)}</strong>
+            📊 {t('lyricsInput.totalLines')} <strong className="text-whiteout">{linesCount}</strong> | {t('lyricsInput.totalWords')}{' '}
+            <strong className="text-whiteout">{totalSyllablesCount}</strong>
           </div>
         )}
       </div>

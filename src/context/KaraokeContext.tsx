@@ -3,6 +3,8 @@ import React from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useKaraokeStore } from '../store/useKaraokeStore';
 
+import type { KaraokeStoreState } from '../store/types';
+
 export interface Syllable {
   id: string;
   text: string;
@@ -74,19 +76,34 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
   return <>{children}</>;
 };
 
-export const useKaraoke = () => {
+export function useKaraoke<T = KaraokeStoreState & { canUndo: boolean; canRedo: boolean }>(
+  selector?: (state: KaraokeStoreState & { canUndo: boolean; canRedo: boolean }) => T
+): T {
   const store = useKaraokeStore(
     useShallow((state) => {
+      const extendedState = {
+        ...state,
+        canUndo: state.undoStack.length > 0,
+        canRedo: state.redoStack.length > 0,
+      };
+
+      if (selector) {
+        return selector(extendedState);
+      }
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { currentTime, ...rest } = state;
+      const { currentTime, ...rest } = extendedState;
       return rest;
     })
   );
-  
+
+  if (selector) {
+    return store as T;
+  }
+
   return {
     ...store,
     currentTime: useKaraokeStore.getState().currentTime,
-    canUndo: store.undoStack.length > 0,
-    canRedo: store.redoStack.length > 0,
-  };
-};
+  } as T;
+}
+

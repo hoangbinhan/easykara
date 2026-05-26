@@ -2,17 +2,26 @@ import React, { useRef } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { FileJson, Upload } from 'lucide-react';
+import { useKaraokeStore } from '../../store/useKaraokeStore';
 
 export const ProjectSaveLoad: React.FC = () => {
-  const { lines, styleConfig, setLines, updateStyleConfig } = useKaraoke();
+  const { setLines, updateStyleConfig } = useKaraoke(
+    React.useCallback(
+      (state) => ({
+        setLines: state.setLines,
+        updateStyleConfig: state.updateStyleConfig,
+      }),
+      []
+    )
+  );
   const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSaveProject = () => {
     const projectData = {
       version: '1.0',
-      lines,
-      styleConfig,
+      lines: useKaraokeStore.getState().lines,
+      styleConfig: useKaraokeStore.getState().styleConfig,
     };
     const content = JSON.stringify(projectData, null, 2);
     const blob = new Blob([content], { type: 'application/json' });

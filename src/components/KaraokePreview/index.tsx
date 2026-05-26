@@ -20,7 +20,22 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
     mediaType,
     styleConfig,
     tracks,
-  } = useKaraoke();
+  } = useKaraoke(
+    React.useCallback(
+      (state) => ({
+        lines: state.lines,
+        isPlaying: state.isPlaying,
+        setIsPlaying: state.setIsPlaying,
+        setCurrentTime: state.setCurrentTime,
+        setDuration: state.setDuration,
+        mediaUrl: state.mediaUrl,
+        mediaType: state.mediaType,
+        styleConfig: state.styleConfig,
+        tracks: state.tracks,
+      }),
+      []
+    )
+  );
 
   const { t } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement>(null);

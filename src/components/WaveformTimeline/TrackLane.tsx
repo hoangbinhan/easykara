@@ -17,7 +17,16 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
   onDragStart,
   totalWidth,
 }) => {
-  const { toggleMuteTrack, toggleSoloTrack, updateTrackVolume } = useKaraoke();
+  const { toggleMuteTrack, toggleSoloTrack, updateTrackVolume } = useKaraoke(
+    React.useCallback(
+      (state) => ({
+        toggleMuteTrack: state.toggleMuteTrack,
+        toggleSoloTrack: state.toggleSoloTrack,
+        updateTrackVolume: state.updateTrackVolume,
+      }),
+      []
+    )
+  );
   const { t } = useLanguage();
 
   const peaks = track.waveformData?.peaks;

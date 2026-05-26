@@ -36,7 +36,19 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
     updateSyllableTime,
     updateSyllableText,
     tracks,
-  } = useKaraoke();
+  } = useKaraoke(
+    React.useCallback(
+      (state) => ({
+        lines: state.lines,
+        duration: state.duration,
+        setCurrentTime: state.setCurrentTime,
+        updateSyllableTime: state.updateSyllableTime,
+        updateSyllableText: state.updateSyllableText,
+        tracks: state.tracks,
+      }),
+      []
+    )
+  );
 
   const { t } = useLanguage();
 
