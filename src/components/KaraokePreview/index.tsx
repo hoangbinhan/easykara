@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { Play, Pause, RotateCcw } from 'lucide-react';
@@ -38,7 +38,6 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
   );
 
   const { t } = useLanguage();
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Synchronize master video element volume, Mute, and Solo states
   useEffect(() => {
@@ -54,6 +53,27 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
       video.volume = isSilenced ? 0 : masterTrack.volume;
     }
   }, [tracks, mediaUrl, videoRef]);
+
+  // High-precision 60fps clock updater driven by requestAnimationFrame during active playback
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !isPlaying) return;
+
+    let animationId: number;
+
+    const updateClock = () => {
+      if (video && !video.paused) {
+        setCurrentTime(video.currentTime);
+      }
+      animationId = requestAnimationFrame(updateClock);
+    };
+
+    animationId = requestAnimationFrame(updateClock);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [isPlaying, setCurrentTime, videoRef]);
 
   const handleTimeUpdate = () => {
     if (videoRef.current) {
@@ -91,17 +111,17 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
       {/* Real-time Render Canvas */}
       <div className="w-full aspect-video overflow-hidden relative bg-blackout border border-graphite-light rounded-[4px]">
         <CanvasPlayer
-          canvasRef={canvasRef}
           videoRef={videoRef}
           lines={lines}
           mediaType={mediaType}
           styleConfig={styleConfig}
+          isPlaying={isPlaying}
         />
 
         {/* Dynamic Multi-track Audio Playback Sync */}
         <MultiTrackAudioEngine />
 
-        {/* Hidden unified video player (Rendered off-screen for active frame decoding) */}
+        {/* Unified video player (Natively renders background when selected) */}
         {mediaUrl && (
           <video
             ref={videoRef}
@@ -109,7 +129,11 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={handleEnded}
-            className="absolute inset-0 opacity-0 pointer-events-none"
+            className={
+              styleConfig.bgType === 'video' && mediaType === 'video'
+                ? "absolute inset-0 w-full h-full object-cover z-0 opacity-100 pointer-events-none"
+                : "absolute inset-0 opacity-0 pointer-events-none z-0"
+            }
           />
         )}
       </div>
