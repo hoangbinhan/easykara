@@ -7,14 +7,12 @@ import { Music, Video, Volume2 } from 'lucide-react';
 interface TrackLaneProps {
   track: MediaTrack;
   zoom: number;
-  onDragStart: (e: React.MouseEvent, track: MediaTrack) => void;
   totalWidth: number;
 }
 
 export const TrackLane: React.FC<TrackLaneProps> = ({
   track,
   zoom,
-  onDragStart,
   totalWidth,
 }) => {
   const { toggleMuteTrack, toggleSoloTrack, updateTrackVolume } = useKaraoke(
@@ -137,8 +135,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
       >
         {/* Draggable audio segment block */}
         <div
-          onMouseDown={(e) => onDragStart(e, track)}
-          className={`absolute top-[6px] bottom-[6px] rounded-[4px] border bg-graphite-deep/80 hover:bg-graphite/70 cursor-grab active:cursor-grabbing flex items-center px-3 gap-2 select-none pointer-events-auto transition-all duration-150 active:scale-[0.99] active:border-neon-glow active:bg-graphite z-[1] ${
+          className={`absolute top-[6px] bottom-[6px] rounded-[4px] border bg-graphite-deep/80 hover:bg-graphite/70 flex items-center px-3 gap-2 select-none pointer-events-auto transition-all duration-150 z-[1] ${
             track.isMuted
               ? 'border-system-warning/30 opacity-40'
               : 'border-graphite-light hover:border-neon-glow/40'

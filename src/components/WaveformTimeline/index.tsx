@@ -10,7 +10,6 @@ import { SyllableEditModal } from "./SyllableEditModal";
 import { useTimelineDrag } from "./useTimelineDrag";
 import { TimeGrid } from "./TimeGrid";
 import { TrackLane } from "./TrackLane";
-import { useTrackDrag } from "./useTrackDrag";
 
 import type { WaveformData } from "../../hooks/useAudioAnalyzer";
 
@@ -128,7 +127,6 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
     return unsubscribe;
   }, [zoom, containerRef]);
 
-  const { handleTrackDrag } = useTrackDrag({ zoom });
   const totalWidth = duration * zoom;
 
   const updateTimeFromX = (clientX: number, rect: DOMRect) => {
@@ -248,7 +246,6 @@ export const WaveformTimeline: React.FC<WaveformTimelineProps> = ({
               key={track.id}
               track={track}
               zoom={zoom}
-              onDragStart={handleTrackDrag}
               totalWidth={totalWidth}
             />
           ))}
