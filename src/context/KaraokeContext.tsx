@@ -78,68 +78,55 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
 export function useKaraoke<T = KaraokeStoreState & { canUndo: boolean; canRedo: boolean }>(
   selector?: (state: KaraokeStoreState & { canUndo: boolean; canRedo: boolean }) => T
 ): T {
-  // Use React state to trigger render only when selected slice actually changes shallowly
-  const [slice, setSlice] = React.useState<T>(() => {
+  const defaultSelector = React.useCallback(
+    (state: KaraokeStoreState & { canUndo: boolean; canRedo: boolean }) => state as unknown as T,
+    []
+  );
+
+  const activeSelector = selector || defaultSelector;
+
+  // We use a ref to hold the active selector so the subscription listener always uses the latest version without re-subscribing
+  const selectorRef = React.useRef(activeSelector);
+  React.useEffect(() => {
+    selectorRef.current = activeSelector;
+  });
+
+  // Cache refs to perform manual memoization inside the stable getSnapshot callback
+  const lastStoreStateRef = React.useRef<unknown>(null);
+  const lastSliceRef = React.useRef<T>(null as never);
+
+  const getSnapshot = React.useCallback(() => {
     const state = useKaraokeStore.getState();
+
+    // Fast-path: if store reference hasn't changed, return previous slice directly
+    if (state === lastStoreStateRef.current) {
+      return lastSliceRef.current;
+    }
+
     const extendedState = {
       ...state,
       canUndo: state.undoStack.length > 0,
       canRedo: state.redoStack.length > 0,
     };
-    if (selector) return selector(extendedState);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { currentTime, ...rest } = extendedState;
-    return rest as unknown as T;
-  });
 
-  const selectorRef = React.useRef(selector);
-  const sliceRef = React.useRef(slice);
+    const newSlice = selectorRef.current(extendedState);
 
-  // Safely update refs outside of render phase to comply with React 19/ESLint rules
-  React.useEffect(() => {
-    selectorRef.current = selector;
-    sliceRef.current = slice;
-  });
+    // If new slice is shallowly equal to last slice, reuse previous reference to bypass React diffs
+    if (lastSliceRef.current !== null && shallowEqual(lastSliceRef.current, newSlice)) {
+      lastStoreStateRef.current = state;
+      return lastSliceRef.current;
+    }
 
-  React.useEffect(() => {
-    // Subscribe using Zustand's subscribeWithSelector option + custom equality function
-    const unsubscribe = useKaraokeStore.subscribe(
-      (state) => {
-        const extendedState = {
-          ...state,
-          canUndo: state.undoStack.length > 0,
-          canRedo: state.redoStack.length > 0,
-        };
-        const currentSelector = selectorRef.current;
-        if (currentSelector) {
-          return currentSelector(extendedState);
-        }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { currentTime, ...rest } = extendedState;
-        return rest as unknown as T;
-      },
-      (newSlice) => {
-        if (!shallowEqual(sliceRef.current, newSlice)) {
-          setSlice(newSlice);
-        }
-      },
-      {
-        equalityFn: (a, b) => shallowEqual(a, b),
-        fireImmediately: true
-      }
-    );
-
-    return unsubscribe;
+    lastStoreStateRef.current = state;
+    lastSliceRef.current = newSlice;
+    return newSlice;
   }, []);
 
-  if (selector) {
-    return slice;
-  }
-
-  return {
-    ...slice,
-    currentTime: useKaraokeStore.getState().currentTime,
-  } as unknown as T;
+  return React.useSyncExternalStore(
+    useKaraokeStore.subscribe,
+    getSnapshot,
+    getSnapshot
+  );
 }
 
 function shallowEqual(objA: unknown, objB: unknown): boolean {

@@ -9,7 +9,9 @@ interface UseTrackDragProps {
 }
 
 export const useTrackDrag = ({ zoom }: UseTrackDragProps) => {
-  const { updateTrackOffset } = useKaraoke();
+  const updateTrackOffset = useKaraoke(
+    useCallback((state) => state.updateTrackOffset, [])
+  );
   const { t } = useLanguage();
 
   const handleTrackDrag = useCallback((

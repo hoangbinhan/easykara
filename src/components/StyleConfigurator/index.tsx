@@ -32,6 +32,7 @@ export const StyleConfigurator: React.FC = React.memo(() => {
         bgType: 'image',
         bgImage: url
       });
+      e.target.value = '';
     }
   };
 

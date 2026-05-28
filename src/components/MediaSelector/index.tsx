@@ -39,6 +39,8 @@ export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMedia
         addTrack(file);
         if (onMediaLoaded) onMediaLoaded(file);
       });
+      // Reset the file input value so that the exact same file can be uploaded again if removed
+      e.target.value = '';
     }
   };
 

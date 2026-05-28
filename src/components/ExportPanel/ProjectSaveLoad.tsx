@@ -60,6 +60,7 @@ export const ProjectSaveLoad: React.FC = () => {
         }
       };
       reader.readAsText(file);
+      e.target.value = '';
     }
   };
 
