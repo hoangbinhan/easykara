@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
 import React from 'react';
-import { useShallow } from 'zustand/react/shallow';
 import { useKaraokeStore } from '../store/useKaraokeStore';
 
 import type { KaraokeStoreState } from '../store/types';
@@ -79,31 +78,87 @@ export const KaraokeProvider: React.FC<{ children: React.ReactNode }> = ({ child
 export function useKaraoke<T = KaraokeStoreState & { canUndo: boolean; canRedo: boolean }>(
   selector?: (state: KaraokeStoreState & { canUndo: boolean; canRedo: boolean }) => T
 ): T {
-  const store = useKaraokeStore(
-    useShallow((state) => {
-      const extendedState = {
-        ...state,
-        canUndo: state.undoStack.length > 0,
-        canRedo: state.redoStack.length > 0,
-      };
+  // Use React state to trigger render only when selected slice actually changes shallowly
+  const [slice, setSlice] = React.useState<T>(() => {
+    const state = useKaraokeStore.getState();
+    const extendedState = {
+      ...state,
+      canUndo: state.undoStack.length > 0,
+      canRedo: state.redoStack.length > 0,
+    };
+    if (selector) return selector(extendedState);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { currentTime, ...rest } = extendedState;
+    return rest as unknown as T;
+  });
 
-      if (selector) {
-        return selector(extendedState);
+  const selectorRef = React.useRef(selector);
+  const sliceRef = React.useRef(slice);
+
+  // Safely update refs outside of render phase to comply with React 19/ESLint rules
+  React.useEffect(() => {
+    selectorRef.current = selector;
+    sliceRef.current = slice;
+  });
+
+  React.useEffect(() => {
+    // Subscribe using Zustand's subscribeWithSelector option + custom equality function
+    const unsubscribe = useKaraokeStore.subscribe(
+      (state) => {
+        const extendedState = {
+          ...state,
+          canUndo: state.undoStack.length > 0,
+          canRedo: state.redoStack.length > 0,
+        };
+        const currentSelector = selectorRef.current;
+        if (currentSelector) {
+          return currentSelector(extendedState);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { currentTime, ...rest } = extendedState;
+        return rest as unknown as T;
+      },
+      (newSlice) => {
+        if (!shallowEqual(sliceRef.current, newSlice)) {
+          setSlice(newSlice);
+        }
+      },
+      {
+        equalityFn: (a, b) => shallowEqual(a, b),
+        fireImmediately: true
       }
+    );
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { currentTime, ...rest } = extendedState;
-      return rest;
-    })
-  );
+    return unsubscribe;
+  }, []);
 
   if (selector) {
-    return store as T;
+    return slice;
   }
 
   return {
-    ...store,
+    ...slice,
     currentTime: useKaraokeStore.getState().currentTime,
-  } as T;
+  } as unknown as T;
+}
+
+function shallowEqual(objA: unknown, objB: unknown): boolean {
+  if (Object.is(objA, objB)) return true;
+  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+    return false;
+  }
+  const keysA = Object.keys(objA as Record<string, unknown>);
+  const keysB = Object.keys(objB as Record<string, unknown>);
+  if (keysA.length !== keysB.length) return false;
+  for (let i = 0; i < keysA.length; i++) {
+    const key = keysA[i];
+    if (
+      !Object.prototype.hasOwnProperty.call(objB, key) ||
+      !Object.is((objA as Record<string, unknown>)[key], (objB as Record<string, unknown>)[key])
+    ) {
+      return false;
+    }
+  }
+  return true;
 }
 
