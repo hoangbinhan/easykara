@@ -3,6 +3,7 @@
 ## 1. Inline Object/Array Props
 
 ### The Problem
+
 ```jsx
 // BAD: New object every render defeats memo
 function Parent() {
@@ -16,6 +17,7 @@ const Component = memo(({ config }) => {
 ```
 
 ### Solutions
+
 ```jsx
 // GOOD: Stable reference with useMemo
 function Parent() {
@@ -39,19 +41,16 @@ function Parent() {
 ## 2. Anonymous Functions in JSX
 
 ### The Problem
+
 ```jsx
 // BAD: New function every render
 function List({ items }) {
-  return items.map(item => (
-    <Item
-      key={item.id}
-      onClick={() => handleClick(item.id)}
-    />
-  ));
+  return items.map((item) => <Item key={item.id} onClick={() => handleClick(item.id)} />);
 }
 ```
 
 ### Solutions
+
 ```jsx
 // GOOD: useCallback with stable reference
 function List({ items }) {
@@ -59,27 +58,19 @@ function List({ items }) {
     handleClick(id);
   }, []);
 
-  return items.map(item => (
-    <Item
-      key={item.id}
-      onClick={() => handleItemClick(item.id)}
-    />
-  ));
+  return items.map((item) => <Item key={item.id} onClick={() => handleItemClick(item.id)} />);
 }
 
 // ACCEPTABLE: For top-level handlers (not passed to memoized children)
 function Form() {
-  return (
-    <button onClick={(e) => console.log(e.target.value)}>
-      Click
-    </button>
-  );
+  return <button onClick={(e) => console.log(e.target.value)}>Click</button>;
 }
 ```
 
 ## 3. Over-Memoization
 
 ### The Problem
+
 ```jsx
 // BAD: Unnecessary memoization adds overhead
 const SimpleComponent = memo(({ text }) => <span>{text}</span>);
@@ -92,6 +83,7 @@ const handleClick = useCallback(() => {
 ```
 
 ### When to Memoize
+
 ```jsx
 // GOOD: Only memoize if expensive or frequently re-rendered with same props
 const ExpensiveComponent = memo(({ data }) => {
@@ -120,6 +112,7 @@ function Parent() {
 ## 4. Deriving State Unnecessarily
 
 ### The Problem
+
 ```jsx
 // BAD: Duplicate state causes sync issues
 function BadComponent({ items }) {
@@ -135,6 +128,7 @@ function BadComponent({ items }) {
 ```
 
 ### Solutions
+
 ```jsx
 // GOOD: Derive during render
 function GoodComponent({ items }) {
@@ -152,7 +146,7 @@ function ComponentWithExpensiveCalc({ items }) {
     return {
       count: items.length,
       total: items.reduce((sum, item) => sum + item.value, 0),
-      average: items.reduce((sum, item) => sum + item.value, 0) / items.length
+      average: items.reduce((sum, item) => sum + item.value, 0) / items.length,
     };
   }, [items]);
 }
@@ -161,6 +155,7 @@ function ComponentWithExpensiveCalc({ items }) {
 ## 5. Incorrect Dependencies
 
 ### The Problem
+
 ```jsx
 // BAD: Missing dependencies (stale closures)
 function Search() {
@@ -182,6 +177,7 @@ function DataComponent() {
 ```
 
 ### Solutions
+
 ```jsx
 // GOOD: Include all dependencies
 function Search() {
@@ -215,6 +211,7 @@ function DataComponent() {
 ## 6. Context Performance Issues
 
 ### The Problem
+
 ```jsx
 // BAD: Single context with everything causes widespread re-renders
 const AppContext = createContext();
@@ -235,6 +232,7 @@ function App() {
 ```
 
 ### Solutions
+
 ```jsx
 // GOOD: Split contexts by update frequency
 const UserContext = createContext();
@@ -267,22 +265,20 @@ function UserProfile() {
 ## 7. Large Component Files
 
 ### The Problem
+
 - Difficult to optimize specific parts
 - Hard to identify performance bottlenecks
 - Monolithic re-renders
 
 ### Solution
+
 ```jsx
 // Split into smaller, focused components
 // Each can be optimized independently
 
 // Before: One large component
 function Dashboard() {
-  return (
-    <div>
-      {/* 500 lines of JSX */}
-    </div>
-  );
+  return <div>{/* 500 lines of JSX */}</div>;
 }
 
 // After: Focused components
@@ -305,12 +301,13 @@ const MainContent = memo(MainContentComponent);
 ## 8. Image Loading Issues
 
 ### The Problem
+
 ```jsx
 // BAD: All images load immediately
 function Gallery({ images }) {
   return (
     <div>
-      {images.map(img => (
+      {images.map((img) => (
         <img key={img.id} src={img.url} alt={img.alt} />
       ))}
     </div>
@@ -319,19 +316,14 @@ function Gallery({ images }) {
 ```
 
 ### Solutions
+
 ```jsx
 // GOOD: Native lazy loading
 function Gallery({ images }) {
   return (
     <div>
-      {images.map(img => (
-        <img
-          key={img.id}
-          src={img.url}
-          alt={img.alt}
-          loading="lazy"
-          decoding="async"
-        />
+      {images.map((img) => (
+        <img key={img.id} src={img.url} alt={img.alt} loading="lazy" decoding="async" />
       ))}
     </div>
   );
@@ -360,12 +352,6 @@ function LazyImage({ src, alt }) {
     return () => observer.disconnect();
   }, []);
 
-  return (
-    <img
-      ref={imgRef}
-      src={isLoaded ? src : '/placeholder.jpg'}
-      alt={alt}
-    />
-  );
+  return <img ref={imgRef} src={isLoaded ? src : '/placeholder.jpg'} alt={alt} />;
 }
 ```

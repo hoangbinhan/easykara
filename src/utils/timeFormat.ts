@@ -37,7 +37,9 @@ export const formatSRTTime = (secs: number): string => {
  * Converts a standard hex color string (#RRGGBB or #RGB) into an ASS-compatible hex ABGR string (e.g., &H00BBGGRR&)
  */
 export const hexToASSColor = (hex: string): string => {
-  let r = 'FF', g = 'FF', b = 'FF';
+  let r = 'FF',
+    g = 'FF',
+    b = 'FF';
   if (hex.startsWith('#')) {
     if (hex.length === 7) {
       r = hex.substring(1, 3);

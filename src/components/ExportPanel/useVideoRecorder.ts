@@ -40,10 +40,12 @@ export const useVideoRecorder = ({ videoRef, mediaUrl }: UseVideoRecorderProps) 
       const videoStream = canvas.captureStream(30);
       const combinedTracks: MediaStreamTrack[] = [];
 
-      videoStream.getVideoTracks().forEach(track => combinedTracks.push(track));
+      videoStream.getVideoTracks().forEach((track) => combinedTracks.push(track));
 
       if (!audioContextRef.current) {
-        const AudioContextClass = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        const AudioContextClass =
+          window.AudioContext ||
+          (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
         audioContextRef.current = new AudioContextClass();
       }
 
@@ -66,7 +68,7 @@ export const useVideoRecorder = ({ videoRef, mediaUrl }: UseVideoRecorderProps) 
         destStream = audioDestRef.current.stream;
       }
 
-      destStream.getAudioTracks().forEach(track => combinedTracks.push(track));
+      destStream.getAudioTracks().forEach((track) => combinedTracks.push(track));
 
       const combinedStream = new MediaStream(combinedTracks);
 
@@ -119,7 +121,6 @@ export const useVideoRecorder = ({ videoRef, mediaUrl }: UseVideoRecorderProps) 
           }
         }
       }, 500);
-
     } catch (e) {
       console.error(e);
       alert('Could not record video. Please try again.');

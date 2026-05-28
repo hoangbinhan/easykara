@@ -17,7 +17,11 @@ export const useTimelineDrag = ({
   audioRef,
 }: UseTimelineDragProps) => {
   const [zoom, setZoom] = useState<number>(60);
-  const [editingSyl, setEditingSyl] = useState<{ lineIdx: number; sylIdx: number; text: string } | null>(null);
+  const [editingSyl, setEditingSyl] = useState<{
+    lineIdx: number;
+    sylIdx: number;
+    text: string;
+  } | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [containerHeight, setContainerHeight] = useState<number>(120);
 
@@ -46,71 +50,79 @@ export const useTimelineDrag = ({
   const handleZoomIn = () => setZoom((z) => Math.min(240, z + 30));
   const handleZoomOut = () => setZoom((z) => Math.max(20, z - 30));
 
-
   const handleTimelineClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current || !audioRef.current || duration === 0) return;
-    
+
     const target = e.target as HTMLElement;
-    if (!target.classList.contains('timeline-scrollable') && !target.classList.contains('waveform-canvas')) {
+    if (
+      !target.classList.contains('timeline-scrollable') &&
+      !target.classList.contains('waveform-canvas')
+    ) {
       return;
     }
-    
+
     const rect = scrollRef.current.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const time = clickX / zoom;
-    
+
     const targetTime = Math.max(0, Math.min(duration, time));
     audioRef.current.currentTime = targetTime;
     setCurrentTime(targetTime);
   };
 
-  const handleBlockDrag = useCallback((
-    e: React.MouseEvent,
-    lineIdx: number,
-    sylIdx: number,
-    syl: Syllable,
-    type: 'move' | 'resize-start' | 'resize-end'
-  ) => {
-    e.stopPropagation();
-    e.preventDefault();
-    
-    const startX = e.clientX;
-    const initialStart = syl.startTime || 0;
-    const initialEnd = syl.endTime || 0;
-    const initialDur = initialEnd - initialStart;
+  const handleBlockDrag = useCallback(
+    (
+      e: React.MouseEvent,
+      lineIdx: number,
+      sylIdx: number,
+      syl: Syllable,
+      type: 'move' | 'resize-start' | 'resize-end'
+    ) => {
+      e.stopPropagation();
+      e.preventDefault();
 
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      const deltaX = moveEvent.clientX - startX;
-      const deltaTime = deltaX / zoom;
-      
-      let newStart = initialStart;
-      let newEnd = initialEnd;
+      const startX = e.clientX;
+      const initialStart = syl.startTime || 0;
+      const initialEnd = syl.endTime || 0;
+      const initialDur = initialEnd - initialStart;
 
-      if (type === 'move') {
-        newStart = Math.max(0, initialStart + deltaTime);
-        newEnd = newStart + initialDur;
-      } else if (type === 'resize-start') {
-        newStart = Math.max(0, Math.min(initialEnd - 0.05, initialStart + deltaTime));
-      } else if (type === 'resize-end') {
-        newEnd = Math.max(initialStart + 0.05, initialEnd + deltaTime);
-      }
+      const handleMouseMove = (moveEvent: MouseEvent) => {
+        const deltaX = moveEvent.clientX - startX;
+        const deltaTime = deltaX / zoom;
 
-      updateSyllableTime(lineIdx, sylIdx, newStart, newEnd);
-    };
+        let newStart = initialStart;
+        let newEnd = initialEnd;
 
-    const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
+        if (type === 'move') {
+          newStart = Math.max(0, initialStart + deltaTime);
+          newEnd = newStart + initialDur;
+        } else if (type === 'resize-start') {
+          newStart = Math.max(0, Math.min(initialEnd - 0.05, initialStart + deltaTime));
+        } else if (type === 'resize-end') {
+          newEnd = Math.max(initialStart + 0.05, initialEnd + deltaTime);
+        }
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-  }, [zoom, updateSyllableTime]);
+        updateSyllableTime(lineIdx, sylIdx, newStart, newEnd);
+      };
 
-  const handleEditClick = useCallback((lineIdx: number, sylIdx: number, syl: Syllable, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setEditingSyl({ lineIdx, sylIdx, text: syl.text });
-  }, []);
+      const handleMouseUp = () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    },
+    [zoom, updateSyllableTime]
+  );
+
+  const handleEditClick = useCallback(
+    (lineIdx: number, sylIdx: number, syl: Syllable, e: React.MouseEvent) => {
+      e.stopPropagation();
+      setEditingSyl({ lineIdx, sylIdx, text: syl.text });
+    },
+    []
+  );
 
   const handleSaveEdit = () => {
     if (editingSyl) {

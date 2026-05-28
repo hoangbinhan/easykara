@@ -1,4 +1,5 @@
 # Neon — Style Reference
+
 > Server Room After Dark. A deep black environment where data and interactions are the only sources of light.
 
 **Theme:** dark
@@ -7,25 +8,26 @@ The design feels like a high-end server room after dark — a pure black void wh
 
 ## Tokens — Colors
 
-| Name | Value | Token | Role |
-|------|-------|-------|------|
-| Neon Glow | `#34d59a` | `--color-neon-glow` | Key brand accent, active state indicators, data visualizations — injects a vibrant, code-like energy. |
-| Neon Muted | `#285d49` | `--color-neon-muted` | Subtle background tones in visualizations, less prominent brand elements. |
-| Scanline Fade | `linear-gradient(90deg, rgba(57, 165, 125, 0.6) 50%, rgba(0, 0, 0, 0) 50%)` | `--color-scanline-fade` | Special effect for highlighting code or UI elements, mimicking a terminal scanline. |
-| System Warning | `#ff3621` | `--color-system-warning` | Used sparingly for icons or highlights requiring urgent attention. |
-| Whiteout | `#ffffff` | `--color-whiteout` | Primary text, primary CTA button backgrounds, icons. |
-| Ash | `#797d86` | `--color-ash` | Secondary text, descriptive copy, inactive navigation links. |
-| Pewter | `#94979` | `--color-pewter` | Tertiary text, metadata, placeholder text. |
-| Cloud | `#c9cbcf` | `--color-cloud` | Hover states on dark elements, subtle highlights. |
-| Graphite Light | `#303236` | `--color-graphite-light` | Borders, dividers, subtle UI structure. |
-| Graphite | `#242628` | `--color-graphite` | Secondary surfaces floating on the background. |
-| Graphite Deep | `#151617` | `--color-graphite-deep` | Card backgrounds, code block surfaces. |
-| Depth | `#0a0a0b` | `--color-depth` | The darkest surface color before pure black, for subtle elevation. |
-| Blackout | `#000000` | `--color-blackout` | The absolute page background. |
+| Name           | Value                                                                       | Token                    | Role                                                                                                  |
+| -------------- | --------------------------------------------------------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| Neon Glow      | `#34d59a`                                                                   | `--color-neon-glow`      | Key brand accent, active state indicators, data visualizations — injects a vibrant, code-like energy. |
+| Neon Muted     | `#285d49`                                                                   | `--color-neon-muted`     | Subtle background tones in visualizations, less prominent brand elements.                             |
+| Scanline Fade  | `linear-gradient(90deg, rgba(57, 165, 125, 0.6) 50%, rgba(0, 0, 0, 0) 50%)` | `--color-scanline-fade`  | Special effect for highlighting code or UI elements, mimicking a terminal scanline.                   |
+| System Warning | `#ff3621`                                                                   | `--color-system-warning` | Used sparingly for icons or highlights requiring urgent attention.                                    |
+| Whiteout       | `#ffffff`                                                                   | `--color-whiteout`       | Primary text, primary CTA button backgrounds, icons.                                                  |
+| Ash            | `#797d86`                                                                   | `--color-ash`            | Secondary text, descriptive copy, inactive navigation links.                                          |
+| Pewter         | `#94979`                                                                    | `--color-pewter`         | Tertiary text, metadata, placeholder text.                                                            |
+| Cloud          | `#c9cbcf`                                                                   | `--color-cloud`          | Hover states on dark elements, subtle highlights.                                                     |
+| Graphite Light | `#303236`                                                                   | `--color-graphite-light` | Borders, dividers, subtle UI structure.                                                               |
+| Graphite       | `#242628`                                                                   | `--color-graphite`       | Secondary surfaces floating on the background.                                                        |
+| Graphite Deep  | `#151617`                                                                   | `--color-graphite-deep`  | Card backgrounds, code block surfaces.                                                                |
+| Depth          | `#0a0a0b`                                                                   | `--color-depth`          | The darkest surface color before pure black, for subtle elevation.                                    |
+| Blackout       | `#000000`                                                                   | `--color-blackout`       | The absolute page background.                                                                         |
 
 ## Tokens — Typography
 
 ### Inter — Headlines and primary marketing copy. Its clean, neutral geometry provides high readability, contrasting with the more stylized monospaced font. · `--font-inter`
+
 - **Substitute:** Inter
 - **Weights:** 400, 500
 - **Sizes:** 10px, 12px, 13px, 14px, 15px, 16px, 18px, 20px, 24px, 28px, 32px, 40px, 44px, 48px, 60px, 80px
@@ -34,6 +36,7 @@ The design feels like a high-end server room after dark — a pure black void wh
 - **Role:** Headlines and primary marketing copy. Its clean, neutral geometry provides high readability, contrasting with the more stylized monospaced font.
 
 ### GeistMono — Code snippets, UI labels, and data displays. Its monospaced form adds a technical, typewriter-like precision, reinforcing the developer-centric identity. · `--font-geistmono`
+
 - **Substitute:** Fira Code, Source Code Pro
 - **Weights:** 400, 500, 600
 - **Sizes:** 12px, 14px, 16px, 18px, 20px
@@ -43,16 +46,16 @@ The design feels like a high-end server room after dark — a pure black void wh
 
 ### Type Scale
 
-| Role | Size | Line Height | Letter Spacing | Token |
-|------|------|-------------|----------------|-------|
-| caption | 12px | 1.5 | -0.7px | `--text-caption` |
-| body-sm | 14px | 1.5 | -0.7px | `--text-body-sm` |
-| body | 16px | 1.5 | -0.43px | `--text-body` |
-| subheading | 18px | 1.38 | -0.36px | `--text-subheading` |
-| heading-sm | 24px | 1.25 | -0.24px | `--text-heading-sm` |
-| heading | 32px | 1.25 | -0.64px | `--text-heading` |
-| heading-lg | 48px | 1.13 | -1.2px | `--text-heading-lg` |
-| display | 80px | 1 | -3.2px | `--text-display` |
+| Role       | Size | Line Height | Letter Spacing | Token               |
+| ---------- | ---- | ----------- | -------------- | ------------------- |
+| caption    | 12px | 1.5         | -0.7px         | `--text-caption`    |
+| body-sm    | 14px | 1.5         | -0.7px         | `--text-body-sm`    |
+| body       | 16px | 1.5         | -0.43px        | `--text-body`       |
+| subheading | 18px | 1.38        | -0.36px        | `--text-subheading` |
+| heading-sm | 24px | 1.25        | -0.24px        | `--text-heading-sm` |
+| heading    | 32px | 1.25        | -0.64px        | `--text-heading`    |
+| heading-lg | 48px | 1.13        | -1.2px         | `--text-heading-lg` |
+| display    | 80px | 1           | -3.2px         | `--text-display`    |
 
 ## Tokens — Spacing & Shapes
 
@@ -62,39 +65,39 @@ The design feels like a high-end server room after dark — a pure black void wh
 
 ### Spacing Scale
 
-| Name | Value | Token |
-|------|-------|-------|
-| 4 | 4px | `--spacing-4` |
-| 8 | 8px | `--spacing-8` |
-| 12 | 12px | `--spacing-12` |
-| 16 | 16px | `--spacing-16` |
-| 20 | 20px | `--spacing-20` |
-| 24 | 24px | `--spacing-24` |
-| 28 | 28px | `--spacing-28` |
-| 32 | 32px | `--spacing-32` |
-| 36 | 36px | `--spacing-36` |
-| 40 | 40px | `--spacing-40` |
-| 56 | 56px | `--spacing-56` |
-| 64 | 64px | `--spacing-64` |
-| 80 | 80px | `--spacing-80` |
-| 128 | 128px | `--spacing-128` |
-| 160 | 160px | `--spacing-160` |
-| 240 | 240px | `--spacing-240` |
+| Name | Value | Token           |
+| ---- | ----- | --------------- |
+| 4    | 4px   | `--spacing-4`   |
+| 8    | 8px   | `--spacing-8`   |
+| 12   | 12px  | `--spacing-12`  |
+| 16   | 16px  | `--spacing-16`  |
+| 20   | 20px  | `--spacing-20`  |
+| 24   | 24px  | `--spacing-24`  |
+| 28   | 28px  | `--spacing-28`  |
+| 32   | 32px  | `--spacing-32`  |
+| 36   | 36px  | `--spacing-36`  |
+| 40   | 40px  | `--spacing-40`  |
+| 56   | 56px  | `--spacing-56`  |
+| 64   | 64px  | `--spacing-64`  |
+| 80   | 80px  | `--spacing-80`  |
+| 128  | 128px | `--spacing-128` |
+| 160  | 160px | `--spacing-160` |
+| 240  | 240px | `--spacing-240` |
 
 ### Border Radius
 
-| Element | Value |
-|---------|-------|
-| cards | 4px |
-| inputs | 4px |
-| buttons | 9999px |
-| containers | 4px |
+| Element    | Value  |
+| ---------- | ------ |
+| cards      | 4px    |
+| inputs     | 4px    |
+| buttons    | 9999px |
+| containers | 4px    |
 
 ### Shadows
 
-| Name | Value | Token |
-|------|-------|-------|
-| lg | `rgba(0, 0, 0, 0.4) 0px 8px 20px 0px` | `--shadow-lg` |
+| Name | Value                                 | Token         |
+| ---- | ------------------------------------- | ------------- |
+| lg   | `rgba(0, 0, 0, 0.4) 0px 8px 20px 0px` | `--shadow-lg` |
 
 ### Layout
 
@@ -106,36 +109,43 @@ The design feels like a high-end server room after dark — a pure black void wh
 ## Components
 
 ### Primary Pill Button
+
 **Role:** The main call-to-action, e.g., 'Get started', 'Sign up'.
 
 A pill-shaped button with a Whiteout (#ffffff) background and Graphite Deep (#151617) text. Uses Inter font. Padding is H: 28px, V: 12px. Radius is 9999px.
 
 ### Ghost Pill Button
+
 **Role:** Secondary actions, e.g., 'Read the docs', 'Log in'.
 
 A pill-shaped button with a transparent background, Whiteout (#ffffff) text, and a 1px solid border in Graphite Light (#303236). Uses Inter font. Padding is H: 18px, V: 12px. Radius is 9999px.
 
 ### Feature List Item
+
 **Role:** Bulleted items in feature sections.
 
 Whiteout (#ffffff) text using Inter. Preceded by a small dot or icon colored with Neon Glow (#34d59a).
 
 ### Navigation Link
+
 **Role:** Links in the main site header.
 
 Text in Ash (#797d86) using Inter font. On hover or active state, text becomes Whiteout (#ffffff).
 
 ### Tag Badge
+
 **Role:** Small informational tags, like 'A DATABRICKS COMPANY'.
 
 Small, all-caps text using GeistMono in Ash (#797d86) or a similar gray. Often preceded by a Neon Glow (#34d59a) icon or symbol.
 
 ### Announcement Bar
+
 **Role:** A persistent top bar for site-wide announcements.
 
 Full-width bar with a Blackout (#000000) background. Text uses Inter font in a legible color like Whiteout (#ffffff) or Neon Glow (#34d59a).
 
 ### Logo Bar
+
 **Role:** A section displaying logos of partner or client companies.
 
 A row of logos rendered in a monochrome Ash (#797d86) or Pewter (#94979e) color on a Blackout (#000000) background.
@@ -143,6 +153,7 @@ A row of logos rendered in a monochrome Ash (#797d86) or Pewter (#94979e) color 
 ## Do's and Don'ts
 
 ### Do
+
 - Use pure Blackout (#000000) for all main section backgrounds.
 - Reserve Neon Glow (#34d59a) for interactive highlights, data visualizations, and small decorative accents only.
 - Employ the Whiteout (#ffffff) pill button for all primary calls-to-action.
@@ -152,6 +163,7 @@ A row of logos rendered in a monochrome Ash (#797d86) or Pewter (#94979e) color 
 - Maintain a strict dichotomy of shapes: 9999px radius for buttons, 4px for all other containers.
 
 ### Don't
+
 - Don't use gradients or background colors on main page sections.
 - Don't use traditional box-shadows for elevation.
 - Don't use Neon Glow (#34d59a) for body copy or headlines.
@@ -175,6 +187,7 @@ The page structure is full-bleed black, creating an immersive, infinite canvas. 
 ## Agent Prompt Guide
 
 ### Quick Color Reference
+
 - **Page Background:** Blackout (`#000000`)
 - **Primary Text:** Whiteout (`#ffffff`)
 - **Secondary Text:** Ash (`#797d86`)
@@ -183,6 +196,7 @@ The page structure is full-bleed black, creating an immersive, infinite canvas. 
 - **Border / Divider:** Graphite Light (`#303236`)
 
 ### Example Component Prompts
+
 1.  **Hero Section:** "Create a full-screen hero section with a `Blackout` #000000 background. Add a large display headline: text 'Fast Postgres Databases', font `Inter` 80px weight 500, color `Whiteout` #ffffff, line-height 1.0, and letter-spacing -3.2px. Below it, add a primary CTA button: 'Get started' in a `Whiteout` #ffffff pill with `Graphite Deep` #151617 text, 9999px radius, and 12px 28px padding."
 2.  **Code Block:** "Design a terminal code block component. Use a `Graphite Deep` #151617 background with 4px rounded corners and 24px padding. The text inside should use the `GeistMono` font at 14px. Default text color is `Whiteout` #ffffff. Highlight specific keywords or outputs with `Neon Glow` #34d59a."
 3.  **Feature Section:** "Create a two-column section on a `Blackout` #000000 background. In the left column, create a list of features with `Whiteout` #ffffff text and a `Neon Glow` #34d59a dot prefix. In the right column, add a heading 'Integrate with a single command' using `Inter` 48px, `Whiteout` #ffffff color, and -1.2px letter-spacing."
@@ -204,7 +218,11 @@ The page structure is full-bleed black, creating an immersive, infinite canvas. 
   --color-neon-glow: #34d59a;
   --color-neon-muted: #285d49;
   --color-scanline-fade: #39a57d;
-  --gradient-scanline-fade: linear-gradient(90deg, rgba(57, 165, 125, 0.6) 50%, rgba(0, 0, 0, 0) 50%);
+  --gradient-scanline-fade: linear-gradient(
+    90deg,
+    rgba(57, 165, 125, 0.6) 50%,
+    rgba(0, 0, 0, 0) 50%
+  );
   --color-system-warning: #ff3621;
   --color-whiteout: #ffffff;
   --color-ash: #797d86;
@@ -217,7 +235,9 @@ The page structure is full-bleed black, creating an immersive, infinite canvas. 
   --color-blackout: #000000;
 
   /* Typography — Font Families */
-  --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-inter:
+    'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    sans-serif;
   --font-geistmono: 'GeistMono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Typography — Scale */
@@ -310,7 +330,9 @@ The page structure is full-bleed black, creating an immersive, infinite canvas. 
   --color-blackout: #000000;
 
   /* Typography */
-  --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-inter:
+    'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    sans-serif;
   --font-geistmono: 'GeistMono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Typography — Scale */

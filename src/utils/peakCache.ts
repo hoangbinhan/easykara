@@ -1,7 +1,7 @@
 export interface MultiResPeaks {
   overview: number[]; // 1000 peaks
   standard: number[]; // 4000 peaks
-  detail: number[];   // 16000 peaks
+  detail: number[]; // 16000 peaks
 }
 
 /**
@@ -15,7 +15,7 @@ export const getPeaksForZoom = (
   zoom: number
 ): number[] => {
   if (!peaksData) return [];
-  
+
   const multiRes = peaksData.multiRes;
   if (!multiRes) {
     return peaksData.peaks;

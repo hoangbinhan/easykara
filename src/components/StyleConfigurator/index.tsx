@@ -30,7 +30,7 @@ export const StyleConfigurator: React.FC = React.memo(() => {
       const url = URL.createObjectURL(file);
       updateStyleConfig({
         bgType: 'image',
-        bgImage: url
+        bgImage: url,
       });
       e.target.value = '';
     }
@@ -44,11 +44,8 @@ export const StyleConfigurator: React.FC = React.memo(() => {
       </div>
 
       <div className="flex flex-col gap-3.5 text-[13px]">
-        <TypographySelectors
-          styleConfig={styleConfig}
-          onStyleChange={handleStyleChange}
-        />
-        
+        <TypographySelectors styleConfig={styleConfig} onStyleChange={handleStyleChange} />
+
         <ColorPaletteSelectors
           styleConfig={styleConfig}
           onStyleChange={handleStyleChange}

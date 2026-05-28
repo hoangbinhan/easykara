@@ -34,7 +34,7 @@ export const DOMSyllable: React.FC<DOMSyllableProps> = ({
   return (
     <span className="relative inline-block select-none whitespace-pre leading-none">
       {/* 1. Stroke outline layer underneath (renders outline completely behind the text fill) */}
-      <span 
+      <span
         className="absolute inset-0 select-none pointer-events-none leading-none"
         style={{
           ...baseFontStyles,
@@ -47,7 +47,7 @@ export const DOMSyllable: React.FC<DOMSyllableProps> = ({
       </span>
 
       {/* 2. Text Fill layer on top with GPU-composited background-clip gradient sweep */}
-      <span 
+      <span
         className="relative inline-block leading-none select-none pointer-events-none transition-[background-position] duration-100 ease-out"
         style={{
           ...baseFontStyles,

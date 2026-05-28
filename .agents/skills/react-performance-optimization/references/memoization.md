@@ -3,6 +3,7 @@
 ## React.memo for Component Memoization
 
 **Prevent unnecessary re-renders of functional components:**
+
 ```jsx
 import React, { memo } from 'react';
 
@@ -28,25 +29,30 @@ const UserCard = memo(
   ),
   (prevProps, nextProps) => {
     // Return true if props are equal (skip render)
-    return prevProps.user.id === nextProps.user.id &&
-           prevProps.settings.theme === nextProps.settings.theme;
+    return (
+      prevProps.user.id === nextProps.user.id &&
+      prevProps.settings.theme === nextProps.settings.theme
+    );
   }
 );
 ```
 
 **When to use:**
+
 - Component renders with same props frequently
 - Expensive rendering logic (complex JSX, heavy computations)
 - Child components in frequently updating parent
 - List items with stable props
 
 **When NOT to use:**
+
 - Props change on every render (comparison overhead)
 - Simple, fast-rendering components (unnecessary optimization)
 
 ## useMemo for Expensive Computations
 
 **Cache expensive calculation results:**
+
 ```jsx
 import { useMemo } from 'react';
 
@@ -56,17 +62,17 @@ function DataAnalyzer({ items, filters }) {
     console.log('Computing filtered data');
 
     return items
-      .filter(item => filters.categories.includes(item.category))
-      .filter(item => item.price >= filters.minPrice)
+      .filter((item) => filters.categories.includes(item.category))
+      .filter((item) => item.price >= filters.minPrice)
       .sort((a, b) => b.score - a.score);
   }, [items, filters]);
 
   const statistics = useMemo(() => {
     return {
       total: filteredAndSorted.length,
-      average: filteredAndSorted.reduce((sum, item) => sum + item.price, 0) /
-               filteredAndSorted.length,
-      maxPrice: Math.max(...filteredAndSorted.map(item => item.price))
+      average:
+        filteredAndSorted.reduce((sum, item) => sum + item.price, 0) / filteredAndSorted.length,
+      maxPrice: Math.max(...filteredAndSorted.map((item) => item.price)),
     };
   }, [filteredAndSorted]);
 
@@ -80,18 +86,21 @@ function DataAnalyzer({ items, filters }) {
 ```
 
 **Use cases:**
+
 - Expensive array operations (filter, map, sort, reduce)
 - Complex mathematical calculations
 - Data transformations and aggregations
 - Creating derived data structures
 
 **Performance impact:**
+
 - Without useMemo: Computation runs every render
 - With useMemo: Computation runs only when dependencies change
 
 ## useCallback for Stable Function References
 
 **Prevent child re-renders caused by function reference changes:**
+
 ```jsx
 import { useState, useCallback, memo } from 'react';
 
@@ -115,20 +124,18 @@ function ItemList({ items }) {
     // API call to delete
   }, []); // No dependencies = never recreated
 
-  const handleEdit = useCallback((id) => {
-    setSelectedId(id);
-    // Open edit modal
-  }, [setSelectedId]); // Recreated only if setSelectedId changes
+  const handleEdit = useCallback(
+    (id) => {
+      setSelectedId(id);
+      // Open edit modal
+    },
+    [setSelectedId]
+  ); // Recreated only if setSelectedId changes
 
   return (
     <div>
-      {items.map(item => (
-        <ListItem
-          key={item.id}
-          item={item}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-        />
+      {items.map((item) => (
+        <ListItem key={item.id} item={item} onDelete={handleDelete} onEdit={handleEdit} />
       ))}
     </div>
   );
@@ -136,5 +143,6 @@ function ItemList({ items }) {
 ```
 
 **Critical rule:**
+
 - Use `useCallback` when passing functions to memoized child components
 - Without it, new function reference on every render defeats memo optimization

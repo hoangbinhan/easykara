@@ -41,22 +41,22 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
   const isSpacePressedRef = useRef(false);
 
   const currentLine = lines[currentLineIndex];
-  
+
   const getUpcomingQueue = useCallback(() => {
     if (!currentLine) return [];
     const queue = [];
-    
+
     for (let i = currentSyllableIndex + 1; i < currentLine.syllables.length; i++) {
       queue.push({ text: currentLine.syllables[i].text, type: 'current-line' });
     }
-    
+
     const nextLine = lines[currentLineIndex + 1];
     if (nextLine) {
       for (let i = 0; i < Math.min(5, nextLine.syllables.length); i++) {
         queue.push({ text: nextLine.syllables[i].text, type: 'next-line' });
       }
     }
-    
+
     return queue.slice(0, 4);
   }, [currentLine, currentSyllableIndex, lines, currentLineIndex]);
 
@@ -64,12 +64,12 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
 
   const handleSyncStart = useCallback(() => {
     if (!mediaUrl) return;
-    
+
     if (!isPlaying && audioRef.current) {
       audioRef.current.play();
       setIsPlaying(true);
     }
-    
+
     if (audioRef.current) {
       startSyllableSync(audioRef.current.currentTime);
     }
@@ -78,7 +78,7 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
 
   const handleSyncEnd = useCallback(() => {
     if (!mediaUrl || !isSpacePressedRef.current) return;
-    
+
     if (audioRef.current) {
       endSyllableSync(audioRef.current.currentTime);
     }
@@ -145,7 +145,14 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [isRecording, handleSyncStart, handleSyncEnd, handleTogglePlay, handleBackOneWord, setIsRecording]);
+  }, [
+    isRecording,
+    handleSyncStart,
+    handleSyncEnd,
+    handleTogglePlay,
+    handleBackOneWord,
+    setIsRecording,
+  ]);
 
   const handleRateChange = (rate: number) => {
     setPlaybackRate(rate);
@@ -162,8 +169,10 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     }
   };
 
-  const isSyncComplete = currentLineIndex >= lines.length || 
-    (currentLineIndex === lines.length - 1 && currentSyllableIndex >= currentLine?.syllables.length);
+  const isSyncComplete =
+    currentLineIndex >= lines.length ||
+    (currentLineIndex === lines.length - 1 &&
+      currentSyllableIndex >= currentLine?.syllables.length);
 
   return {
     lines,
@@ -183,4 +192,3 @@ export const useSyncEngine = (audioRef: React.RefObject<HTMLAudioElement | null>
     isSyncComplete,
   };
 };
-

@@ -125,7 +125,12 @@ export const createTimelineSlice: StateCreator<
     set({ lines: newLines });
   },
 
-  updateSyllableTime: (lineIdx: number, sylIdx: number, start: number | null, end: number | null) => {
+  updateSyllableTime: (
+    lineIdx: number,
+    sylIdx: number,
+    start: number | null,
+    end: number | null
+  ) => {
     const { lines, currentLineIndex, currentSyllableIndex } = get();
     if (lineIdx < 0 || lineIdx >= lines.length) return;
     const line = lines[lineIdx];

@@ -8,7 +8,7 @@ export interface Syllable {
   id: string;
   text: string;
   startTime: number | null; // in seconds
-  endTime: number | null;   // in seconds
+  endTime: number | null; // in seconds
 }
 
 export interface Line {
@@ -122,11 +122,7 @@ export function useKaraoke<T = KaraokeStoreState & { canUndo: boolean; canRedo: 
     return newSlice;
   }, []);
 
-  return React.useSyncExternalStore(
-    useKaraokeStore.subscribe,
-    getSnapshot,
-    getSnapshot
-  );
+  return React.useSyncExternalStore(useKaraokeStore.subscribe, getSnapshot, getSnapshot);
 }
 
 function shallowEqual(objA: unknown, objB: unknown): boolean {
@@ -148,4 +144,3 @@ function shallowEqual(objA: unknown, objB: unknown): boolean {
   }
   return true;
 }
-

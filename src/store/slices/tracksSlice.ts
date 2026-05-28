@@ -39,9 +39,7 @@ export const createTracksSlice: StateCreator<
   },
 
   updateTrackWaveformData: (id: string, waveformData: WaveformData) => {
-    const updated = get().tracks.map((t) =>
-      t.id === id ? { ...t, waveformData } : t
-    );
+    const updated = get().tracks.map((t) => (t.id === id ? { ...t, waveformData } : t));
     get().syncMasterTrack(updated);
   },
 
@@ -144,9 +142,7 @@ export const createTracksSlice: StateCreator<
   },
 
   toggleMuteTrack: (id: string) => {
-    const updated = get().tracks.map((t) =>
-      t.id === id ? { ...t, isMuted: !t.isMuted } : t
-    );
+    const updated = get().tracks.map((t) => (t.id === id ? { ...t, isMuted: !t.isMuted } : t));
     get().syncMasterTrack(updated);
   },
 

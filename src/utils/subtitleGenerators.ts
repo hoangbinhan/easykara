@@ -50,7 +50,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
       }
 
       const durationCS = Math.max(1, Math.round((syl.endTime - syl.startTime) * 100));
-      
+
       let gapCS = 0;
       if (sIdx === 0) {
         gapCS = Math.round((syl.startTime - line.startTime!) * 100);
@@ -81,7 +81,7 @@ export const generateLRC = (lines: Line[]): string => {
 
   lines.forEach((line) => {
     if (line.startTime === null) return;
-    
+
     const lineStart = formatLRCTime(line.startTime);
     let lineText = `[${lineStart}]`;
 

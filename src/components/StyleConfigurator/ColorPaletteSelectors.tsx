@@ -24,9 +24,10 @@ export const ColorPaletteSelectors: React.FC<ColorPaletteSelectorsProps> = ({
     <>
       {/* Color controls */}
       <div className="flex flex-col gap-1.5">
-        <label className="font-sans text-[11px] font-semibold text-ash uppercase tracking-wider">{t('styleConfigurator.colorPalette')}</label>
+        <label className="font-sans text-[11px] font-semibold text-ash uppercase tracking-wider">
+          {t('styleConfigurator.colorPalette')}
+        </label>
         <div className="grid grid-cols-2 gap-2">
-          
           {/* Base Fill Color */}
           <div className="flex items-center gap-2 bg-blackout border border-graphite-light px-2.5 py-1.5 rounded-[4px]">
             <input
@@ -35,7 +36,9 @@ export const ColorPaletteSelectors: React.FC<ColorPaletteSelectorsProps> = ({
               onChange={(e) => onStyleChange('fillColor', e.target.value)}
               className="w-6 h-6 border-0 bg-transparent cursor-pointer rounded-[4px] p-0 outline-none select-none overflow-hidden"
             />
-            <span className="text-[11px] text-whiteout font-sans">{t('styleConfigurator.upcomingText')}</span>
+            <span className="text-[11px] text-whiteout font-sans">
+              {t('styleConfigurator.upcomingText')}
+            </span>
           </div>
 
           {/* Active Sing Color */}
@@ -46,7 +49,9 @@ export const ColorPaletteSelectors: React.FC<ColorPaletteSelectorsProps> = ({
               onChange={(e) => onStyleChange('activeColor', e.target.value)}
               className="w-6 h-6 border-0 bg-transparent cursor-pointer rounded-[4px] p-0 outline-none select-none overflow-hidden"
             />
-            <span className="text-[11px] text-neon-glow font-sans font-medium">{t('styleConfigurator.activeText')}</span>
+            <span className="text-[11px] text-neon-glow font-sans font-medium">
+              {t('styleConfigurator.activeText')}
+            </span>
           </div>
 
           {/* Stroke Outline Color */}
@@ -57,12 +62,16 @@ export const ColorPaletteSelectors: React.FC<ColorPaletteSelectorsProps> = ({
               onChange={(e) => onStyleChange('strokeColor', e.target.value)}
               className="w-6 h-6 border-0 bg-transparent cursor-pointer rounded-[4px] p-0 outline-none select-none overflow-hidden"
             />
-            <span className="text-[11px] text-whiteout font-sans">{t('styleConfigurator.strokeOutline')}</span>
+            <span className="text-[11px] text-whiteout font-sans">
+              {t('styleConfigurator.strokeOutline')}
+            </span>
           </div>
 
           {/* Stroke Width outline */}
           <div className="flex flex-col gap-1 bg-blackout border border-graphite-light px-2.5 py-1.5 rounded-[4px]">
-            <span className="text-[10px] text-ash font-sans uppercase tracking-wider">{t('styleConfigurator.strokeWidthLabel')}: {styleConfig.strokeWidth}px</span>
+            <span className="text-[10px] text-ash font-sans uppercase tracking-wider">
+              {t('styleConfigurator.strokeWidthLabel')}: {styleConfig.strokeWidth}px
+            </span>
             <input
               type="range"
               value={styleConfig.strokeWidth}
@@ -72,28 +81,33 @@ export const ColorPaletteSelectors: React.FC<ColorPaletteSelectorsProps> = ({
               className="w-full h-1 bg-graphite rounded-[4px] appearance-none cursor-pointer accent-neon-glow outline-none"
             />
           </div>
-
         </div>
       </div>
 
       {/* Backdrop Visual selector */}
       <div className="flex flex-col gap-1.5 border-t border-graphite-light pt-2.5">
-        <label className="font-sans text-[11px] font-semibold text-ash uppercase tracking-wider">{t('styleConfigurator.bgSource')}</label>
-        
+        <label className="font-sans text-[11px] font-semibold text-ash uppercase tracking-wider">
+          {t('styleConfigurator.bgSource')}
+        </label>
+
         <select
           value={styleConfig.bgType}
           onChange={(e) => onStyleChange('bgType', e.target.value as StyleConfig['bgType'])}
           className="w-full px-3 py-1.5 bg-blackout border border-graphite-light rounded-[4px] text-whiteout font-sans text-xs focus:border-neon-glow outline-none cursor-pointer transition-colors duration-200"
         >
           <option value="color">{t('styleConfigurator.bgSolidColor')}</option>
-          {mediaType === 'video' && <option value="video">{t('styleConfigurator.bgOriginalVideo')}</option>}
+          {mediaType === 'video' && (
+            <option value="video">{t('styleConfigurator.bgOriginalVideo')}</option>
+          )}
           <option value="image">{t('styleConfigurator.bgCustomImage')}</option>
           <option value="visuals">{t('styleConfigurator.bgCelestialSpace')}</option>
         </select>
 
         {styleConfig.bgType === 'color' && (
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-[11px] text-ash font-sans">{t('styleConfigurator.bgColorLabel')}</span>
+            <span className="text-[11px] text-ash font-sans">
+              {t('styleConfigurator.bgColorLabel')}
+            </span>
             <input
               type="color"
               value={styleConfig.bgColor}

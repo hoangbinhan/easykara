@@ -16,11 +16,11 @@ export const SyllableEditModal: React.FC<SyllableEditModalProps> = ({
   return (
     <>
       {/* Backdrop overlay */}
-      <div 
-        className="fixed inset-0 bg-blackout/60 backdrop-blur-sm z-[999]" 
+      <div
+        className="fixed inset-0 bg-blackout/60 backdrop-blur-sm z-[999]"
         onClick={() => setEditingSyl(null)}
       />
-      
+
       {/* Modal Content */}
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-graphite-deep border border-graphite-light rounded-[4px] p-6 z-[1000] w-80 flex flex-col gap-3.5 shadow-lg">
         <h4 className="font-sans text-sm font-semibold text-whiteout">Edit Syllable</h4>

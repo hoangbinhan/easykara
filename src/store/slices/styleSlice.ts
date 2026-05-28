@@ -26,7 +26,7 @@ export const createStyleSlice: StateCreator<
   StyleSlice
 > = (set) => ({
   styleConfig: defaultStyle,
-  
+
   updateStyleConfig: (config) =>
     set((state) => ({
       styleConfig: { ...state.styleConfig, ...config },

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface TimeGridProps {
   duration: number;
@@ -6,11 +6,7 @@ interface TimeGridProps {
   totalWidth: number;
 }
 
-export const TimeGrid: React.FC<TimeGridProps> = ({
-  duration,
-  zoom,
-  totalWidth,
-}) => {
+export const TimeGrid: React.FC<TimeGridProps> = ({ duration, zoom, totalWidth }) => {
   // Draw vertical markers for each second
   const totalSeconds = Math.ceil(duration);
   const seconds = Array.from({ length: totalSeconds + 1 }, (_, i) => i);
@@ -26,9 +22,7 @@ export const TimeGrid: React.FC<TimeGridProps> = ({
           <div
             key={sec}
             className={`absolute inset-y-0 border-l transition-colors duration-200 ${
-              isFiveSec
-                ? "border-graphite-light/35"
-                : "border-graphite-light/10"
+              isFiveSec ? 'border-graphite-light/35' : 'border-graphite-light/10'
             }`}
             style={{
               left: `${sec * zoom}px`,

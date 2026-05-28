@@ -44,11 +44,11 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
     const video = videoRef.current;
     if (!video) return;
 
-    const masterTrack = tracks.find(t => t.url === mediaUrl);
+    const masterTrack = tracks.find((t) => t.url === mediaUrl);
     if (masterTrack) {
-      const hasSoloActive = tracks.some(t => t.isSoloed);
+      const hasSoloActive = tracks.some((t) => t.isSoloed);
       const isSilenced = !!(masterTrack.isMuted || (hasSoloActive && !masterTrack.isSoloed));
-      
+
       video.muted = isSilenced;
       video.volume = isSilenced ? 0 : masterTrack.volume;
     }
@@ -131,8 +131,8 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
             onEnded={handleEnded}
             className={
               styleConfig.bgType === 'video' && mediaType === 'video'
-                ? "absolute inset-0 w-full h-full object-cover z-0 opacity-100 pointer-events-none"
-                : "absolute inset-0 opacity-0 pointer-events-none z-0"
+                ? 'absolute inset-0 w-full h-full object-cover z-0 opacity-100 pointer-events-none'
+                : 'absolute inset-0 opacity-0 pointer-events-none z-0'
             }
           />
         )}
@@ -146,11 +146,17 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
               onClick={handleTogglePlay}
               className="w-9 h-9 rounded-full bg-whiteout hover:bg-cloud text-graphite-deep flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95"
             >
-              {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-0.5" />}
+              {isPlaying ? (
+                <Pause size={16} fill="currentColor" />
+              ) : (
+                <Play size={16} fill="currentColor" className="ml-0.5" />
+              )}
             </button>
-            
+
             <span className="text-sm text-ash font-sans font-medium">
-              {mediaType === 'video' ? `📺 ${t('preview.videoLabel')}` : `🎵 ${t('preview.audioLabel')}`}
+              {mediaType === 'video'
+                ? `📺 ${t('preview.videoLabel')}`
+                : `🎵 ${t('preview.audioLabel')}`}
             </span>
           </div>
 

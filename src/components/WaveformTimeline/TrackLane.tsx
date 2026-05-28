@@ -10,11 +10,7 @@ interface TrackLaneProps {
   totalWidth: number;
 }
 
-export const TrackLane: React.FC<TrackLaneProps> = ({
-  track,
-  zoom,
-  totalWidth,
-}) => {
+export const TrackLane: React.FC<TrackLaneProps> = ({ track, zoom, totalWidth }) => {
   const { toggleMuteTrack, toggleSoloTrack, updateTrackVolume } = useKaraoke(
     React.useCallback(
       (state) => ({
@@ -41,7 +37,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
       // Symmetric top and bottom boundaries from center axis
       const topY = (1 - p) * (svgHeight / 2);
       const bottomY = (1 + p) * (svgHeight / 2);
-      
+
       pointsTop.push(`${x.toFixed(1)},${topY.toFixed(1)}`);
       pointsBottom.unshift(`${x.toFixed(1)},${bottomY.toFixed(1)}`);
     });
@@ -129,7 +125,7 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
       </div>
 
       {/* Right Column: Scrollable lane content */}
-      <div 
+      <div
         className="flex-1 h-full relative overflow-hidden bg-blackout/10 pointer-events-none"
         style={{ width: `${totalWidth}px` }}
       >
@@ -155,7 +151,9 @@ export const TrackLane: React.FC<TrackLaneProps> = ({
 
           {/* Block Text Description */}
           <span className="font-sans text-[10px] font-semibold text-whiteout/80 truncate z-10 select-none">
-            {track.type === 'video' ? `📺 ${t('timeline.trackVideo')}` : `🎵 ${t('timeline.trackAudio')}`}
+            {track.type === 'video'
+              ? `📺 ${t('timeline.trackVideo')}`
+              : `🎵 ${t('timeline.trackAudio')}`}
           </span>
           <span className="font-mono text-[9px] text-ash shrink-0 z-10 select-none track-offset-text">
             {track.duration.toFixed(1)}s ({t('timeline.offset')}: {track.offset.toFixed(2)}s)

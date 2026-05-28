@@ -10,19 +10,10 @@ interface VideoRecorderProps {
 }
 
 export const VideoRecorder: React.FC<VideoRecorderProps> = ({ videoRef, isSyncReady }) => {
-  const mediaUrl = useKaraoke(
-    React.useCallback(
-      (state) => state.mediaUrl,
-      []
-    )
-  );
+  const mediaUrl = useKaraoke(React.useCallback((state) => state.mediaUrl, []));
   const { t } = useLanguage();
-  const {
-    isRecordingVideo,
-    recordProgress,
-    handleStartRecording,
-    handleStopRecordingVideo,
-  } = useVideoRecorder({ videoRef, mediaUrl });
+  const { isRecordingVideo, recordProgress, handleStartRecording, handleStopRecordingVideo } =
+    useVideoRecorder({ videoRef, mediaUrl });
 
   return (
     <div className="border border-graphite-light bg-blackout px-3 py-3 rounded-[4px] flex flex-col gap-2 mt-1">
@@ -31,9 +22,7 @@ export const VideoRecorder: React.FC<VideoRecorderProps> = ({ videoRef, isSyncRe
         <span>{t('videoExport.title')}</span>
       </div>
 
-      <p className="text-[11px] text-ash font-sans leading-normal">
-        {t('videoExport.desc')}
-      </p>
+      <p className="text-[11px] text-ash font-sans leading-normal">{t('videoExport.desc')}</p>
 
       {!isRecordingVideo ? (
         <button

@@ -28,7 +28,7 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
           </span>
         )}
       </div>
-      
+
       <div className="flex items-center gap-2">
         <button
           onClick={handleZoomOut}
@@ -38,7 +38,9 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
         >
           <ZoomOut size={12} />
         </button>
-        <span className="font-mono text-[10px] text-ash w-14 text-center font-medium">{zoom} px/s</span>
+        <span className="font-mono text-[10px] text-ash w-14 text-center font-medium">
+          {zoom} px/s
+        </span>
         <button
           onClick={handleZoomIn}
           disabled={zoom >= 240}

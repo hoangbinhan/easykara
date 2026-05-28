@@ -46,9 +46,11 @@ function extractPeaks(channelData: Float32Array, numPeaks: number): Float32Array
   return smoothPeaks;
 }
 
-ctx.onmessage = (e: MessageEvent<{ channelBuffer: ArrayBuffer; numPeaksList?: number[]; numPeaks?: number }>) => {
+ctx.onmessage = (
+  e: MessageEvent<{ channelBuffer: ArrayBuffer; numPeaksList?: number[]; numPeaks?: number }>
+) => {
   const { channelBuffer, numPeaksList, numPeaks } = e.data;
-  
+
   if (!channelBuffer) {
     ctx.postMessage({ error: 'No channelBuffer provided' });
     return;

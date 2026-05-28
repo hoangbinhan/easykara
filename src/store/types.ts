@@ -34,7 +34,12 @@ export interface TimelineSlice {
   setLyricsInput: (input: string) => void;
   parseLyrics: (input: string) => void;
   setLines: (lines: Line[]) => void;
-  updateSyllableTime: (lineIdx: number, sylIdx: number, start: number | null, end: number | null) => void;
+  updateSyllableTime: (
+    lineIdx: number,
+    sylIdx: number,
+    start: number | null,
+    end: number | null
+  ) => void;
   updateSyllableText: (lineIdx: number, sylIdx: number, text: string) => void;
   undo: () => void;
   redo: () => void;

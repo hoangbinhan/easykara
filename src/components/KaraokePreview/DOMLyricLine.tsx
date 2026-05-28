@@ -30,7 +30,7 @@ export const DOMLyricLine: React.FC<DOMLyricLineProps> = ({
     return (
       <div className="relative inline-block select-none leading-none">
         {/* Stroke outline */}
-        <span 
+        <span
           className="absolute inset-0 select-none pointer-events-none leading-none"
           style={{
             ...baseFontStyles,
@@ -41,7 +41,7 @@ export const DOMLyricLine: React.FC<DOMLyricLineProps> = ({
           {line.text}
         </span>
         {/* Color fill */}
-        <span 
+        <span
           style={{
             ...baseFontStyles,
             color: 'rgba(255, 255, 255, 0.4)',
@@ -57,7 +57,7 @@ export const DOMLyricLine: React.FC<DOMLyricLineProps> = ({
   return (
     <div className="flex flex-wrap items-center leading-none">
       {line.syllables.map((syl) => (
-        <DOMSyllable 
+        <DOMSyllable
           key={syl.id}
           syl={syl}
           currentTime={currentTime}

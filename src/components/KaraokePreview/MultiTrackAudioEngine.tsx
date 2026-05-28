@@ -16,7 +16,7 @@ const SecondaryAudioPlayer: React.FC<SecondaryPlayerProps> = React.memo(({ track
 
     // Initial sync of volume based on mute/solo status
     const initialTracks = useKaraokeStore.getState().tracks;
-    const hasSoloActive = initialTracks.some(t => t.isSoloed);
+    const hasSoloActive = initialTracks.some((t) => t.isSoloed);
     const isSilenced = track.isMuted || (hasSoloActive && !track.isSoloed);
     audio.volume = isSilenced ? 0 : track.volume;
 
@@ -32,9 +32,10 @@ const SecondaryAudioPlayer: React.FC<SecondaryPlayerProps> = React.memo(({ track
         if (!audio) return;
 
         // Extract fresh settings for this specific track from the store array
-        const currentTrackState = tracks.find(t => t.id === track.id) || track;
-        const activeTracksSolo = tracks.some(t => t.isSoloed);
-        const trackSilenced = currentTrackState.isMuted || (activeTracksSolo && !currentTrackState.isSoloed);
+        const currentTrackState = tracks.find((t) => t.id === track.id) || track;
+        const activeTracksSolo = tracks.some((t) => t.isSoloed);
+        const trackSilenced =
+          currentTrackState.isMuted || (activeTracksSolo && !currentTrackState.isSoloed);
 
         audio.volume = trackSilenced ? 0 : currentTrackState.volume;
 
@@ -47,15 +48,15 @@ const SecondaryAudioPlayer: React.FC<SecondaryPlayerProps> = React.memo(({ track
           if (diff > 0.1) {
             audio.currentTime = relativeTime;
           }
-          
+
           if (audio.paused) {
-            audio.play().catch(err => console.error('Audio play failed:', err));
+            audio.play().catch((err) => console.error('Audio play failed:', err));
           }
         } else {
           if (!audio.paused) {
             audio.pause();
           }
-          
+
           // Reset playhead if timeline is scrolled back before the track start
           if (relativeTime < 0 && audio.currentTime !== 0) {
             audio.currentTime = 0;
@@ -63,11 +64,25 @@ const SecondaryAudioPlayer: React.FC<SecondaryPlayerProps> = React.memo(({ track
         }
       },
       {
-        equalityFn: (a, b) => 
-          a.currentTime === b.currentTime && 
+        equalityFn: (a, b) =>
+          a.currentTime === b.currentTime &&
           a.isPlaying === b.isPlaying &&
-          JSON.stringify(a.tracks.map(t => ({ id: t.id, volume: t.volume, isMuted: t.isMuted, isSoloed: t.isSoloed }))) ===
-          JSON.stringify(b.tracks.map(t => ({ id: t.id, volume: t.volume, isMuted: t.isMuted, isSoloed: t.isSoloed })))
+          JSON.stringify(
+            a.tracks.map((t) => ({
+              id: t.id,
+              volume: t.volume,
+              isMuted: t.isMuted,
+              isSoloed: t.isSoloed,
+            }))
+          ) ===
+            JSON.stringify(
+              b.tracks.map((t) => ({
+                id: t.id,
+                volume: t.volume,
+                isMuted: t.isMuted,
+                isSoloed: t.isSoloed,
+              }))
+            ),
       }
     );
 
@@ -76,14 +91,7 @@ const SecondaryAudioPlayer: React.FC<SecondaryPlayerProps> = React.memo(({ track
     };
   }, [track.id, track.offset, track.duration, track.volume, track.isMuted, track]);
 
-  return (
-    <audio
-      ref={audioRef}
-      src={track.url}
-      preload="auto"
-      className="hidden"
-    />
-  );
+  return <audio ref={audioRef} src={track.url} preload="auto" className="hidden" />;
 });
 
 SecondaryAudioPlayer.displayName = 'SecondaryAudioPlayer';
@@ -100,17 +108,13 @@ export const MultiTrackAudioEngine: React.FC = () => {
   );
 
   // Secondary tracks are tracks that are not acting as the master clock
-  const secondaryTracks = tracks.filter(t => t.url !== mediaUrl);
+  const secondaryTracks = tracks.filter((t) => t.url !== mediaUrl);
 
   return (
     <>
-      {secondaryTracks.map(track => (
-        <SecondaryAudioPlayer
-          key={track.id}
-          track={track}
-        />
+      {secondaryTracks.map((track) => (
+        <SecondaryAudioPlayer key={track.id} track={track} />
       ))}
     </>
   );
 };
-

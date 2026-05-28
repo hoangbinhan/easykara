@@ -8,26 +8,20 @@ interface MediaSelectorProps {
 }
 
 export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMediaLoaded }) => {
-  const {
-    tracks,
-    addTrack,
-    removeTrack,
-    updateTrackVolume,
-    toggleMuteTrack,
-    toggleSoloTrack,
-  } = useKaraoke(
-    React.useCallback(
-      (state) => ({
-        tracks: state.tracks,
-        addTrack: state.addTrack,
-        removeTrack: state.removeTrack,
-        updateTrackVolume: state.updateTrackVolume,
-        toggleMuteTrack: state.toggleMuteTrack,
-        toggleSoloTrack: state.toggleSoloTrack,
-      }),
-      []
-    )
-  );
+  const { tracks, addTrack, removeTrack, updateTrackVolume, toggleMuteTrack, toggleSoloTrack } =
+    useKaraoke(
+      React.useCallback(
+        (state) => ({
+          tracks: state.tracks,
+          addTrack: state.addTrack,
+          removeTrack: state.removeTrack,
+          updateTrackVolume: state.updateTrackVolume,
+          toggleMuteTrack: state.toggleMuteTrack,
+          toggleSoloTrack: state.toggleSoloTrack,
+        }),
+        []
+      )
+    );
 
   const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +29,7 @@ export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMedia
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      Array.from(e.target.files).forEach(file => {
+      Array.from(e.target.files).forEach((file) => {
         addTrack(file);
         if (onMediaLoaded) onMediaLoaded(file);
       });
@@ -57,7 +51,7 @@ export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMedia
     e.preventDefault();
     setIsDragOver(false);
     if (e.dataTransfer.files) {
-      Array.from(e.dataTransfer.files).forEach(file => {
+      Array.from(e.dataTransfer.files).forEach((file) => {
         if (file.type.startsWith('audio/') || file.type.startsWith('video/')) {
           addTrack(file);
           if (onMediaLoaded) onMediaLoaded(file);
@@ -70,7 +64,7 @@ export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMedia
     fileInputRef.current?.click();
   };
 
-  const hasVideo = tracks.some(t => t.type === 'video');
+  const hasVideo = tracks.some((t) => t.type === 'video');
 
   return (
     <div className="bg-graphite-deep border border-graphite-light rounded-[4px] p-4 flex flex-col gap-4 transition-colors duration-200 hover:border-neon-glow/40">
@@ -107,12 +101,17 @@ export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMedia
           multiple
           className="hidden"
         />
-        <Upload className="text-ash hover:text-neon-glow transition-colors duration-200" size={24} />
+        <Upload
+          className="text-ash hover:text-neon-glow transition-colors duration-200"
+          size={24}
+        />
         <p className="font-sans text-xs font-semibold text-whiteout">
           {hasVideo ? t('mediaSelector.uploadPromptActive') : t('mediaSelector.uploadPrompt')}
         </p>
         <p className="font-sans text-[9px] text-ash">
-          {hasVideo ? t('mediaSelector.uploadInstructionsActive') : t('mediaSelector.uploadInstructions')}
+          {hasVideo
+            ? t('mediaSelector.uploadInstructionsActive')
+            : t('mediaSelector.uploadInstructions')}
         </p>
       </div>
 
@@ -137,7 +136,10 @@ export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMedia
                     ) : (
                       <Music size={12} className="text-neon-glow shrink-0" />
                     )}
-                    <span className="font-sans text-xs font-medium text-whiteout truncate select-text" title={track.name}>
+                    <span
+                      className="font-sans text-xs font-medium text-whiteout truncate select-text"
+                      title={track.name}
+                    >
                       {track.name}
                     </span>
                   </div>
