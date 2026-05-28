@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react';
 // ============================================================================
 const DEFAULT_LEFT_WIDTH = 340;
 const DEFAULT_RIGHT_WIDTH = 360;
-const DEFAULT_TIMELINE_HEIGHT = 160;
+const DEFAULT_TIMELINE_HEIGHT = 360;
 
 // ============================================================================
 // Layout Boundary Constraints (Magic Numbers Avoidance)

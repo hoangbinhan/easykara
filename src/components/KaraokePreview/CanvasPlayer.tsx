@@ -220,7 +220,7 @@ export const CanvasPlayer: React.FC<CanvasPlayerProps> = ({ lines, mediaType, st
             className="absolute inset-0 flex items-center justify-center text-ash font-sans font-bold text-center"
             style={{ fontSize: `${24 * scale}px` }}
           >
-            EasyKara Preview Player
+            {/* EasyKara Preview Player */}
           </div>
         )}
       </div>

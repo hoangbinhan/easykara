@@ -107,7 +107,7 @@ export const KaraokePreview: React.FC<KaraokePreviewProps> = ({ videoRef }) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-3 w-full max-w-[720px]">
+    <div className="flex flex-col items-center gap-3 w-full">
       {/* Real-time Render Canvas */}
       <div className="w-full aspect-video overflow-hidden relative bg-blackout border border-graphite-light rounded-[4px]">
         <CanvasPlayer
