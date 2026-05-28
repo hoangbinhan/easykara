@@ -130,7 +130,8 @@ export: `src/components/ExportPanel.tsx` exports completed karaoke sub/video (.l
 CODING STYLE & CONVENTIONS:
 imports: Order imports cleanly: React & hooks first, followed by context, custom hooks, components, styles, and icons. Each component should not exceed 200 lines; it's best to break it down into as many components as possible.
 icons: Use `lucide-react` for all visual icons.
-comments: Maintain clear English code comments explaining complex syncing and audio analysis math.
+magic-values: Avoid magic numbers and magic strings. Extract them into descriptive, well-named constants and centralize them appropriately (e.g. at the top of files or in dedicated config modules). Use named constants instead.
+comments: Maintain clear English code comments explaining complex syncing, audio analysis math, complex logic, or non-obvious behavior to improve readability and maintainability. Add meaningful comments for complex logic or non-obvious behavior.
 
 MULTIPLE LANGUAGES (i18n):
 i18n-rule: ALWAYS use multiple languages for all static and user-facing text copy rendered inside React components. NEVER hardcode strings in the component templates. All text must be defined as key-value pairs in the JSON files under `@src/locales` (e.g. `en.json`, `vi.json`) and retrieved at runtime using the `useLanguage` translation hook (`t`).
