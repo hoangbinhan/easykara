@@ -1,27 +1,22 @@
 import React, { useRef, useState } from 'react';
 import { useKaraoke } from '../../context/KaraokeContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { Upload, Music, Video, Volume2, Trash2 } from 'lucide-react';
+import { Upload, Music } from 'lucide-react';
 
 interface MediaSelectorProps {
   onMediaLoaded?: (file: File) => void;
 }
 
 export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMediaLoaded }) => {
-  const { tracks, addTrack, removeTrack, updateTrackVolume, toggleMuteTrack, toggleSoloTrack } =
-    useKaraoke(
-      React.useCallback(
-        (state) => ({
-          tracks: state.tracks,
-          addTrack: state.addTrack,
-          removeTrack: state.removeTrack,
-          updateTrackVolume: state.updateTrackVolume,
-          toggleMuteTrack: state.toggleMuteTrack,
-          toggleSoloTrack: state.toggleSoloTrack,
-        }),
-        []
-      )
-    );
+  const { tracks, addTrack } = useKaraoke(
+    React.useCallback(
+      (state) => ({
+        tracks: state.tracks,
+        addTrack: state.addTrack,
+      }),
+      []
+    )
+  );
 
   const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -114,97 +109,9 @@ export const MediaSelector: React.FC<MediaSelectorProps> = React.memo(({ onMedia
             : t('mediaSelector.uploadInstructions')}
         </p>
       </div>
-
-      {/* Multi-Track Console Mixer Board */}
-      {tracks.length > 0 && (
-        <div className="flex flex-col gap-3 pt-2">
-          <div className="text-[10px] uppercase font-mono text-ash tracking-widest font-semibold border-b border-graphite-light/40 pb-1">
-            {t('mediaSelector.mixerTitle')}
-          </div>
-
-          <div className="flex flex-col gap-2.5 max-h-[220px] overflow-y-auto pr-1">
-            {tracks.map((track) => (
-              <div
-                key={track.id}
-                className="bg-blackout border border-graphite-light rounded-[4px] p-2.5 flex flex-col gap-2 relative overflow-hidden"
-              >
-                {/* Track details header */}
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-1.5 overflow-hidden flex-1">
-                    {track.type === 'video' ? (
-                      <Video size={12} className="text-neon-glow shrink-0" />
-                    ) : (
-                      <Music size={12} className="text-neon-glow shrink-0" />
-                    )}
-                    <span
-                      className="font-sans text-xs font-medium text-whiteout truncate select-text"
-                      title={track.name}
-                    >
-                      {track.name}
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={() => removeTrack(track.id)}
-                    className="p-1 bg-transparent border-none text-ash hover:text-system-warning rounded-full transition-colors duration-200 cursor-pointer shrink-0"
-                    title={t('mediaSelector.tooltipRemove')}
-                  >
-                    <Trash2 size={12} />
-                  </button>
-                </div>
-
-                {/* Mixing board controls */}
-                <div className="flex items-center justify-between gap-3">
-                  {/* Slider control */}
-                  <div className="flex items-center gap-1.5 flex-1">
-                    <Volume2 size={11} className="text-ash shrink-0" />
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.05"
-                      value={track.volume}
-                      onChange={(e) => updateTrackVolume(track.id, parseFloat(e.target.value))}
-                      className="w-full h-1.5 bg-graphite rounded-lg appearance-none cursor-pointer accent-neon-glow"
-                    />
-                    <span className="font-mono text-[9px] text-ash w-6 text-right shrink-0">
-                      {Math.round(track.volume * 100)}%
-                    </span>
-                  </div>
-
-                  {/* Mute and Solo buttons */}
-                  <div className="flex gap-1 shrink-0 select-none">
-                    <button
-                      onClick={() => toggleMuteTrack(track.id)}
-                      className={`w-5 h-5 rounded-[4px] text-[10px] font-mono font-semibold flex items-center justify-center cursor-pointer transition-all duration-200 border ${
-                        track.isMuted
-                          ? 'bg-system-warning/20 border-system-warning text-system-warning'
-                          : 'bg-transparent border-graphite-light text-ash hover:border-ash hover:text-whiteout'
-                      }`}
-                      title={t('mediaSelector.tooltipMute')}
-                    >
-                      M
-                    </button>
-                    <button
-                      onClick={() => toggleSoloTrack(track.id)}
-                      className={`w-5 h-5 rounded-[4px] text-[10px] font-mono font-semibold flex items-center justify-center cursor-pointer transition-all duration-200 border ${
-                        track.isSoloed
-                          ? 'bg-neon-muted/30 border-neon-glow text-neon-glow'
-                          : 'bg-transparent border-graphite-light text-ash hover:border-ash hover:text-whiteout'
-                      }`}
-                      title={t('mediaSelector.tooltipSolo')}
-                    >
-                      S
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 });
 
 MediaSelector.displayName = 'MediaSelector';
+
