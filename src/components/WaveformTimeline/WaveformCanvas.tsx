@@ -23,7 +23,7 @@ export const WaveformCanvas: React.FC<WaveformCanvasProps> = ({
 }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !waveformData || duration === 0) return;
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -33,6 +33,20 @@ export const WaveformCanvas: React.FC<WaveformCanvasProps> = ({
     canvas.height = containerHeight || 80;
 
     ctx.clearRect(0, 0, canvasWidth, canvas.height);
+
+    if (!waveformData || duration === 0) {
+      // Draw empty ruler bar as fallback background when no audio is loaded
+      ctx.fillStyle = '#151617'; // Graphite Deep
+      ctx.fillRect(0, 0, canvasWidth, 20);
+
+      ctx.strokeStyle = '#303236'; // Graphite Light divider
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, 20);
+      ctx.lineTo(canvasWidth, 20);
+      ctx.stroke();
+      return;
+    }
 
     // 1. Draw audio waveform peaks first (only visible peaks with dynamic LOD)
     const peaks = getPeaksForZoom(waveformData, zoom);
